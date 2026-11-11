@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" fill="none">
+  <defs>
+    <radialGradient id="cyberBackdrop" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1558C9" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#0B101A" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#030407"/>
+    </radialGradient>
+    <linearGradient id="suitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A2130"/>
+      <stop offset="50%" stop-color="#0E131E"/>
+      <stop offset="100%" stop-color="#070A10"/>
+    </linearGradient>
+    <linearGradient id="lapelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#243048"/>
+      <stop offset="100%" stop-color="#0B101A"/>
+    </linearGradient>
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D8E2EC"/>
+    </linearGradient>
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9D4B8"/>
+      <stop offset="100%" stop-color="#E2A784"/>
+    </linearGradient>
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C2420"/>
+      <stop offset="100%" stop-color="#120E0D"/>
+    </linearGradient>
+    <filter id="neonLimeGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#D4FF24" flood-opacity="0.8"/>
+    </filter>
+    <filter id="electricBlueGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#1558C9" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="600" height="750" rx="24" fill="url(#cyberBackdrop)"/>
+
+  <!-- Cyber Grid Lines in Background -->
+  <g opacity="0.15" stroke="#1558C9" stroke-width="1">
+    <line x1="0" y1="150" x2="600" y2="150"/>
+    <line x1="0" y1="300" x2="600" y2="300"/>
+    <line x1="0" y1="450" x2="600" y2="450"/>
+    <line x1="0" y1="600" x2="600" y2="600"/>
+    <line x1="150" y1="0" x2="150" y2="750"/>
+    <line x1="300" y1="0" x2="300" y2="750"/>
+    <line x1="450" y1="0" x2="450" y2="750"/>
+  </g>
+
+  <!-- Holographic Aura Rings behind Character -->
+  <ellipse cx="300" cy="280" rx="190" ry="190" stroke="#1558C9" stroke-width="2" stroke-dasharray="8 6" opacity="0.4" filter="url(#electricBlueGlow)"/>
+  <ellipse cx="300" cy="280" rx="220" ry="220" stroke="#00D9FF" stroke-width="1" stroke-dasharray="14 12" opacity="0.25"/>
+  <ellipse cx="300" cy="280" rx="240" ry="240" stroke="#D4FF24" stroke-width="1.5" stroke-dasharray="4 16" opacity="0.5" filter="url(#neonLimeGlow)"/>
+
+  <!-- CHARACTER: Young Male in Black Suit & White Shirt, Arms Crossed -->
+  <g id="character">
+    <!-- Back Shoulders & Suit Torso -->
+    <path d="M120 750C120 540 160 430 230 400C250 390 350 390 370 400C440 430 480 540 480 750H120Z" fill="url(#suitGrad)"/>
+
+    <!-- Crisp White Shirt Collar & Chest V -->
+    <polygon points="300,430 265,335 335,335" fill="url(#shirtGrad)"/>
+    <polygon points="300,450 280,350 320,350" fill="#FFFFFF"/>
+    <!-- Tie / Dark Accent -->
+    <polygon points="296,350 304,350 307,430 300,445 293,430" fill="#0E131E"/>
+
+    <!-- Suit Lapels (Left & Right) -->
+    <path d="M225 400L275 490L295 490L260 375Z" fill="url(#lapelGrad)" stroke="#1558C9" stroke-width="1" opacity="0.9"/>
+    <path d="M375 400L325 490L305 490L340 375Z" fill="url(#lapelGrad)" stroke="#1558C9" stroke-width="1" opacity="0.9"/>
+
+    <!-- Left & Right Arms Crossed Across Chest -->
+    <!-- Lower Forearm (Right to Left) -->
+    <path d="M160 520C170 480 230 470 320 485C380 495 430 520 440 560C420 590 360 590 280 580C210 570 170 550 160 520Z" fill="url(#suitGrad)" stroke="#1B2638" stroke-width="2"/>
+    
+    <!-- Upper Forearm (Left to Right crossing over) -->
+    <path d="M440 510C420 470 360 460 270 475C210 485 165 510 155 545C180 580 240 585 320 575C390 565 430 545 440 510Z" fill="#131A26" stroke="#1558C9" stroke-width="1.5"/>
+
+    <!-- Hands resting naturally on elbows -->
+    <ellipse cx="190" cy="535" rx="22" ry="16" fill="url(#skinGrad)" transform="rotate(-15 190 535)"/>
+    <ellipse cx="410" cy="530" rx="22" ry="16" fill="url(#skinGrad)" transform="rotate(15 410 530)"/>
+
+    <!-- Balanced Natural Neck -->
+    <rect x="272" y="275" width="56" height="65" rx="10" fill="url(#skinGrad)"/>
+    <!-- Neck shadow -->
+    <path d="M272 275C285 295 315 295 328 275V305C315 315 285 315 272 305Z" fill="#CE906D" opacity="0.4"/>
+
+    <!-- Natural Head & Jaw -->
+    <path d="M250 200C250 140 350 140 350 200C350 255 330 290 300 290C270 290 250 255 250 200Z" fill="url(#skinGrad)"/>
+
+    <!-- Ears -->
+    <ellipse cx="247" cy="205" rx="7" ry="14" fill="#E2A784"/>
+    <ellipse cx="353" cy="205" rx="7" ry="14" fill="#E2A784"/>
+
+    <!-- Modern Styled Hair -->
+    <path d="M242 190C240 140 255 110 300 108C345 110 360 135 358 185C352 170 342 165 332 165C305 165 290 145 260 170C250 178 245 185 242 190Z" fill="url(#hairGrad)"/>
+    <!-- Side hair styling -->
+    <path d="M242 190L247 215L252 195Z" fill="url(#hairGrad)"/>
+    <path d="M358 185L353 215L348 195Z" fill="url(#hairGrad)"/>
+
+    <!-- Eyes (Confident, friendly, looking forward) -->
+    <ellipse cx="282" cy="198" rx="8" ry="4.5" fill="#FFFFFF"/>
+    <circle cx="283" cy="198" r="3.2" fill="#1B2638"/>
+    <circle cx="284" cy="197" r="1.2" fill="#FFFFFF"/>
+    <line x1="273" y1="188" x2="291" y2="187" stroke="#241B17" stroke-width="2.5" stroke-linecap="round"/>
+
+    <ellipse cx="318" cy="198" rx="8" ry="4.5" fill="#FFFFFF"/>
+    <circle cx="317" cy="198" r="3.2" fill="#1B2638"/>
+    <circle cx="316" cy="197" r="1.2" fill="#FFFFFF"/>
+    <line x1="309" y1="187" x2="327" y2="188" stroke="#241B17" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Nose & Smile -->
+    <path d="M300 200V222L305 224" stroke="#D18F6B" stroke-width="2" stroke-linecap="round"/>
+    <path d="M288 245C294 251 306 251 312 245" stroke="#B86F4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Rim Lighting - Electric Blue on Left Edge -->
+    <path d="M140 750C135 550 170 435 230 405" stroke="#1558C9" stroke-width="4" stroke-linecap="round" opacity="0.8" filter="url(#electricBlueGlow)"/>
+    <path d="M245 190C243 145 255 115 295 110" stroke="#00D9FF" stroke-width="2" opacity="0.6"/>
+
+    <!-- Rim Lighting - Neon Lime on Right Edge -->
+    <path d="M460 750C465 550 430 435 370 405" stroke="#D4FF24" stroke-width="3.5" stroke-linecap="round" opacity="0.85" filter="url(#neonLimeGlow)"/>
+    <path d="M355 185C353 145 345 120 310 110" stroke="#D4FF24" stroke-width="2" opacity="0.7"/>
+  </g>
+
+  <!-- Futuristic Holographic Interface Overlay -->
+  <g id="hud" transform="translate(40, 640)">
+    <rect width="210" height="54" rx="8" fill="#0B101A" fill-opacity="0.85" stroke="#1B2638" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="210" y2="0" stroke="#1558C9" stroke-width="2"/>
+    <circle cx="20" cy="27" r="5" fill="#D4FF24" filter="url(#neonLimeGlow)"/>
+    <text x="36" y="24" fill="#F5F7FA" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" letter-spacing="1">DUY // ARCHITECT</text>
+    <text x="36" y="40" fill="#00D9FF" font-family="'Inter', monospace" font-size="9" letter-spacing="0.5">STATUS: 3D CORE ACTIVE</text>
+  </g>
+</svg>

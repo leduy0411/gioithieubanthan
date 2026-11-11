@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Colors - Mandatory Identity */
+  --bg-space: #030407;
+  --electric-blue: #1558C9;
+  --electric-blue-hover: #1e6bf0;
+  --electric-blue-soft: rgba(21, 88, 201, 0.15);
+  --electric-blue-glow: rgba(21, 88, 201, 0.55);
+  --neon-lime: #D4FF24;
+  --neon-lime-hover: #e0ff52;
+  --neon-lime-glow: rgba(212, 255, 36, 0.45);
+  --neon-lime-soft: rgba(212, 255, 36, 0.12);
+
+  /* Secondary & Neutral Tones */
+  --text-primary: #F5F7FA;
+  --text-secondary: #9299A6;
+  --surface-dark: #0B101A;
+  --surface-glass: rgba(11, 16, 26, 0.72);
+  --surface-glass-card: rgba(11, 16, 26, 0.85);
+  --border-dark: #1B2638;
+  --border-blue: rgba(21, 88, 201, 0.4);
+  --border-lime: rgba(212, 255, 36, 0.4);
+  --cyan-accent: #00D9FF;
+
+  /* Typography Font Families */
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-accent: 'Sora', sans-serif;
+}
+
+html {
+  background-color: var(--bg-space);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-space);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Futuristic Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #030407;
+}
+::-webkit-scrollbar-thumb {
+  background: #1B2638;
+  border-radius: 4px;
+  border: 1px solid rgba(21, 88, 201, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1558C9;
+}
+
+/* Typography Utility Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-body {
+  font-family: var(--font-body);
+}
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+/* Futuristic Glowing Text */
+.text-glow-blue {
+  text-shadow: 0 0 16px rgba(21, 88, 201, 0.7), 0 0 32px rgba(21, 88, 201, 0.4);
+}
+.text-glow-lime {
+  text-shadow: 0 0 14px rgba(212, 255, 36, 0.65), 0 0 28px rgba(212, 255, 36, 0.35);
+}
+.text-glow-cyan {
+  text-shadow: 0 0 14px rgba(0, 217, 255, 0.6), 0 0 28px rgba(0, 217, 255, 0.3);
+}
+
+/* Futuristic Borders & Glows */
+.border-cyber-blue {
+  border: 1px solid rgba(21, 88, 201, 0.4);
+  box-shadow: 0 0 15px -3px rgba(21, 88, 201, 0.2);
+}
+.border-cyber-blue:hover {
+  border-color: #1558C9;
+  box-shadow: 0 0 25px -2px rgba(21, 88, 201, 0.45);
+}
+
+.border-cyber-lime {
+  border: 1px solid rgba(212, 255, 36, 0.45);
+  box-shadow: 0 0 15px -3px rgba(212, 255, 36, 0.25);
+}
+
+/* Glassmorphism Cyber Card */
+.cyber-card {
+  background: linear-gradient(135deg, rgba(11, 16, 26, 0.85) 0%, rgba(3, 4, 7, 0.95) 100%);
+  border: 1px solid #1B2638;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #1558C9, transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+.cyber-card:hover {
+  border-color: rgba(21, 88, 201, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px -5px rgba(21, 88, 201, 0.3);
+}
+.cyber-card:hover::before {
+  opacity: 1;
+  background: linear-gradient(90deg, transparent, #D4FF24, transparent);
+}
+
+/* Cyber Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, #1558C9 0%, #0d3885 100%);
+  color: #F5F7FA;
+  border: 1px solid rgba(21, 88, 201, 0.8);
+  box-shadow: 0 0 20px -5px rgba(21, 88, 201, 0.5);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1e6bf0 0%, #1558C9 100%);
+  border-color: #00D9FF;
+  box-shadow: 0 0 28px 0px rgba(21, 88, 201, 0.7);
+  transform: translateY(-2px);
+}
+
+.btn-lime {
+  background: #D4FF24;
+  color: #030407;
+  font-weight: 700;
+  border: 1px solid #D4FF24;
+  box-shadow: 0 0 25px -4px rgba(212, 255, 36, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-lime:hover {
+  background: #e4ff57;
+  box-shadow: 0 0 35px 2px rgba(212, 255, 36, 0.8);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-secondary {
+  background: rgba(11, 16, 26, 0.7);
+  color: #F5F7FA;
+  border: 1px solid #1B2638;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+.btn-secondary:hover {
+  border-color: #1558C9;
+  background: rgba(21, 88, 201, 0.15);
+  color: #D4FF24;
+  transform: translateY(-2px);
+}
+
+/* Cyber Badge */
+.cyber-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  background: rgba(21, 88, 201, 0.12);
+  border: 1px solid rgba(21, 88, 201, 0.4);
+  color: #00D9FF;
+}
+
+.cyber-badge-lime {
+  background: rgba(212, 255, 36, 0.12);
+  border: 1px solid rgba(212, 255, 36, 0.5);
+  color: #D4FF24;
+}
+
+/* Animated Cyber Grid Background */
+.bg-cyber-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(27, 38, 56, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 38, 56, 0.3) 1px, transparent 1px);
+}
+
+/* Pulsing Dots / Radar */
+@keyframes cyberPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+.animate-cyber-pulse {
+  animation: cyberPulse 2.5s infinite ease-in-out;
+}
+
+/* Scanline Animation */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+.scanline-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(180deg, transparent, rgba(21, 88, 201, 0.4), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
