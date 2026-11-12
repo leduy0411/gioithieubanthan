@@ -11,7 +11,14 @@ import {
   Clock,
   Sparkles
 } from 'lucide-react'
-import { GithubIcon, LinkedinIcon, FacebookIcon } from '../components/SocialIcons'
+import {
+  FacebookIcon,
+  ZaloIcon,
+  InstagramIcon,
+  LocketIcon,
+  TikTokIcon,
+  GithubIcon
+} from '../components/SocialIcons'
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -170,35 +177,55 @@ export default function ContactSection() {
               <span className="text-xs font-mono text-[#9299A6] uppercase block mb-3">
                 KẾT NỐI MẠNG XÃ HỘI
               </span>
-              <div className="flex items-center gap-3">
-                <a
-                  href={personalInfo.socials.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="GitHub"
-                  className="p-3 rounded-xl bg-[#070B14] border border-[#1B2638] text-[#9299A6] hover:text-white hover:border-[#1558C9] hover:bg-[#1558C9]/20 transition-all"
-                >
-                  <GithubIcon className="w-5 h-5" />
-                </a>
-
-                <a
-                  href={personalInfo.socials.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="LinkedIn"
-                  className="p-3 rounded-xl bg-[#070B14] border border-[#1B2638] text-[#9299A6] hover:text-[#00D9FF] hover:border-[#1558C9] hover:bg-[#1558C9]/20 transition-all"
-                >
-                  <LinkedinIcon className="w-5 h-5" />
-                </a>
-
+              <div className="flex items-center gap-2.5 flex-wrap">
                 <a
                   href={personalInfo.socials.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Facebook"
-                  className="p-3 rounded-xl bg-[#070B14] border border-[#1B2638] text-[#9299A6] hover:text-[#1558C9] hover:border-[#1558C9] hover:bg-[#1558C9]/20 transition-all"
+                  className="p-3 rounded-xl bg-[#070B14] border border-[#1877F2]/40 text-[#1877F2] hover:bg-[#1877F2]/20 hover:scale-110 transition-all"
                 >
                   <FacebookIcon className="w-5 h-5" />
+                </a>
+
+                <a
+                  href={personalInfo.socials.zalo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Zalo"
+                  className="p-3 rounded-xl bg-[#070B14] border border-[#0068FF]/40 text-[#0068FF] hover:bg-[#0068FF]/20 hover:scale-110 transition-all"
+                >
+                  <ZaloIcon className="w-5 h-5" />
+                </a>
+
+                <a
+                  href={personalInfo.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Instagram"
+                  className="p-3 rounded-xl bg-[#070B14] border border-[#E1306C]/40 text-[#E1306C] hover:bg-[#E1306C]/20 hover:scale-110 transition-all"
+                >
+                  <InstagramIcon className="w-5 h-5" />
+                </a>
+
+                <a
+                  href={personalInfo.socials.locket}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Locket Widget"
+                  className="p-3 rounded-xl bg-[#070B14] border border-[#FFB020]/40 text-[#FFB020] hover:bg-[#FFB020]/20 hover:scale-110 transition-all"
+                >
+                  <LocketIcon className="w-5 h-5" />
+                </a>
+
+                <a
+                  href={personalInfo.socials.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="TikTok"
+                  className="p-3 rounded-xl bg-[#070B14] border border-[#00F2FE]/40 text-[#00F2FE] hover:bg-[#00F2FE]/20 hover:scale-110 transition-all"
+                >
+                  <TikTokIcon className="w-5 h-5" />
                 </a>
               </div>
             </div>

@@ -5,10 +5,8 @@ import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react'
 const NAV_ITEMS = [
   { label: 'HOME', href: '#home' },
   { label: 'ABOUT', href: '#about' },
-  { label: 'SKILLS', href: '#skills' },
-  { label: 'PROJECTS', href: '#projects' },
-  { label: 'EXPERIENCE', href: '#experience' },
-  { label: 'CONTACT', href: '#contact' }
+  { label: 'SKILLS & TECH', href: '#skills' },
+  { label: 'SOCIALS', href: '#socials' }
 ]
 
 export default function Navbar() {
@@ -80,7 +78,7 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 bg-[#0B101A]/80 border border-[#1B2638] rounded-full px-4 py-1.5 backdrop-blur-md">
+          <nav className="hidden md:flex items-center gap-1.5 lg:gap-2 bg-[#0B101A]/80 border border-[#1B2638] rounded-full px-4 py-1.5 backdrop-blur-md">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.substring(1)
               return (
@@ -91,16 +89,15 @@ export default function Navbar() {
                     e.preventDefault()
                     scrollTo(item.href)
                   }}
-                  className={`relative px-3.5 py-1.5 text-xs font-semibold tracking-wider transition-all duration-200 rounded-full ${
+                  className={`relative px-4 py-2 text-sm font-semibold tracking-wider transition-all duration-200 rounded-full ${
                     isActive
-                      ? 'text-[#030407] bg-[#D4FF24] shadow-[0_0_15px_rgba(212,255,36,0.5)]'
-                      : 'text-[#9299A6] hover:text-[#F5F7FA] hover:bg-[#1558C9]/20'
+                      ? 'text-[#030407] bg-[#00D9FF] shadow-[0_0_15px_rgba(0,217,255,0.6)] font-bold'
+                      : 'text-[#9CA3AF] hover:text-[#F5F7FA] hover:bg-[#1558C9]/20'
                   }`}
                 >
                   {item.label}
-                  {/* Subtle active glow dot if active */}
                   {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4FF24] shadow-[0_0_6px_#D4FF24]" />
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_6px_#00D9FF]" />
                   )}
                 </a>
               )
@@ -110,15 +107,15 @@ export default function Navbar() {
           {/* Desktop Right Action CTA */}
           <div className="hidden md:flex items-center gap-3">
             <a
-              href="#contact"
+              href="#socials"
               onClick={(e) => {
                 e.preventDefault()
-                scrollTo('#contact')
+                scrollTo('#socials')
               }}
-              className="btn-lime text-xs uppercase px-4 py-2 rounded-lg flex items-center gap-1.5 group"
+              className="px-6 py-2.5 rounded-full text-sm font-bold tracking-wider uppercase text-white bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:scale-105 transition-all flex items-center gap-2 group"
             >
-              <span>CONNECT</span>
-              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span>CONNECT NOW</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
 
@@ -127,9 +124,9 @@ export default function Navbar() {
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#0B101A] border border-[#1B2638] text-[#F5F7FA] hover:border-[#1558C9] hover:text-[#D4FF24] transition-colors"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#0B101A] border border-[#1B2638] text-[#F5F7FA] hover:border-[#00D9FF] hover:text-[#00D9FF] transition-colors"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-[#D4FF24]" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5 text-[#00D9FF]" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </header>
@@ -142,7 +139,7 @@ export default function Navbar() {
       >
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 pb-4 mb-2 border-b border-[#1B2638] text-xs font-mono text-[#00D9FF]">
-            <Terminal className="w-4 h-4 text-[#D4FF24]" />
+            <Terminal className="w-4 h-4 text-[#00D9FF]" />
             <span>NAVIGATION_PROTOCOL // ACTIVE</span>
           </div>
 
@@ -158,7 +155,7 @@ export default function Navbar() {
                 }}
                 className={`flex items-center justify-between p-3.5 rounded-xl border text-base font-display font-semibold tracking-wider transition-all ${
                   isActive
-                    ? 'border-[#D4FF24] bg-[#D4FF24]/10 text-[#D4FF24] shadow-[0_0_15px_rgba(212,255,36,0.15)]'
+                    ? 'border-[#00D9FF] bg-[#00D9FF]/10 text-[#00D9FF] shadow-[0_0_15px_rgba(0,217,255,0.2)]'
                     : 'border-[#1B2638] bg-[#0B101A]/60 text-[#F5F7FA] hover:border-[#1558C9] hover:text-[#00D9FF]'
                 }`}
               >
@@ -166,7 +163,7 @@ export default function Navbar() {
                   <span className="font-mono text-xs text-[#9299A6]">0{idx + 1}</span>
                   <span>{item.label}</span>
                 </div>
-                {isActive && <span className="w-2 h-2 rounded-full bg-[#D4FF24] shadow-[0_0_8px_#D4FF24]" />}
+                {isActive && <span className="w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" />}
               </a>
             )
           })}
@@ -175,18 +172,18 @@ export default function Navbar() {
         {/* Mobile Drawer Footer CTA */}
         <div className="pt-6 border-t border-[#1B2638] flex flex-col gap-3">
           <a
-            href="#contact"
+            href="#socials"
             onClick={(e) => {
               e.preventDefault()
-              scrollTo('#contact')
+              scrollTo('#socials')
             }}
-            className="btn-lime w-full text-center py-3.5 rounded-xl text-sm font-bold tracking-wider flex items-center justify-center gap-2"
+            className="w-full text-center py-3.5 rounded-xl text-sm font-bold tracking-wider text-white bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,217,255,0.4)]"
           >
-            <span>GET IN TOUCH</span>
+            <span>CONNECT WITH DUY</span>
             <ArrowUpRight className="w-4 h-4" />
           </a>
           <p className="text-center font-mono text-[10px] text-[#9299A6]">
-            DUY.DEV © 2026 // ALL RIGHTS RESERVED
+            DUY.DEV // ALL RIGHTS RESERVED
           </p>
         </div>
       </div>

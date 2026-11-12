@@ -184,5 +184,6 @@ Mở file `src/data/portfolioData.js`:
    - **Publish directory**: `dist`
 5. Nhấn **Deploy Site**. Sau khi hoàn tất, bạn có thể gán tên miền mong muốn như `duy-portfolio.netlify.app`.
 
-#   g i o i t h i e u b a n t h a n  
+#   g i o i t h i e u b a n t h a n 
+ 
  

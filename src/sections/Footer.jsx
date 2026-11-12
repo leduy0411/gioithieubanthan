@@ -1,8 +1,14 @@
 import React from 'react'
 import TechLogoD from '../components/TechLogoD'
 import { personalInfo } from '../data/portfolioData'
-import { ArrowUp, Heart } from 'lucide-react'
-import { GithubIcon, LinkedinIcon, FacebookIcon } from '../components/SocialIcons'
+import { ArrowUp } from 'lucide-react'
+import {
+  FacebookIcon,
+  LocketIcon,
+  InstagramIcon,
+  TikTokIcon,
+  GmailIcon
+} from '../components/SocialIcons'
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -28,16 +34,16 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start max-w-sm">
             <TechLogoD size={42} />
             <p className="mt-4 text-xs sm:text-sm text-[#9299A6] leading-relaxed">
-              Thiết kế và kiến trúc hệ thống backend hiệu năng cao, mở rộng linh hoạt và an toàn dữ liệu trên nền tảng đám mây.
+              IT Engineer bridging scalable backend software systems with high-impact visual graphic design and cinematic video production.
             </p>
           </div>
 
           {/* Navigation Links */}
           <div className="flex flex-col items-center md:items-start">
-            <span className="font-mono text-xs uppercase text-[#D4FF24] tracking-widest mb-4">
+            <span className="font-mono text-xs uppercase text-[#00D9FF] tracking-widest mb-4">
               QUICK NAVIGATION
             </span>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-xs font-semibold text-[#9299A6]">
+            <div className="flex flex-col gap-2 text-xs font-semibold text-[#9299A6]">
               <a
                 href="#home"
                 onClick={(e) => {
@@ -56,7 +62,7 @@ export default function Footer() {
                 }}
                 className="hover:text-white transition-colors"
               >
-                ABOUT
+                ABOUT LE DUY
               </a>
               <a
                 href="#skills"
@@ -66,74 +72,79 @@ export default function Footer() {
                 }}
                 className="hover:text-white transition-colors"
               >
-                SKILLS
+                DISCIPLINES &amp; SKILLS
               </a>
               <a
-                href="#projects"
+                href="#socials"
                 onClick={(e) => {
                   e.preventDefault()
-                  scrollTo('#projects')
+                  scrollTo('#socials')
                 }}
                 className="hover:text-white transition-colors"
               >
-                PROJECTS
-              </a>
-              <a
-                href="#experience"
-                onClick={(e) => {
-                  e.preventDefault()
-                  scrollTo('#experience')
-                }}
-                className="hover:text-white transition-colors"
-              >
-                EXPERIENCE
-              </a>
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault()
-                  scrollTo('#contact')
-                }}
-                className="hover:text-white transition-colors"
-              >
-                CONTACT
+                SOCIAL &amp; CONTACT
               </a>
             </div>
           </div>
 
           {/* Social Links & Back to Top */}
           <div className="flex flex-col items-center md:items-end gap-4">
-            <span className="font-mono text-xs uppercase text-[#D4FF24] tracking-widest">
+            <span className="font-mono text-xs uppercase text-[#00D9FF] tracking-widest">
               COMMUNICATION MATRIX
             </span>
 
-            <div className="flex items-center gap-3">
-              <a
-                href={personalInfo.socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="GitHub"
-                className="p-2.5 rounded-xl bg-[#0B101A] border border-[#1B2638] text-[#9299A6] hover:text-white hover:border-[#1558C9] hover:bg-[#1558C9]/20 transition-all"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
-              <a
-                href={personalInfo.socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn"
-                className="p-2.5 rounded-xl bg-[#0B101A] border border-[#1B2638] text-[#9299A6] hover:text-[#00D9FF] hover:border-[#1558C9] hover:bg-[#1558C9]/20 transition-all"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
+            <div className="flex items-center gap-3 flex-wrap justify-center md:justify-end">
+              {/* Facebook */}
               <a
                 href={personalInfo.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                title="Facebook"
-                className="p-2.5 rounded-xl bg-[#0B101A] border border-[#1B2638] text-[#9299A6] hover:text-[#1558C9] hover:border-[#1558C9] hover:bg-[#1558C9]/20 transition-all"
+                title="Facebook Profile"
+                className="w-12 h-12 rounded-xl bg-[#0B101A] border border-[#1B2638] hover:border-[#1877F2] hover:scale-110 transition-all flex items-center justify-center p-1"
               >
-                <FacebookIcon className="w-4 h-4" />
+                <FacebookIcon className="w-8 h-8" />
+              </a>
+
+              {/* Locket */}
+              <a
+                href={personalInfo.socials.locket}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Locket Widget"
+                className="w-12 h-12 rounded-xl bg-[#0B101A] border border-[#1B2638] hover:border-[#FFB020] hover:scale-110 transition-all flex items-center justify-center p-1"
+              >
+                <LocketIcon className="w-8 h-8" />
+              </a>
+
+              {/* Instagram */}
+              <a
+                href={personalInfo.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+                className="w-12 h-12 rounded-xl bg-[#0B101A] border border-[#1B2638] hover:border-[#E1306C] hover:scale-110 transition-all flex items-center justify-center p-1"
+              >
+                <InstagramIcon className="w-8 h-8" />
+              </a>
+
+              {/* TikTok */}
+              <a
+                href={personalInfo.socials.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="TikTok"
+                className="w-12 h-12 rounded-xl bg-[#0B101A] border border-[#1B2638] hover:border-[#00F2FE] hover:scale-110 transition-all flex items-center justify-center p-1"
+              >
+                <TikTokIcon className="w-8 h-8" />
+              </a>
+
+              {/* Gmail */}
+              <a
+                href={`mailto:${personalInfo.email}`}
+                title="Email Duy"
+                className="w-12 h-12 rounded-xl bg-[#0B101A] border border-[#1B2638] hover:border-[#EA4335] hover:scale-110 transition-all flex items-center justify-center p-1"
+              >
+                <GmailIcon className="w-8 h-8" />
               </a>
             </div>
 
@@ -141,7 +152,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="mt-2 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0B101A] border border-[#1B2638] text-xs font-mono text-[#9299A6] hover:text-[#D4FF24] hover:border-[#D4FF24] transition-all cursor-pointer"
+              className="mt-2 flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#0B101A] border border-[#1B2638] text-xs font-mono text-[#9299A6] hover:text-[#00D9FF] hover:border-[#00D9FF] transition-all cursor-pointer"
             >
               <span>BACK TO TOP</span>
               <ArrowUp className="w-3.5 h-3.5" />
@@ -152,10 +163,10 @@ export default function Footer() {
         {/* Bottom Copyright & Tech Stack Credits */}
         <div className="pt-8 border-t border-[#1B2638] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#9299A6] text-center">
           <div>
-            © {new Date().getFullYear()} <span className="text-[#F5F7FA] font-bold">DUY</span>. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} <span className="text-[#F5F7FA] font-bold">LE DUY</span>. ALL RIGHTS RESERVED.
           </div>
           <div className="flex items-center gap-1.5">
-            <span>BUILT WITH REACT • THREE.JS • TAILWIND CSS</span>
+            <span>ENGINEERED WITH REACT 19 • THREE.JS • TAILWIND CSS</span>
           </div>
         </div>
 

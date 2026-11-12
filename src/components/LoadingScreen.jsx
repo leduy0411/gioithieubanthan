@@ -60,11 +60,11 @@ export default function LoadingScreen({ onLoaded }) {
         </div>
 
         {/* Project Branding */}
-        <h1 className="font-display font-bold text-2xl tracking-[0.25em] text-[#F5F7FA] mb-1">
-          DUY<span className="text-[#D4FF24]">.</span>DEV
+        <h1 className="font-display font-extrabold text-3xl tracking-[0.25em] text-[#F5F7FA] mb-1.5">
+          LE DUY<span className="text-[#00D9FF]">.</span>DEV
         </h1>
-        <p className="font-mono text-xs tracking-widest text-[#9299A6] uppercase mb-8">
-          FUTURISTIC BACKEND ARCHITECTURE
+        <p className="font-mono text-xs sm:text-sm font-semibold tracking-widest text-[#9CA3AF] uppercase mb-8">
+          IT ENGINEER • BACKEND • CREATIVE PRODUCER
         </p>
 
         {/* Progress Bar Container */}
