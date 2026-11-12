@@ -1,98 +1,107 @@
 <!doctype html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Primary Meta Tags -->
-    <title>Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor</title>
-    <meta name="title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
-    <meta name="description" content="Portfolio of Le Duy — IT Engineer based in Tra Vinh Ward, Vinh Long Province, Vietnam. Specializing in Backend Software Architecture, Graphic Design, and Cinematic Video Editing." />
-    <meta name="theme-color" content="#030407" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://duy-portfolio.netlify.app/" />
-    <meta property="og:title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
-    <meta property="og:description" content="Engineering robust backend architectures and crafting timeless visual & cinematic digital experiences." />
-    <meta property="og:image" content="/images/duy-portrait.png" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
-    <meta property="twitter:description" content="Engineering robust backend architectures and crafting timeless visual & cinematic digital experiences." />
-    <meta property="twitter:image" content="/images/duy-portrait.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Google Fonts: Space Grotesk, Inter, Sora -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Primary Meta Tags -->
+  <title>Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor</title>
+  <meta name="title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
+  <meta name="description"
+    content="Portfolio of Le Duy — IT Engineer based in Tra Vinh Ward, Vinh Long Province, Vietnam. Specializing in Backend Software Architecture, Graphic Design, and Cinematic Video Editing." />
+  <meta name="theme-color" content="#030407" />
 
-    <!-- Anti-Netlify Drawer & Badge Style -->
-    <style>
-      [data-netlify-drawer],
-      netlify-drawer,
-      #netlify-badge,
-      .netlify-badge,
-      [class*="netlify-badge"],
-      [id*="netlify-badge"],
-      [data-netlify-deploy-id],
-      iframe[src*="netlify"],
-      div[data-netlify-feedback-drawer] {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        width: 0 !important;
-        height: 0 !important;
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://duy-portfolio.netlify.app/" />
+  <meta property="og:title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
+  <meta property="og:description"
+    content="Engineering robust backend architectures and crafting timeless visual & cinematic digital experiences." />
+  <meta property="og:image" content="/images/duy-portrait.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
+  <meta property="twitter:description"
+    content="Engineering robust backend architectures and crafting timeless visual & cinematic digital experiences." />
+  <meta property="twitter:image" content="/images/duy-portrait.png" />
+
+  <!-- Google Fonts: Space Grotesk, Inter, Sora -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Anti-Netlify Drawer & Badge Style -->
+  <style>
+    [data-netlify-drawer],
+    netlify-drawer,
+    #netlify-badge,
+    .netlify-badge,
+    [class*="netlify-badge"],
+    [id*="netlify-badge"],
+    [data-netlify-deploy-id],
+    iframe[src*="netlify"],
+    div[data-netlify-feedback-drawer] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-[#030407] text-[#F5F7FA] font-sans antialiased selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+
+  <!-- Runtime Netlify Badge Purge Script -->
+  <script>
+    (function () {
+      function purgeNetlifyBadge() {
+        var elements = document.querySelectorAll('button, a, div, span, p');
+        for (var i = 0; i < elements.length; i++) {
+          var el = elements[i];
+          if (el.textContent && el.textContent.trim().toLowerCase().includes('powered by netlify')) {
+            var parent = el.closest('div, a, button') || el;
+            parent.style.setProperty('display', 'none', 'important');
+            parent.remove();
+          }
+        }
+        var selectors = [
+          '[data-netlify-drawer]',
+          'netlify-drawer',
+          '#netlify-badge',
+          '.netlify-badge',
+          '[class*="netlify-badge"]',
+          'iframe[src*="netlify"]',
+          '[data-netlify-deploy-id]'
+        ];
+        for (var j = 0; j < selectors.length; j++) {
+          var found = document.querySelectorAll(selectors[j]);
+          for (var k = 0; k < found.length; k++) {
+            found[k].style.setProperty('display', 'none', 'important');
+            found[k].remove();
+          }
+        }
       }
-    </style>
-  </head>
-  <body class="bg-[#030407] text-[#F5F7FA] font-sans antialiased selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+      purgeNetlifyBadge();
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', purgeNetlifyBadge);
+      }
+      window.addEventListener('load', purgeNetlifyBadge);
+      try {
+        var observer = new MutationObserver(purgeNetlifyBadge);
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+      } catch (e) { }
+    })();
+  </script>
+</body>
 
-    <!-- Runtime Netlify Badge Purge Script -->
-    <script>
-      (function() {
-        function purgeNetlifyBadge() {
-          var elements = document.querySelectorAll('button, a, div, span, p');
-          for (var i = 0; i < elements.length; i++) {
-            var el = elements[i];
-            if (el.textContent && el.textContent.trim().toLowerCase().includes('powered by netlify')) {
-              var parent = el.closest('div, a, button') || el;
-              parent.style.setProperty('display', 'none', 'important');
-              parent.remove();
-            }
-          }
-          var selectors = [
-            '[data-netlify-drawer]',
-            'netlify-drawer',
-            '#netlify-badge',
-            '.netlify-badge',
-            '[class*="netlify-badge"]',
-            'iframe[src*="netlify"]',
-            '[data-netlify-deploy-id]'
-          ];
-          for (var j = 0; j < selectors.length; j++) {
-            var found = document.querySelectorAll(selectors[j]);
-            for (var k = 0; k < found.length; k++) {
-              found[k].style.setProperty('display', 'none', 'important');
-              found[k].remove();
-            }
-          }
-        }
-        purgeNetlifyBadge();
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', purgeNetlifyBadge);
-        }
-        window.addEventListener('load', purgeNetlifyBadge);
-        try {
-          var observer = new MutationObserver(purgeNetlifyBadge);
-          observer.observe(document.documentElement, { childList: true, subtree: true });
-        } catch(e) {}
-      })();
-    </script>
-  </body>
 </html>
