@@ -131,3 +131,58 @@ Mở file `src/data/portfolioData.js`:
    - **Build Command**: `npm run build`
    - **Publish directory**: `dist`
 5. Nhấn **Deploy Site**. Sau khi hoàn tất, bạn có thể gán tên miền mong muốn như `duy-portfolio.netlify.app`.
+
+---
+
+## 🛠️ Hướng Dẫn Tùy Chỉnh Cho Duy
+
+### 1. Cập Nhật Thông Tin Cá Nhân & Dự Án
+Mở file `src/data/portfolioData.js`:
+- Thay đổi họ tên, email, liên kết mạng xã hội (GitHub, LinkedIn, Facebook).
+- Thay đổi danh sách kỹ năng, điểm số thành thạo.
+- Cập nhật thông tin các dự án thực tế và đường dẫn Live Demo/GitHub.
+
+### 2. Bổ Sung / Thay Thế Mô Hình 3D
+- Nếu bạn có file mô hình 3D dạng GLB/GLTF xuất từ Blender/Ready Player Me:
+  - Đổi tên file thành `character.glb`.
+  - Đặt vào thư mục `public/models/character.glb`.
+  - Website sẽ tự động phát hiện và chuyển sang hiển thị mô hình của bạn!
+
+### 3. Thay Thế Ảnh Chân Dung
+- Đặt ảnh chân dung tham chiếu của bạn vào thư mục `public/images/duy-portrait.png` (hoặc `.svg`).
+
+---
+
+## 💻 Chạy Thử & Phát Triển
+
+1. Cài đặt thư viện:
+   ```bash
+   npm install
+   ```
+
+2. Chạy môi trường phát triển (Dev server):
+   ```bash
+   npm run dev
+   ```
+   Mở trình duyệt tại `http://localhost:5173/`.
+
+3. Kiểm tra bản đóng gói sản phẩm (Production build):
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+---
+
+## 🌐 Hướng Dẫn Triển Khai Lên Netlify
+
+1. Đẩy mã nguồn lên repository GitHub của bạn (`git init`, `git add .`, `git commit -m "feat: portfolio duy"`, `git push origin main`).
+2. Đăng nhập vào [Netlify](https://www.netlify.app/).
+3. Chọn **Add new site** > **Import an existing project** > Chọn GitHub repository của bạn.
+4. Cấu hình build (đã được cấu hình tự động thông qua `netlify.toml`):
+   - **Build Command**: `npm run build`
+   - **Publish directory**: `dist`
+5. Nhấn **Deploy Site**. Sau khi hoàn tất, bạn có thể gán tên miền mong muốn như `duy-portfolio.netlify.app`.
+
+#   g i o i t h i e u b a n t h a n  
+ 
