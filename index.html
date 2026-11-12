@@ -39,19 +39,27 @@
   <style>
     [data-netlify-drawer],
     netlify-drawer,
+    netlify-badge,
     #netlify-badge,
     .netlify-badge,
     [class*="netlify-badge"],
     [id*="netlify-badge"],
+    [class*="netlify-toolbar"],
+    [id*="netlify-toolbar"],
     [data-netlify-deploy-id],
+    [data-netlify],
     iframe[src*="netlify"],
-    div[data-netlify-feedback-drawer] {
+    div[data-netlify-feedback-drawer],
+    .netlify-toolbar,
+    #netlify-toolbar {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
       pointer-events: none !important;
       width: 0 !important;
       height: 0 !important;
+      position: absolute !important;
+      left: -9999px !important;
     }
   </style>
 </head>
@@ -77,11 +85,16 @@
         var selectors = [
           '[data-netlify-drawer]',
           'netlify-drawer',
+          'netlify-badge',
           '#netlify-badge',
           '.netlify-badge',
           '[class*="netlify-badge"]',
+          '[class*="netlify-toolbar"]',
+          '[id*="netlify-toolbar"]',
+          '.netlify-toolbar',
           'iframe[src*="netlify"]',
-          '[data-netlify-deploy-id]'
+          '[data-netlify-deploy-id]',
+          '[data-netlify]'
         ];
         for (var j = 0; j < selectors.length; j++) {
           var found = document.querySelectorAll(selectors[j]);
