@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import CustomCursor from './components/CustomCursor'
 import CyberBackground from './components/CyberBackground'
@@ -12,8 +12,38 @@ import Footer from './sections/Footer'
 export default function App() {
   const [isLoading, setIsLoading] = useState(true)
 
+  useEffect(() => {
+    if (
+      typeof IntersectionObserver === 'undefined' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return
+    }
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
+    )
+
+    document
+      .querySelectorAll('main > section, main .cyber-card')
+      .forEach((element) => {
+        element.classList.add('scroll-reveal')
+        revealObserver.observe(element)
+      })
+
+    return () => revealObserver.disconnect()
+  }, [])
+
   return (
-    <div className="relative min-h-screen bg-[#030407] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#050811] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
       {/* Initial Cyber Loading Screen */}
       {isLoading && <LoadingScreen onLoaded={() => setIsLoading(false)} />}
 

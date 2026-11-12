@@ -8,7 +8,7 @@ const ICON_MAP = { Server, Palette, Video, Layers }
 const SHOWCASE_IMGS = [
   'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=75&fit=crop', // server
   'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=75&fit=crop', // design
-  'https://images.unsplash.com/photo-1536240478700-b869ad10c746?w=600&q=75&fit=crop'  // video
+  '/images/video-editing.svg' // video
 ]
 
 export default function SkillsSection() {

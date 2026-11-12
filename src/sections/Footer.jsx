@@ -1,5 +1,5 @@
 import React from 'react'
-import TechLogoD from '../components/TechLogoD'
+import SiteLogo from '../components/SiteLogo'
 import { personalInfo } from '../data/portfolioData'
 import { ArrowUp } from 'lucide-react'
 import {
@@ -36,7 +36,7 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start max-w-xs">
-            <TechLogoD size={40} />
+            <SiteLogo className="h-14 w-[76px]" />
             <p className="mt-4 font-body font-normal text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
               IT Engineer bridging scalable backend systems with high-impact graphic design and cinematic video production.
             </p>

@@ -16,7 +16,7 @@ import {
   DJTurntableLogo
 } from '../components/SocialIcons'
 
-/* ─── Discipline card data with Unsplash thumbnails ─────────── */
+/* ─── Discipline card data ───────────────────────────────────── */
 const DISCIPLINES = [
   {
     icon: Server,
@@ -43,7 +43,7 @@ const DISCIPLINES = [
     borderColor: '#D4FF24',
     title: 'Video Editing & Motion',
     desc: 'Assembling dynamic narratives, beat sync, cinematic color grading, and After Effects motion graphics for modern digital audiences.',
-    img: 'https://images.unsplash.com/photo-1536240478700-b869ad10c746?w=600&q=80&fit=crop'
+    img: '/images/video-editing.svg'
   }
 ]
 
@@ -233,7 +233,7 @@ export default function AboutSection() {
                 {/* DJing */}
                 <div className="relative p-4 rounded-xl bg-white/[0.03] border border-white/[0.07] hover:border-[#D4FF24]/40 flex items-center gap-3.5 transition-all group overflow-hidden">
                   <img
-                    src="https://images.unsplash.com/photo-1571266028243-d220c6a4c5e2?w=200&q=70&fit=crop"
+                    src="/images/dj-console.svg"
                     alt="DJing"
                     className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity"
                     loading="lazy"

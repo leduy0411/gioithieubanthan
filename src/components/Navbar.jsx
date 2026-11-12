@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import TechLogoD from './TechLogoD'
+import SiteLogo from './SiteLogo'
 import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react'
 
 const NAV_ITEMS = [
@@ -74,7 +74,7 @@ export default function Navbar() {
             }}
             className="flex items-center"
           >
-            <TechLogoD size={38} />
+            <SiteLogo className="h-12 w-[72px]" />
           </a>
 
           {/* Desktop Navigation Links */}

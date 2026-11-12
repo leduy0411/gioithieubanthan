@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import TechLogoD from './TechLogoD'
+import SiteLogo from './SiteLogo'
 
 export default function LoadingScreen({ onLoaded }) {
   const [progress, setProgress] = useState(0)
@@ -56,7 +56,7 @@ export default function LoadingScreen({ onLoaded }) {
       <div className="relative z-10 flex flex-col items-center max-w-sm px-6 text-center">
         {/* Animated Brand Emblem */}
         <div className="mb-8 transform hover:scale-105 transition-transform">
-          <TechLogoD size={72} showText={false} />
+          <SiteLogo className="h-28 w-36" />
         </div>
 
         {/* Project Branding */}

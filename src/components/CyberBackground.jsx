@@ -179,13 +179,13 @@ export default function CyberBackground() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {/* 70% Deep Space Black base with animated CSS grid */}
-      <div className="absolute inset-0 bg-[#030407]" />
-      <div className="absolute inset-0 bg-cyber-grid opacity-35" />
+      <div className="absolute inset-0 bg-[#050811]" />
+      <div className="absolute inset-0 bg-cyber-grid cyber-grid-drift opacity-30" />
 
-      {/* Cyber Glow Highlights (Electric Blue & Neon Lime) */}
-      <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#1558C9]/20 blur-[140px]" />
-      <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-[#1558C9]/15 blur-[160px]" />
-      <div className="absolute bottom-10 left-1/4 w-[400px] h-[400px] rounded-full bg-[#D4FF24]/6 blur-[180px]" />
+      {/* Slow ambient cyan, violet, and lime glow */}
+      <div className="ambient-orb ambient-orb-cyan absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#1558C9]/20 blur-[140px]" />
+      <div className="ambient-orb ambient-orb-violet absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-[#A855F7]/10 blur-[160px]" />
+      <div className="ambient-orb ambient-orb-lime absolute bottom-10 left-1/4 w-[400px] h-[400px] rounded-full bg-[#D4FF24]/5 blur-[180px]" />
 
       {/* Three.js Canvas Container */}
       <div ref={containerRef} className="absolute inset-0" />
