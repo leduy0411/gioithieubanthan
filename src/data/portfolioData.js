@@ -17,9 +17,9 @@ export const personalInfo = {
   education: "Graduated Engineer in Information Technology (IT Engineer)",
   status: "OPEN FOR COLLABORATIONS & OPPORTUNITIES",
   email: "leduytctv2019@gmail.com",
-  
+
   bioShort: "I am an Information Technology Engineer based in Tra Vinh Ward, Vinh Long Province, Vietnam. I bridge the worlds of robust backend software architecture, high-impact graphic design, and cinematic video editing.",
-  
+
   bioLong: [
     "Holding a degree in Information Technology, I specialize in designing scalable backend services, high-concurrency APIs, and resilient database architectures. My engineering foundation ensures speed, security, and rock-solid uptime.",
     "Beyond pure code, I operate as a multidisciplinary visual artist. Through Adobe Photoshop, Illustrator, Premiere Pro, and After Effects, I produce brand identity systems, modern UI visuals, and dynamic motion video content with professional color grading.",

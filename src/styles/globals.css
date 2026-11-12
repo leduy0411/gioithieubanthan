@@ -294,3 +294,28 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===================================================
+   Netlify Drawer & "Powered by Netlify" Badge Removal
+   =================================================== */
+[data-netlify-drawer],
+netlify-drawer,
+#netlify-badge,
+.netlify-badge,
+[class*="netlify-badge"],
+[id*="netlify-badge"],
+[data-netlify-deploy-id],
+iframe[src*="netlify"],
+iframe[id*="netlify"],
+div[data-netlify-feedback-drawer],
+div[class*="netlify-feedback"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  z-index: -999999 !important;
+  transform: scale(0) !important;
+}
