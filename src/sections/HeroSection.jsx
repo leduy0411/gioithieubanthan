@@ -76,10 +76,12 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Primary Multi-Discipline Roles with Bold Typography */}
+          {/* Primary Multi-Discipline Roles with Correct Weight */}
           <div className="mb-4">
-            <h2 className="font-display font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl tracking-wide text-[#F5F7FA]">
-              <span className="text-[#00D9FF]">Backend Developer</span> • <span className="text-[#A855F7]">Graphic Designer</span> • <span className="text-[#D4FF24]">Video Editor</span>
+            <h2 className="font-display font-bold text-xl sm:text-2xl md:text-3xl tracking-tight text-[#F5F7FA]">
+              <span className="text-[#00D9FF]">Backend Developer</span>{' '}•{' '}
+              <span className="text-[#A855F7]">Graphic Designer</span>{' '}•{' '}
+              <span className="text-[#D4FF24]">Video Editor</span>
             </h2>
           </div>
 
@@ -91,8 +93,8 @@ export default function HeroSection() {
 
           {/* Tagline / English Bio with Vertical Accent Bar */}
           <div className="flex items-start gap-3.5 mb-7 max-w-xl text-left">
-            <div className="w-1.5 self-stretch bg-[#00D9FF] rounded-full shadow-[0_0_12px_#00D9FF] shrink-0" />
-            <p className="font-body text-[#CBD5E1] text-base sm:text-lg md:text-xl leading-relaxed">
+            <div className="w-1 self-stretch bg-gradient-to-b from-[#00D9FF] to-[#A855F7] rounded-full shadow-[0_0_10px_#00D9FF] shrink-0" />
+            <p className="font-body font-normal text-[#CBD5E1] text-base sm:text-lg leading-relaxed">
               {personalInfo.bioShort}
             </p>
           </div>

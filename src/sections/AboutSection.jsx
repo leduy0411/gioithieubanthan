@@ -16,259 +16,285 @@ import {
   DJTurntableLogo
 } from '../components/SocialIcons'
 
+/* ─── Discipline card data with Unsplash thumbnails ─────────── */
+const DISCIPLINES = [
+  {
+    icon: Server,
+    color: '#00D9FF',
+    colorSoft: 'rgba(0,217,255,0.12)',
+    borderColor: '#00D9FF',
+    title: 'Backend Engineering',
+    desc: 'Designing microservice systems, async pipelines, robust data layers, and secured auth gateways with high throughput and reliability.',
+    img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80&fit=crop'
+  },
+  {
+    icon: Palette,
+    color: '#A855F7',
+    colorSoft: 'rgba(168,85,247,0.12)',
+    borderColor: '#A855F7',
+    title: 'Graphic Design',
+    desc: 'Crafting visual identities, brand assets, social media key visuals, and photo compositing with Photoshop and Illustrator.',
+    img: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80&fit=crop'
+  },
+  {
+    icon: Film,
+    color: '#D4FF24',
+    colorSoft: 'rgba(212,255,36,0.10)',
+    borderColor: '#D4FF24',
+    title: 'Video Editing & Motion',
+    desc: 'Assembling dynamic narratives, beat sync, cinematic color grading, and After Effects motion graphics for modern digital audiences.',
+    img: 'https://images.unsplash.com/photo-1536240478700-b869ad10c746?w=600&q=80&fit=crop'
+  }
+]
+
 export default function AboutSection() {
   return (
-    <section id="about" className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="flex flex-col items-center text-center mb-16">
-        <h2 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white mb-4">
-          ABOUT <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,217,255,0.6)]">LE DUY</span>
-        </h2>
-        <div className="w-24 h-1.5 bg-gradient-to-r from-[#00D9FF] to-[#A855F7] rounded-full shadow-[0_0_15px_#00D9FF]" />
-      </div>
+    <section id="about" className="relative py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* Left Column: Academic Credentials, Bio & Multilingual Capabilities */}
-        <div className="lg:col-span-7 flex flex-col gap-6">
-          <div className="cyber-card p-7 sm:p-9 rounded-2xl shadow-xl">
-            {/* Header with Verified Beacon */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-7 pb-5 border-b border-[#1B2638]">
-              <div className="flex items-center gap-3.5">
-                <div className="p-3 rounded-2xl bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30 shadow-[0_0_15px_rgba(0,217,255,0.2)]">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-display font-extrabold text-xl sm:text-2xl text-[#F5F7FA]">
-                    IT Engineer &amp; Visual Craftsman
-                  </h3>
-                  <div className="flex items-center gap-2 text-sm sm:text-base font-mono text-[#00D9FF]">
-                    <MapPin className="w-4 h-4 text-[#A855F7]" />
-                    <span>{personalInfo.location}</span>
+        {/* ── Section Header ── */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <span className="cyber-badge mb-4">Profile</span>
+          <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight text-white mb-4">
+            ABOUT{' '}
+            <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent">
+              LE DUY
+            </span>
+          </h2>
+          <div className="section-accent-line" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          {/* ── Left Column ── */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
+            <div className="cyber-card p-7 sm:p-9 rounded-2xl">
+
+              {/* Card Header */}
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-7 pb-5 border-b border-white/[0.06]">
+                <div className="flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-[#00D9FF]/10 text-[#00D9FF] border border-[#00D9FF]/25">
+                    <GraduationCap className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-xl text-[#F5F7FA]">
+                      IT Engineer & Visual Craftsman
+                    </h3>
+                    <div className="flex items-center gap-2 text-sm font-body text-[#00D9FF] mt-0.5">
+                      <MapPin className="w-4 h-4 text-[#A855F7] shrink-0" />
+                      <span>{personalInfo.location}</span>
+                    </div>
                   </div>
                 </div>
+                <span className="cyber-badge text-xs">Verified Degree</span>
               </div>
 
-              <span className="cyber-badge text-xs px-3.5 py-1.5 font-bold">
-                Verified Degree
-              </span>
-            </div>
-
-            {/* Narrative Paragraphs with Increased Font Size */}
-            <p className="font-body text-[#F5F7FA] text-base sm:text-lg lg:text-xl leading-relaxed mb-5 font-semibold">
-              {personalInfo.bioShort}
-            </p>
-
-            {personalInfo.bioLong.map((para, idx) => (
-              <p key={idx} className="font-body text-[#CBD5E1] text-base sm:text-lg leading-relaxed mb-4">
-                {para}
+              {/* Bio — font-body, font-normal, slate-300 */}
+              <p className="font-body font-normal text-[#CBD5E1] text-base sm:text-lg leading-relaxed mb-4">
+                {personalInfo.bioShort}
               </p>
-            ))}
+              {personalInfo.bioLong.map((para, idx) => (
+                <p key={idx} className="font-body font-normal text-[#94A3B8] text-base leading-relaxed mb-4">
+                  {para}
+                </p>
+              ))}
 
-            {/* Multilingual Communication Block */}
-            <div className="mt-8 pt-6 border-t border-[#1B2638]">
-              <div className="flex items-center gap-2 text-sm font-mono font-bold text-[#00D9FF] uppercase tracking-wider mb-4">
-                <Languages className="w-5 h-5 text-[#A855F7]" />
-                <span>Multilingual Fluency</span>
+              {/* Multilingual Block */}
+              <div className="mt-8 pt-6 border-t border-white/[0.06]">
+                <div className="flex items-center gap-2 text-sm font-display font-bold text-[#00D9FF] uppercase tracking-wider mb-4">
+                  <Languages className="w-5 h-5 text-[#A855F7]" />
+                  <span>Multilingual Fluency</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {personalInfo.languages.map((lang, idx) => (
+                    <div key={idx} className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.07] hover:border-[#00D9FF]/40 transition-colors">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-display font-bold text-sm text-white">{lang.name}</span>
+                        <span className="text-xs font-body font-medium text-[#D4FF24]">{lang.proficiency}%</span>
+                      </div>
+                      <span className="text-xs font-body text-[#94A3B8]">{lang.level}</span>
+                      <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden mt-2">
+                        <div
+                          className="h-full bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#D4FF24] rounded-full"
+                          style={{ width: `${lang.proficiency}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                {personalInfo.languages.map((lang, idx) => (
-                  <div key={idx} className="p-4 rounded-xl bg-[#070B14] border border-[#1B2638] flex flex-col gap-1.5 hover:border-[#00D9FF]/50 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <span className="font-display font-extrabold text-base text-white">{lang.name}</span>
-                      <span className="text-xs font-mono font-bold text-[#D4FF24]">{lang.proficiency}%</span>
-                    </div>
-                    <span className="text-xs sm:text-sm text-[#9CA3AF]">{lang.level}</span>
-                    <div className="w-full h-1.5 bg-[#1B2638] rounded-full overflow-hidden mt-1">
-                      <div
-                        className="h-full bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#D4FF24] rounded-full"
-                        style={{ width: `${lang.proficiency}%` }}
-                      />
-                    </div>
+
+              {/* Core Competencies */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-7 pt-6 border-t border-white/[0.06]">
+                {[
+                  { text: 'Backend Architecture & Scalable APIs', color: '#00D9FF' },
+                  { text: 'Adobe Photoshop & Illustrator Vector Art', color: '#A855F7' },
+                  { text: 'Premiere Pro & After Effects Motion VFX', color: '#D4FF24' },
+                  { text: 'Database Optimization & High Availability', color: '#00D9FF' }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-2.5 text-sm font-body text-[#CBD5E1]">
+                    <CheckCircle2 className="w-5 h-5 shrink-0" style={{ color: item.color }} />
+                    <span>{item.text}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Core Competencies Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-7 pt-6 border-t border-[#1B2638]">
-              <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#F5F7FA]">
-                <CheckCircle2 className="w-5 h-5 text-[#00D9FF] shrink-0" />
-                <span>Backend Architecture &amp; Scalable APIs</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#F5F7FA]">
-                <CheckCircle2 className="w-5 h-5 text-[#A855F7] shrink-0" />
-                <span>Adobe Photoshop &amp; Illustrator Vector Art</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#F5F7FA]">
-                <CheckCircle2 className="w-5 h-5 text-[#D4FF24] shrink-0" />
-                <span>Premiere Pro &amp; After Effects Motion VFX</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-sm sm:text-base text-[#F5F7FA]">
-                <CheckCircle2 className="w-5 h-5 text-[#00D9FF] shrink-0" />
-                <span>Database Optimization &amp; High Availability</span>
-              </div>
+            {/* Stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {personalInfo.stats.map((stat, idx) => (
+                <div key={idx} className="cyber-card p-5 rounded-xl text-center hover:scale-105 transition-transform">
+                  <div className="font-display font-bold text-2xl sm:text-3xl text-[#00D9FF] mb-1">
+                    {stat.value}{stat.suffix}
+                  </div>
+                  <div className="font-body text-xs text-[#94A3B8] uppercase tracking-wide">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Key Metrics Statistics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {personalInfo.stats.map((stat, idx) => (
-              <div key={idx} className="cyber-card p-5 rounded-xl text-center hover:scale-105 transition-transform">
-                <div className="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-[#00D9FF] mb-1">
-                  {stat.value}{stat.suffix}
-                </div>
-                <div className="font-mono text-xs sm:text-sm text-[#9CA3AF] uppercase tracking-wider font-semibold">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+          {/* ── Right Column ── */}
+          <div className="lg:col-span-5 flex flex-col gap-5">
 
-        {/* Right Column: Three Disciplines & Lifestyle Interests */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          
-          {/* 3 Core Roles Summary */}
-          <div className="cyber-card p-6 sm:p-7 rounded-2xl border-l-4 border-l-[#00D9FF] hover:translate-x-1 transition-transform">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-[#00D9FF]/15 text-[#00D9FF]">
-                <Server className="w-6 h-6" />
-              </div>
-              <h4 className="font-display font-extrabold text-lg sm:text-xl text-white">Backend Engineering</h4>
-            </div>
-            <p className="text-sm sm:text-base text-[#9CA3AF] leading-relaxed">
-              Designing microservice systems, asynchronous message pipelines, robust data layers, and secured auth gateways with high throughput.
-            </p>
-          </div>
-
-          <div className="cyber-card p-6 sm:p-7 rounded-2xl border-l-4 border-l-[#A855F7] hover:translate-x-1 transition-transform">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-[#A855F7]/15 text-[#A855F7]">
-                <Palette className="w-6 h-6" />
-              </div>
-              <h4 className="font-display font-extrabold text-lg sm:text-xl text-white">Graphic Design</h4>
-            </div>
-            <p className="text-sm sm:text-base text-[#9CA3AF] leading-relaxed">
-              Crafting visual identities, typography, brand assets, social media key visuals, and photo manipulation with meticulous detail in Photoshop and Illustrator.
-            </p>
-          </div>
-
-          <div className="cyber-card p-6 sm:p-7 rounded-2xl border-l-4 border-l-[#D4FF24] hover:translate-x-1 transition-transform">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-[#D4FF24]/15 text-[#D4FF24]">
-                <Film className="w-6 h-6" />
-              </div>
-              <h4 className="font-display font-extrabold text-lg sm:text-xl text-white">Video Editing &amp; Motion</h4>
-            </div>
-            <p className="text-sm sm:text-base text-[#9CA3AF] leading-relaxed">
-              Assembling dynamic narratives, rhythmic beat synchronization, color grading, and custom After Effects motion graphics for modern digital audiences.
-            </p>
-          </div>
-
-          {/* Lifestyle & Interests Showcase (Photography, DJing, FC Barcelona with Authentic Logos) */}
-          <div className="cyber-card p-6 sm:p-7 rounded-2xl shadow-xl">
-            <div className="flex items-center justify-between mb-5">
-              <span className="font-mono text-sm uppercase text-[#00D9FF] font-bold tracking-wider">
-                LIFESTYLE &amp; PERSONAL PASSIONS
-              </span>
-              <Sparkles className="w-4 h-4 text-[#D4FF24] animate-pulse" />
-            </div>
-
-            <div className="flex flex-col gap-4">
-              {/* 1. Landscape Photography with Real DSLR Camera Logo */}
-              <div className="p-4 rounded-xl bg-[#070B14] border border-[#1B2638] hover:border-[#00D9FF] flex items-center justify-between transition-all duration-300 group hover:shadow-[0_0_20px_rgba(0,217,255,0.25)]">
-                <div className="flex items-center gap-3.5">
-                  <div className="transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
-                    <CameraDSLRLogo className="w-12 h-12" />
-                  </div>
-                  <div>
-                    <h5 className="font-display font-extrabold text-base sm:text-lg text-white group-hover:text-[#00D9FF] transition-colors">
-                      Landscape Photography
-                    </h5>
-                    <p className="text-xs sm:text-sm text-[#9CA3AF]">Golden hours, natural depth &amp; RAW color science</p>
-                  </div>
-                </div>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-[#00D9FF]/10 border border-[#00D9FF]/30 text-[#00D9FF]">
-                  VISUALS
-                </span>
-              </div>
-
-              {/* 2. DJing with Real DJ Turntable Logo & Animated EQ Audio Bars */}
-              <div className="p-4 rounded-xl bg-[#070B14] border border-[#1B2638] hover:border-[#D4FF24] flex items-center justify-between transition-all duration-300 group hover:shadow-[0_0_20px_rgba(212,255,36,0.25)]">
-                <div className="flex items-center gap-3.5">
-                  <div className="transition-transform duration-300 group-hover:scale-110 drop-shadow-md">
-                    <DJTurntableLogo className="w-12 h-12" />
-                  </div>
-                  <div>
-                    <h5 className="font-display font-extrabold text-base sm:text-lg text-white group-hover:text-[#D4FF24] transition-colors">
-                      DJing &amp; Electronic Music
-                    </h5>
-                    <p className="text-xs sm:text-sm text-[#9CA3AF]">Harmonic mixing, rhythmic cues &amp; audio flow</p>
-                  </div>
-                </div>
-                
-                {/* Animated Soundwave Equalizer Bars */}
-                <div className="flex items-center gap-1 h-5 px-2 py-1 rounded bg-[#D4FF24]/10 border border-[#D4FF24]/30" title="Audio beats playing">
-                  <span className="w-1 bg-[#D4FF24] rounded-full animate-pulse h-3.5" style={{ animationDuration: '0.6s' }} />
-                  <span className="w-1 bg-[#00D9FF] rounded-full animate-pulse h-5" style={{ animationDuration: '0.8s' }} />
-                  <span className="w-1 bg-[#A855F7] rounded-full animate-pulse h-2.5" style={{ animationDuration: '0.5s' }} />
-                  <span className="w-1 bg-[#D4FF24] rounded-full animate-pulse h-4" style={{ animationDuration: '0.7s' }} />
-                </div>
-              </div>
-
-              {/* 3. FC Barcelona with Official Club Crest & Blaugrana Aura */}
-              <div 
-                className="p-4 rounded-xl border relative overflow-hidden flex items-center justify-between transition-all duration-300 group hover:scale-[1.02]"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(0, 77, 152, 0.28) 0%, rgba(165, 0, 68, 0.28) 100%)',
-                  borderColor: 'rgba(0, 77, 152, 0.7)',
-                  boxShadow: '0 0 25px rgba(165, 0, 68, 0.25)'
-                }}
-              >
-                {/* Blaugrana Accent Strip */}
-                <div 
-                  className="absolute top-0 left-0 bottom-0 w-2"
-                  style={{
-                    background: 'linear-gradient(180deg, #004d98 0%, #a50044 100%)'
-                  }}
-                />
-
-                <div className="flex items-center gap-3.5 pl-2.5">
-                  {/* Official FC Barcelona Crest */}
-                  <div className="transition-transform duration-300 group-hover:scale-115 drop-shadow-[0_0_12px_rgba(237,187,0,0.6)]">
-                    <FCBarcelonaLogo className="w-14 h-14" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <h5 className="font-display font-extrabold text-base sm:text-lg text-white">
-                        FC Barcelona
-                      </h5>
-                      <span className="text-xs font-mono font-bold px-2 py-0.5 rounded text-[#EDBB00] bg-black/60 border border-[#EDBB00]/50 shadow-sm">
-                        CULER
-                      </span>
+            {/* Discipline Cards with imagery */}
+            {DISCIPLINES.map((disc) => {
+              const Icon = disc.icon
+              return (
+                <div
+                  key={disc.title}
+                  className="cyber-card rounded-2xl overflow-hidden group hover:translate-x-1 transition-transform"
+                  style={{ borderLeftWidth: '3px', borderLeftColor: disc.color }}
+                >
+                  {/* Thumbnail */}
+                  <div className="relative h-28 overflow-hidden">
+                    <img
+                      src={disc.img}
+                      alt={disc.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: `linear-gradient(to right, ${disc.color}20, rgba(3,4,7,0.85))` }}
+                    />
+                    <div
+                      className="absolute top-3 left-4 p-2 rounded-xl"
+                      style={{ backgroundColor: disc.colorSoft, border: `1px solid ${disc.color}30` }}
+                    >
+                      <Icon className="w-5 h-5" style={{ color: disc.color }} />
                     </div>
-                    <p className="text-xs sm:text-sm text-[#F5F7FA]/90 italic font-medium">
-                      "Més que un club" — Passion, Strategy &amp; Legacy
+                  </div>
+                  <div className="p-5">
+                    <h4 className="font-display font-bold text-base sm:text-lg text-white mb-1.5">
+                      {disc.title}
+                    </h4>
+                    <p className="font-body font-normal text-sm text-[#94A3B8] leading-relaxed">
+                      {disc.desc}
                     </p>
                   </div>
                 </div>
+              )
+            })}
 
-                <div 
-                  className="w-4 h-4 rounded-full mr-1"
+            {/* Lifestyle & Interests */}
+            <div className="cyber-card p-6 rounded-2xl">
+              <div className="flex items-center justify-between mb-5">
+                <span className="font-display font-bold text-sm uppercase text-[#00D9FF] tracking-wider">
+                  Lifestyle & Passions
+                </span>
+                <Sparkles className="w-4 h-4 text-[#D4FF24] animate-pulse" />
+              </div>
+
+              <div className="flex flex-col gap-3.5">
+                {/* Landscape Photography */}
+                <div className="relative p-4 rounded-xl bg-white/[0.03] border border-white/[0.07] hover:border-[#00D9FF]/40 flex items-center gap-3.5 transition-all group overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&q=70&fit=crop"
+                    alt="Landscape Photography"
+                    className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity"
+                    loading="lazy"
+                  />
+                  <CameraDSLRLogo className="w-11 h-11 shrink-0 relative z-10" />
+                  <div className="relative z-10">
+                    <h5 className="font-display font-bold text-sm text-white group-hover:text-[#00D9FF] transition-colors">
+                      Landscape Photography
+                    </h5>
+                    <p className="font-body text-xs text-[#94A3B8]">
+                      Golden hours, natural depth & RAW color science
+                    </p>
+                  </div>
+                  <span className="ml-auto relative z-10 text-xs font-body font-medium px-2 py-0.5 rounded bg-[#00D9FF]/10 border border-[#00D9FF]/25 text-[#00D9FF] shrink-0">
+                    VISUALS
+                  </span>
+                </div>
+
+                {/* DJing */}
+                <div className="relative p-4 rounded-xl bg-white/[0.03] border border-white/[0.07] hover:border-[#D4FF24]/40 flex items-center gap-3.5 transition-all group overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1571266028243-d220c6a4c5e2?w=200&q=70&fit=crop"
+                    alt="DJing"
+                    className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity"
+                    loading="lazy"
+                  />
+                  <DJTurntableLogo className="w-11 h-11 shrink-0 relative z-10" />
+                  <div className="relative z-10">
+                    <h5 className="font-display font-bold text-sm text-white group-hover:text-[#D4FF24] transition-colors">
+                      DJing & Electronic Music
+                    </h5>
+                    <p className="font-body text-xs text-[#94A3B8]">
+                      Harmonic mixing, rhythmic cues & audio flow
+                    </p>
+                  </div>
+                  <div className="ml-auto flex items-end gap-0.5 h-6 relative z-10 shrink-0">
+                    {[0.6, 0.9, 0.5, 0.75, 0.6].map((h, i) => (
+                      <span
+                        key={i}
+                        className="w-1 rounded-full animate-eq-bar"
+                        style={{
+                          height: `${h * 100}%`,
+                          backgroundColor: i % 2 === 0 ? '#D4FF24' : '#00D9FF',
+                          animationDelay: `${i * 0.1}s`
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* FC Barcelona */}
+                <div
+                  className="relative p-4 rounded-xl border flex items-center gap-3.5 transition-all group hover:scale-[1.02] overflow-hidden"
                   style={{
-                    background: 'linear-gradient(45deg, #004d98 50%, #a50044 50%)',
-                    boxShadow: '0 0 10px #a50044'
+                    background: 'linear-gradient(135deg, rgba(0,77,152,0.2) 0%, rgba(165,0,68,0.2) 100%)',
+                    borderColor: 'rgba(0,77,152,0.5)'
                   }}
-                  title="Blaugrana Colors (#004d98 / #a50044)"
-                />
+                >
+                  {/* Blaugrana stripe */}
+                  <div
+                    className="absolute top-0 left-0 bottom-0 w-1.5 rounded-l-xl"
+                    style={{ background: 'linear-gradient(180deg, #004d98 0%, #a50044 100%)' }}
+                  />
+                  <div className="pl-2 shrink-0">
+                    <FCBarcelonaLogo className="w-12 h-12 drop-shadow-[0_0_10px_rgba(237,187,0,0.5)]" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <h5 className="font-display font-bold text-sm text-white">FC Barcelona</h5>
+                      <span className="text-xs font-body font-medium px-1.5 py-0.5 rounded text-[#EDBB00] bg-black/60 border border-[#EDBB00]/40">
+                        CULER
+                      </span>
+                    </div>
+                    <p className="font-body text-xs text-[#F5F7FA]/80 italic">
+                      "Més que un club" — Passion, Strategy & Legacy
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
-
         </div>
-
       </div>
     </section>
   )

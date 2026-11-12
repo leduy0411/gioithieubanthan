@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { skillCategories, creativeShowcase } from '../data/portfolioData'
-import { Server, Palette, Video, Layers, Check, Sparkles, Terminal, Code2 } from 'lucide-react'
+import { Server, Palette, Video, Layers } from 'lucide-react'
 
-const ICON_MAP = {
-  Server: Server,
-  Palette: Palette,
-  Video: Video,
-  Layers: Layers
-}
+const ICON_MAP = { Server, Palette, Video, Layers }
+
+/* Unsplash showcase images for creative deliverables */
+const SHOWCASE_IMGS = [
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=75&fit=crop', // server
+  'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=75&fit=crop', // design
+  'https://images.unsplash.com/photo-1536240478700-b869ad10c746?w=600&q=75&fit=crop'  // video
+]
 
 export default function SkillsSection() {
   const [activeTab, setActiveTab] = useState('all')
@@ -23,99 +25,103 @@ export default function SkillsSection() {
       : skillCategories.filter((c) => c.id === activeTab)
 
   return (
-    <section id="skills" className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="flex flex-col items-center text-center mb-16">
-        <h2 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white mb-4">
-          TECH &amp; CREATIVE <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,217,255,0.6)]">DISCIPLINES</span>
-        </h2>
-        <p className="max-w-2xl text-base sm:text-lg text-[#9CA3AF] mb-6">
-          A balanced synergy between resilient software engineering, refined visual graphic design, and cinematic video storytelling.
-        </p>
-        <div className="w-24 h-1.5 bg-gradient-to-r from-[#00D9FF] to-[#A855F7] rounded-full shadow-[0_0_15px_#00D9FF]" />
-      </div>
+    <section id="skills" className="relative py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
 
-      {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-14">
-        {categories.map((cat) => {
-          const isActive = activeTab === cat.id
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setActiveTab(cat.id)}
-              className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
-                isActive
-                  ? 'bg-[#1558C9] text-white shadow-[0_0_20px_rgba(21,88,201,0.6)] border border-[#00D9FF]'
-                  : 'bg-[#0B101A] text-[#9299A6] border border-[#1B2638] hover:border-[#1558C9] hover:text-white'
-              }`}
-            >
-              {cat.name}
-            </button>
-          )
-        })}
-      </div>
+        {/* ── Section Header ── */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <span className="cyber-badge mb-4">Expertise Matrix</span>
+          <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight text-white mb-3">
+            TECH & CREATIVE{' '}
+            <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent">
+              DISCIPLINES
+            </span>
+          </h2>
+          <p className="font-body font-normal max-w-xl text-sm sm:text-base text-[#94A3B8] mb-5 leading-relaxed">
+            A balanced synergy between resilient software engineering, refined graphic design, and cinematic video storytelling.
+          </p>
+          <div className="section-accent-line" />
+        </div>
 
-      {/* Skills Categories Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        {displayedCategories.map((category) => {
-          const IconComponent = ICON_MAP[category.icon] || Server
-          const isBackend = category.id === 'backend'
-          const isDesign = category.id === 'design'
-          const accentColor = isBackend ? '#00D9FF' : isDesign ? '#A855F7' : '#D4FF24'
+        {/* ── Filter Tabs ── */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
+          {categories.map((cat) => {
+            const isActive = activeTab === cat.id
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setActiveTab(cat.id)}
+                className={`px-5 py-2.5 rounded-xl text-sm font-display font-bold tracking-wide transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? 'bg-[#00D9FF] text-[#030407] shadow-[0_0_20px_rgba(0,217,255,0.5)] border border-[#00D9FF]'
+                    : 'bg-white/[0.03] text-[#94A3B8] border border-white/[0.08] hover:border-[#00D9FF]/40 hover:text-white'
+                }`}
+              >
+                {cat.name}
+              </button>
+            )
+          })}
+        </div>
 
-          return (
-            <div
-              key={category.id}
-              className="cyber-card p-6 sm:p-7 rounded-2xl relative group flex flex-col justify-between"
-            >
-              <div>
+        {/* ── Skills Grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mb-16">
+          {displayedCategories.map((category) => {
+            const IconComponent = ICON_MAP[category.icon] || Server
+            const accentColor =
+              category.id === 'backend' ? '#00D9FF'
+              : category.id === 'design' ? '#A855F7'
+              : '#D4FF24'
+
+            return (
+              <div
+                key={category.id}
+                className="cyber-card p-6 sm:p-7 rounded-2xl flex flex-col group"
+              >
                 {/* Category Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#1B2638]">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.06]">
                   <div className="flex items-center gap-3">
-                    <div 
-                      className="p-3 rounded-xl border transition-colors shadow-md"
+                    <div
+                      className="p-2.5 rounded-xl border"
                       style={{
-                        backgroundColor: `${accentColor}18`,
-                        borderColor: `${accentColor}40`,
+                        backgroundColor: `${accentColor}14`,
+                        borderColor: `${accentColor}30`,
                         color: accentColor
                       }}
                     >
-                      <IconComponent className="w-6 h-6" />
+                      <IconComponent className="w-5 h-5" />
                     </div>
-                    <h3 className="font-display font-extrabold text-xl sm:text-2xl text-white">
+                    <h3 className="font-display font-bold text-lg sm:text-xl text-white">
                       {category.name}
                     </h3>
                   </div>
-                  <span className="font-mono text-xs sm:text-sm font-semibold text-[#9CA3AF]">
-                    {category.skills.length} MODULES
+                  <span className="font-body font-medium text-xs text-[#94A3B8] uppercase tracking-wide">
+                    {category.skills.length} modules
                   </span>
                 </div>
 
-                {/* Skills List with Progress Visualization */}
-                <div className="flex flex-col gap-4">
+                {/* Skills List */}
+                <div className="flex flex-col gap-4 flex-1">
                   {category.skills.map((skill, idx) => (
                     <div key={idx} className="flex flex-col gap-1.5">
-                      <div className="flex items-center justify-between text-sm sm:text-base">
+                      <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center gap-2">
-                          <span 
-                            className="w-2 h-2 rounded-full"
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
                             style={{ backgroundColor: accentColor }}
                           />
-                          <span className="font-semibold text-[#F5F7FA]">{skill.name}</span>
+                          <span className="font-body font-medium text-[#CBD5E1]">{skill.name}</span>
                         </div>
-                        <div className="flex items-center gap-2 font-mono text-xs sm:text-sm">
-                          <span className="text-xs uppercase px-2 py-0.5 rounded bg-[#1B2638] text-[#9CA3AF] font-medium">
+                        <div className="flex items-center gap-2">
+                          <span className="font-body text-xs px-2 py-0.5 rounded bg-white/[0.05] border border-white/[0.07] text-[#94A3B8]">
                             {skill.tag}
                           </span>
-                          <span className="font-extrabold" style={{ color: accentColor }}>
+                          <span className="font-display font-bold text-xs" style={{ color: accentColor }}>
                             {skill.level}%
                           </span>
                         </div>
                       </div>
-
-                      {/* Progress Bar Container */}
-                      <div className="w-full h-2 bg-[#030407] rounded-full overflow-hidden border border-[#1B2638]">
+                      <div className="w-full h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-700 ease-out"
                           style={{
@@ -128,47 +134,59 @@ export default function SkillsSection() {
                   ))}
                 </div>
               </div>
-            </div>
-          )
-        })}
-      </div>
-
-      {/* Multidisciplinary Deliverables Showcase Cards */}
-      <div className="mt-8 pt-8 border-t border-[#1B2638]">
-        <div className="text-center mb-10">
-          <span className="font-mono text-sm text-[#00D9FF] font-bold uppercase tracking-wider block mb-2">
-            DELIVERABLES &amp; APPLIED CRAFT
-          </span>
-          <h3 className="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-white">
-            What I Deliver Across Every Discipline
-          </h3>
+            )
+          })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {creativeShowcase.map((item, idx) => (
-            <div key={idx} className="cyber-card p-7 rounded-2xl flex flex-col justify-between hover:-translate-y-1 transition-transform">
-              <div>
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#00D9FF]/10 text-[#00D9FF] border border-[#00D9FF]/20 inline-block mb-3.5">
-                  {item.category}
-                </span>
-                <h4 className="font-display font-extrabold text-xl text-white mb-2.5">
-                  {item.title}
-                </h4>
-                <p className="text-sm sm:text-base text-[#CBD5E1] leading-relaxed mb-5">
-                  {item.desc}
-                </p>
-              </div>
+        {/* ── Deliverables Showcase ── */}
+        <div className="pt-10 border-t border-white/[0.06]">
+          <div className="text-center mb-10">
+            <span className="cyber-badge mb-3 inline-block">Applied Craft</span>
+            <h3 className="font-display font-bold text-2xl sm:text-3xl text-white">
+              What I Deliver Across Every Discipline
+            </h3>
+          </div>
 
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-[#1B2638]">
-                {item.tech.map((t, tIdx) => (
-                  <span key={tIdx} className="text-xs font-mono font-medium px-2.5 py-1 rounded bg-[#070B14] border border-[#1B2638] text-[#9CA3AF]">
-                    #{t}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {creativeShowcase.map((item, idx) => (
+              <div key={idx} className="cyber-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform group">
+                {/* Thumbnail */}
+                <div className="relative h-36 overflow-hidden">
+                  <img
+                    src={SHOWCASE_IMGS[idx]}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030407] via-[#030407]/60 to-transparent" />
+                  <span className="absolute top-3 left-3 font-body font-medium text-xs px-3 py-1 rounded-full bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/25">
+                    {item.category}
                   </span>
-                ))}
+                </div>
+
+                <div className="p-6">
+                  <h4 className="font-display font-bold text-lg text-white mb-2">
+                    {item.title}
+                  </h4>
+                  <p className="font-body font-normal text-sm text-[#94A3B8] leading-relaxed mb-5">
+                    {item.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/[0.06]">
+                    {item.tech.map((t, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="font-body font-medium text-xs px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.07] text-[#94A3B8]"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
       </div>
     </section>
   )
