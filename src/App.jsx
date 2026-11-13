@@ -32,12 +32,13 @@ export default function App() {
       { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
     )
 
-    document
-      .querySelectorAll('main > section, main .cyber-card')
-      .forEach((element) => {
-        element.classList.add('scroll-reveal')
-        revealObserver.observe(element)
-      })
+    document.querySelectorAll('main [data-reveal], main .cyber-card').forEach((element) => {
+      const siblings = Array.from(element.parentElement?.children ?? [])
+      const siblingIndex = siblings.indexOf(element)
+      element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 4) * 75}ms`)
+      element.classList.add('scroll-reveal')
+      revealObserver.observe(element)
+    })
 
     return () => revealObserver.disconnect()
   }, [])

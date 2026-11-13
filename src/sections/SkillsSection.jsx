@@ -29,7 +29,7 @@ export default function SkillsSection() {
       <div className="max-w-6xl mx-auto">
 
         {/* ── Section Header ── */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div data-reveal className="flex flex-col items-center text-center mb-16">
           <span className="cyber-badge mb-4">Expertise Matrix</span>
           <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight text-white mb-3">
             TECH & CREATIVE{' '}
@@ -140,7 +140,7 @@ export default function SkillsSection() {
 
         {/* ── Deliverables Showcase ── */}
         <div className="pt-10 border-t border-white/[0.06]">
-          <div className="text-center mb-10">
+          <div data-reveal className="text-center mb-10">
             <span className="cyber-badge mb-3 inline-block">Applied Craft</span>
             <h3 className="font-display font-bold text-2xl sm:text-3xl text-white">
               What I Deliver Across Every Discipline

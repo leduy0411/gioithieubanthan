@@ -53,7 +53,7 @@ export default function AboutSection() {
       <div className="max-w-6xl mx-auto">
 
         {/* ── Section Header ── */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div data-reveal className="flex flex-col items-center text-center mb-16">
           <span className="cyber-badge mb-4">Profile</span>
           <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight text-white mb-4">
             ABOUT{' '}

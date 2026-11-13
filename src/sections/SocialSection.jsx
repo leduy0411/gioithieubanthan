@@ -32,7 +32,7 @@ export default function SocialSection() {
       <div className="max-w-6xl mx-auto">
 
         {/* ── Section Header ── */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div data-reveal className="flex flex-col items-center text-center mb-16">
           <span className="cyber-badge mb-4">Social Hub</span>
           <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight text-white mb-3">
             CONNECT WITH{' '}
@@ -135,7 +135,7 @@ export default function SocialSection() {
         </div>
 
         {/* ── Direct Contact Bar ── */}
-        <div className="p-7 sm:p-9 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div data-reveal className="p-7 sm:p-9 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="font-display font-bold text-xl sm:text-2xl text-white mb-1.5">
               Direct Business & Engineering Inbox

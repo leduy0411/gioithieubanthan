@@ -33,12 +33,12 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         
         {/* LEFT COLUMN: 3D Character Avatar on Cybernetic Holographic Platform */}
-        <div className="lg:col-span-6 order-2 lg:order-1 relative flex items-center justify-center">
+        <div data-reveal className="lg:col-span-6 order-2 lg:order-1 relative flex items-center justify-center">
           <Character3D fallbackImage={personalInfo.avatarUrl} />
         </div>
 
         {/* RIGHT COLUMN: Brand Title, Tagline, CTAs & Social Links */}
-        <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
+        <div data-reveal className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
           
           {/* Status Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B101A]/80 border border-[#00D9FF]/40 mb-6 shadow-[0_0_15px_rgba(0,217,255,0.25)] backdrop-blur-md">
@@ -220,7 +220,7 @@ export default function HeroSection() {
       </div>
 
       {/* BOTTOM MARQUEE BAR: Engineering + Creative Tool Stack */}
-      <div className="max-w-7xl mx-auto w-full mt-12 pt-6 border-t border-[#1B2638] flex flex-col md:flex-row items-center justify-between gap-6">
+      <div data-reveal className="max-w-7xl mx-auto w-full mt-12 pt-6 border-t border-[#1B2638] flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left: Philosophy Tagline */}
         <div className="flex items-start gap-3 text-left">
           <div className="w-1.5 self-stretch bg-[#00D9FF] rounded-full shadow-[0_0_10px_#00D9FF] shrink-0" />
