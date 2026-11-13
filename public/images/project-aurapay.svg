@@ -20,15 +20,15 @@
     
     <!-- Lock Core -->
     <rect x="58" y="105" width="44" height="34" rx="6" fill="#1558C9"/>
-    <path d="M66 105 V88 C66 78 72 72 80 72 C88 72 94 78 94 88 V105" stroke="#D4FF24" stroke-width="4" fill="none"/>
-    <circle cx="80" cy="120" r="4" fill="#D4FF24"/>
+    <path d="M66 105 V88 C66 78 72 72 80 72 C88 72 94 78 94 88 V105" stroke="#A99AFF" stroke-width="4" fill="none"/>
+    <circle cx="80" cy="120" r="4" fill="#A99AFF"/>
   </g>
 
   <!-- Metric Badges -->
   <g transform="translate(560, 40)">
     <rect width="200" height="70" rx="8" fill="#0B101A" stroke="#1B2638"/>
     <text x="20" y="30" fill="#9299A6" font-family="'Space Grotesk', sans-serif" font-size="11">SECURITY STANDARD</text>
-    <text x="20" y="52" fill="#D4FF24" font-family="monospace" font-size="18" font-weight="700">AES-256 + RSA</text>
+    <text x="20" y="52" fill="#A99AFF" font-family="monospace" font-size="18" font-weight="700">AES-256 + RSA</text>
   </g>
 
   <!-- Title -->

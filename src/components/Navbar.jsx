@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
 import SiteLogo from './SiteLogo'
-import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { label: 'HOME', href: '#home' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'SKILLS & TECH', href: '#skills' },
-  { label: 'SOCIALS', href: '#socials' }
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Work', href: '#projects' },
+  { label: 'Expertise', href: '#skills' },
+  { label: 'Contact', href: '#socials' }
 ]
 
 export default function Navbar() {
@@ -14,179 +15,135 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // Scroll spy & navbar background blur
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 24)
 
-      const sections = NAV_ITEMS.map((item) => item.href.substring(1))
-      const scrollPosition = window.scrollY + 200
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i])
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i])
+      const marker = window.scrollY + window.innerHeight * 0.35
+      for (let index = NAV_ITEMS.length - 1; index >= 0; index -= 1) {
+        const section = document.querySelector(NAV_ITEMS[index].href)
+        if (section && section.getBoundingClientRect().top + window.scrollY <= marker) {
+          setActiveSection((current) => current === section.id ? current : section.id)
           break
         }
       }
     }
 
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
+    if (!mobileMenuOpen) return undefined
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false)
     }
+    window.addEventListener('keydown', closeOnEscape)
+
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', closeOnEscape)
     }
   }, [mobileMenuOpen])
 
   const scrollTo = (href) => {
     setMobileMenuOpen(false)
-    const target = document.querySelector(href)
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' })
-    }
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-[#030407]/85 backdrop-blur-xl border-b border-[#1B2638] shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-3'
-            : 'bg-transparent py-5'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo on Left */}
-          <a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault()
-              scrollTo('#home')
-            }}
-            className="flex items-center"
-          >
-            <SiteLogo className="h-12 w-[72px]" />
-          </a>
+    <header className={`site-header fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'site-header-scrolled' : ''}`}>
+      <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
+        <a
+          href="#home"
+          onClick={(event) => {
+            event.preventDefault()
+            scrollTo('#home')
+          }}
+          aria-label="Le Duy — về đầu trang"
+          className="flex shrink-0 items-center"
+        >
+          <SiteLogo className="h-11 w-[68px]" />
+        </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1.5 lg:gap-2 bg-[#0B101A]/80 border border-[#1B2638] rounded-full px-4 py-1.5 backdrop-blur-md">
-            {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.href.substring(1)
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    scrollTo(item.href)
-                  }}
-                  className={`relative px-4 py-2 text-sm font-semibold tracking-wider transition-all duration-200 rounded-full ${
-                    isActive
-                      ? 'text-[#030407] bg-[#00D9FF] shadow-[0_0_15px_rgba(0,217,255,0.6)] font-bold'
-                      : 'text-[#9CA3AF] hover:text-[#F5F7FA] hover:bg-[#1558C9]/20'
-                  }`}
-                >
-                  {item.label}
-                  {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_6px_#00D9FF]" />
-                  )}
-                </a>
-              )
-            })}
-          </nav>
-
-          {/* Desktop Right Action CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href="#socials"
-              onClick={(e) => {
-                e.preventDefault()
-                scrollTo('#socials')
-              }}
-              className="px-6 py-2.5 rounded-full text-sm font-bold tracking-wider uppercase text-white bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,217,255,0.4)] hover:scale-105 transition-all flex items-center gap-2 group"
-            >
-              <span>CONNECT NOW</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-          </div>
-
-          {/* Mobile Hamburger Button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#0B101A] border border-[#1B2638] text-[#F5F7FA] hover:border-[#00D9FF] hover:text-[#00D9FF] transition-colors"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-[#00D9FF]" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile Drawer Menu */}
-      <div
-        className={`fixed inset-0 z-40 md:hidden bg-[#030407]/95 backdrop-blur-2xl transition-all duration-300 flex flex-col justify-between p-6 pt-24 ${
-          mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
-        }`}
-      >
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2 pb-4 mb-2 border-b border-[#1B2638] text-xs font-mono text-[#00D9FF]">
-            <Terminal className="w-4 h-4 text-[#00D9FF]" />
-            <span>NAVIGATION_PROTOCOL // ACTIVE</span>
-          </div>
-
-          {NAV_ITEMS.map((item, idx) => {
-            const isActive = activeSection === item.href.substring(1)
+        <nav         aria-label="Primary navigation" className="site-nav hidden items-center gap-1 md:flex">
+          {NAV_ITEMS.map((item) => {
+            const sectionId = item.href.slice(1)
+            const isActive = activeSection === sectionId
             return (
               <a
-                key={item.label}
+                key={item.href}
                 href={item.href}
-                onClick={(e) => {
-                  e.preventDefault()
+                aria-current={isActive ? 'location' : undefined}
+                onClick={(event) => {
+                  event.preventDefault()
                   scrollTo(item.href)
                 }}
-                className={`flex items-center justify-between p-3.5 rounded-xl border text-base font-display font-semibold tracking-wider transition-all ${
-                  isActive
-                    ? 'border-[#00D9FF] bg-[#00D9FF]/10 text-[#00D9FF] shadow-[0_0_15px_rgba(0,217,255,0.2)]'
-                    : 'border-[#1B2638] bg-[#0B101A]/60 text-[#F5F7FA] hover:border-[#1558C9] hover:text-[#00D9FF]'
-                }`}
+                className={`site-nav-link ${isActive ? 'site-nav-link-active' : ''}`}
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs text-[#9299A6]">0{idx + 1}</span>
-                  <span>{item.label}</span>
-                </div>
-                {isActive && <span className="w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" />}
+                {item.label}
               </a>
             )
           })}
-        </div>
+        </nav>
 
-        {/* Mobile Drawer Footer CTA */}
-        <div className="pt-6 border-t border-[#1B2638] flex flex-col gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <a
             href="#socials"
-            onClick={(e) => {
-              e.preventDefault()
+            onClick={(event) => {
+              event.preventDefault()
               scrollTo('#socials')
             }}
-            className="w-full text-center py-3.5 rounded-xl text-sm font-bold tracking-wider text-white bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,217,255,0.4)]"
+            className="site-header-cta hidden items-center gap-2 sm:inline-flex"
           >
-            <span>CONNECT WITH DUY</span>
-            <ArrowUpRight className="w-4 h-4" />
+            <span>Let&apos;s talk</span>
+            <ArrowUpRight className="h-4 w-4" />
           </a>
-          <p className="text-center font-mono text-[10px] text-[#9299A6]">
-            DUY.DEV // ALL RIGHTS RESERVED
-          </p>
+          <button
+            type="button"
+            aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            className="site-menu-toggle inline-flex h-11 w-11 items-center justify-center rounded-full md:hidden"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
-    </>
+
+      <div
+        id="mobile-navigation"
+        aria-hidden={!mobileMenuOpen}
+        className={`site-mobile-menu md:hidden ${mobileMenuOpen ? 'site-mobile-menu-open' : ''}`}
+      >
+        <nav aria-label="Mobile navigation" className="mx-auto flex w-full max-w-lg flex-col gap-2">
+          {NAV_ITEMS.map((item, index) => {
+            const isActive = activeSection === item.href.slice(1)
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                tabIndex={mobileMenuOpen ? 0 : -1}
+                aria-current={isActive ? 'location' : undefined}
+                onClick={(event) => {
+                  event.preventDefault()
+                  scrollTo(item.href)
+                }}
+                className={`site-mobile-link ${isActive ? 'site-mobile-link-active' : ''}`}
+              >
+                <span className="font-mono text-xs text-[#718096]">0{index + 1}</span>
+                <span>{item.label}</span>
+                <ArrowUpRight className="ml-auto h-4 w-4" />
+              </a>
+            )
+          })}
+        </nav>
+      </div>
+    </header>
   )
 }

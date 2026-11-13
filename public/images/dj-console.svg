@@ -11,19 +11,19 @@
     </linearGradient>
   </defs>
   <rect width="800" height="420" fill="url(#background)"/>
-  <circle cx="405" cy="208" r="195" fill="#D4FF24" fill-opacity=".055"/>
+  <circle cx="405" cy="208" r="195" fill="#A99AFF" fill-opacity=".055"/>
   <rect x="90" y="74" width="620" height="272" rx="26" fill="url(#deck)" stroke="#71819B" stroke-opacity=".55" stroke-width="3"/>
   <rect x="119" y="100" width="190" height="220" rx="18" fill="#0C121E" stroke="#3B506B"/>
   <rect x="491" y="100" width="190" height="220" rx="18" fill="#0C121E" stroke="#3B506B"/>
   <circle cx="214" cy="208" r="76" fill="#142237" stroke="#00D9FF" stroke-width="4"/>
   <circle cx="214" cy="208" r="57" fill="#0A101A" stroke="#536780" stroke-width="3"/>
-  <circle cx="214" cy="208" r="24" fill="#17283D" stroke="#D4FF24" stroke-width="4"/>
+  <circle cx="214" cy="208" r="24" fill="#17283D" stroke="#A99AFF" stroke-width="4"/>
   <circle cx="214" cy="208" r="7" fill="#F5F7FA"/>
   <circle cx="586" cy="208" r="76" fill="#142237" stroke="#A855F7" stroke-width="4"/>
   <circle cx="586" cy="208" r="57" fill="#0A101A" stroke="#536780" stroke-width="3"/>
   <circle cx="586" cy="208" r="24" fill="#17283D" stroke="#00D9FF" stroke-width="4"/>
   <circle cx="586" cy="208" r="7" fill="#F5F7FA"/>
-  <rect x="347" y="114" width="106" height="15" rx="7.5" fill="#D4FF24" fill-opacity=".85"/>
+  <rect x="347" y="114" width="106" height="15" rx="7.5" fill="#A99AFF" fill-opacity=".85"/>
   <rect x="332" y="146" width="136" height="10" rx="5" fill="#71819B" fill-opacity=".65"/>
   <rect x="344" y="177" width="112" height="86" rx="12" fill="#0A101A" stroke="#3B506B"/>
   <g fill="#00D9FF">
@@ -31,10 +31,10 @@
     <rect x="372" y="207" width="8" height="39" rx="4"/>
     <rect x="386" y="194" width="8" height="52" rx="4"/>
     <rect x="400" y="214" width="8" height="32" rx="4"/>
-    <rect x="414" y="188" width="8" height="58" rx="4" fill="#D4FF24"/>
+    <rect x="414" y="188" width="8" height="58" rx="4" fill="#A99AFF"/>
     <rect x="428" y="204" width="8" height="42" rx="4"/>
   </g>
-  <circle cx="338" cy="292" r="9" fill="#D4FF24"/>
+  <circle cx="338" cy="292" r="9" fill="#A99AFF"/>
   <circle cx="462" cy="292" r="9" fill="#A855F7"/>
   <rect x="371" y="282" width="58" height="20" rx="10" fill="#18263A" stroke="#71819B"/>
 </svg>

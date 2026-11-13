@@ -13,6 +13,7 @@ import {
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'About Le Duy', href: '#about' },
+  { label: 'Selected Concepts', href: '#projects' },
   { label: 'Disciplines & Skills', href: '#skills' },
   { label: 'Social & Contact', href: '#socials' }
 ]

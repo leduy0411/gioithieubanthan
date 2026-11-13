@@ -14,7 +14,8 @@ export default function CustomCursor() {
   useEffect(() => {
     // Only enable on fine pointer devices (desktop / mouse)
     const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024
-    if (isTouch) return
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (isTouch || prefersReducedMotion) return
 
     setIsVisible(true)
 
@@ -69,10 +70,10 @@ export default function CustomCursor() {
         ref={cursorRef}
         className={`fixed top-0 left-0 -ml-4 -mt-4 rounded-full border transition-all duration-150 ease-out will-change-transform ${
           isHovered
-            ? 'w-12 h-12 -ml-6 -mt-6 border-[#D4FF24] bg-[#D4FF24]/10 shadow-[0_0_20px_rgba(212,255,36,0.6)]'
+            ? 'w-10 h-10 -ml-5 -mt-5 border-[#83DDE4]/70 bg-[#83DDE4]/[0.06] shadow-[0_0_18px_rgba(85,220,231,0.25)]'
             : isClicked
-            ? 'w-6 h-6 -ml-3 -mt-3 border-[#00D9FF] bg-[#1558C9]/30 shadow-[0_0_15px_rgba(21,88,201,0.8)]'
-            : 'w-8 h-8 border-[#1558C9] bg-[#1558C9]/10 shadow-[0_0_12px_rgba(21,88,201,0.5)]'
+            ? 'w-6 h-6 -ml-3 -mt-3 border-[#83DDE4] bg-[#83DDE4]/10 shadow-[0_0_12px_rgba(85,220,231,0.25)]'
+            : 'w-8 h-8 border-white/25 bg-white/[0.025] shadow-[0_0_10px_rgba(0,0,0,0.2)]'
         }`}
       />
 
@@ -81,8 +82,8 @@ export default function CustomCursor() {
         ref={dotRef}
         className={`fixed top-0 left-0 -ml-1 -mt-1 rounded-full transition-transform duration-75 ease-out will-change-transform ${
           isHovered
-            ? 'w-2.5 h-2.5 -ml-1.25 -mt-1.25 bg-[#D4FF24] shadow-[0_0_8px_#D4FF24]'
-            : 'w-2 h-2 bg-[#F5F7FA] shadow-[0_0_6px_#00D9FF]'
+            ? 'w-2 h-2 -ml-1 -mt-1 bg-[#A6EEF0] shadow-[0_0_8px_#55DCE7]'
+            : 'w-1.5 h-1.5 -ml-[3px] -mt-[3px] bg-[#C8D1E0] shadow-[0_0_6px_#55DCE7]'
         }`}
       />
     </div>

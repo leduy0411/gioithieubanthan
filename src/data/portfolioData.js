@@ -192,3 +192,46 @@ export const creativeShowcase = [
     tech: ["Premiere Pro", "After Effects", "Sound Sync"]
   }
 ]
+
+export const projectShowcase = [
+  {
+    id: "aurapay",
+    name: "AuraPay",
+    category: "Platform",
+    filter: "platform",
+    image: "/images/project-aurapay.svg",
+    summary: "A payment gateway concept focused on transaction verification and webhook handling.",
+    focus: "Explores how a payment gateway, webhooks and fraud signals could be separated into clear, observable parts.",
+    tags: ["Payment flow", "Webhooks", "API"]
+  },
+  {
+    id: "cyberstream",
+    name: "CyberStream",
+    category: "Data systems",
+    filter: "data",
+    image: "/images/project-cyberstream.svg",
+    summary: "A real-time event ingestion and telemetry pipeline concept.",
+    focus: "Maps the journey from ingestion through processing to telemetry, highlighting where the system could be observed.",
+    tags: ["Event stream", "Ingestion", "Telemetry"]
+  },
+  {
+    id: "nexus",
+    name: "Nexus Core",
+    category: "Data systems",
+    filter: "data",
+    image: "/images/project-nexus.svg",
+    summary: "A microservices concept linking API, authentication, queue and cache components.",
+    focus: "Shows how API, auth, Kafka and Redis could connect within a distributed architecture.",
+    tags: ["Microservices", "Kafka", "Redis"]
+  },
+  {
+    id: "quantum-vault",
+    name: "Quantum Vault",
+    category: "Security",
+    filter: "security",
+    image: "/images/project-quantum.svg",
+    summary: "A sharded-storage concept exploring encryption and zero-knowledge access.",
+    focus: "Explores how to communicate a sharded storage flow and its access boundaries in a security-minded design.",
+    tags: ["Storage", "Encryption", "Zero-knowledge"]
+  }
+]

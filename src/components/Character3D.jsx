@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { FCBarcelonaLogo, CameraDSLRLogo, DJTurntableLogo } from './SocialIcons'
 
 /**
- * Character3D — Clean, High-End Cybernetic Stage for Duy's Portrait
- * - Crisp transparent cutout of Duy (No black rectangular box!)
- * - Multi-tiered holographic pedestal with dual glowing neon blue rings
- * - Smooth 3D mouse parallax & ambient particle vortex
- * - Minimal, ultra-professional aesthetic
+ * Character3D — Editorial portrait stage with restrained orbital detail.
  */
 export default function Character3D({ fallbackImage = '/images/duy-portrait.png' }) {
   const mountRef = useRef(null)
@@ -18,6 +13,7 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
   useEffect(() => {
     const container = mountRef.current
     if (!container) return
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const width = container.clientWidth || 520
     const height = container.clientHeight || 640
@@ -42,22 +38,22 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
     container.appendChild(renderer.domElement)
 
     // Glowing Cyber Rings in 3D
-    const ringMatCyan = new THREE.MeshBasicMaterial({
-      color: 0x00D9FF,
+    const ringMatViolet = new THREE.MeshBasicMaterial({
+      color: 0xA99AFF,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.42,
       side: THREE.DoubleSide
     })
     const ringMatPurple = new THREE.MeshBasicMaterial({
-      color: 0xA855F7,
+      color: 0x63DDF4,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.3,
       side: THREE.DoubleSide
     })
 
     // Upper Halo Ring behind head
     const haloGeo = new THREE.TorusGeometry(1.45, 0.012, 16, 120)
-    const haloMesh = new THREE.Mesh(haloGeo, ringMatCyan)
+    const haloMesh = new THREE.Mesh(haloGeo, ringMatViolet)
     haloMesh.rotation.x = Math.PI / 2.3
     haloMesh.position.set(0, 0.65, -0.6)
     scene.add(haloMesh)
@@ -71,20 +67,20 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
     scene.add(orbitMesh)
 
     // Particle Swarm
-    const pCount = 120
+    const pCount = 72
     const pGeo = new THREE.BufferGeometry()
     const pPos = new Float32Array(pCount * 3)
     const pColors = new Float32Array(pCount * 3)
 
-    const c1 = new THREE.Color('#00D9FF')
-    const c2 = new THREE.Color('#1558C9')
-    const c3 = new THREE.Color('#A855F7')
+    const c1 = new THREE.Color('#A99AFF')
+    const c2 = new THREE.Color('#4B72E8')
+    const c3 = new THREE.Color('#63DDF4')
 
     for (let i = 0; i < pCount; i++) {
       const angle = Math.random() * Math.PI * 2
       const radius = 0.9 + Math.random() * 2.0
       pPos[i * 3] = Math.cos(angle) * radius
-      pPos[i * 3 + 1] = (Math.random() - 0.5) * 4.0
+      pPos[i * 3 + 1] = (Math.random() - 0.5) * 3.4
       pPos[i * 3 + 2] = Math.sin(angle) * radius * 0.4 - 0.6
 
       const r = Math.random()
@@ -104,14 +100,14 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
     const ctx = canvas.getContext('2d')
     const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
     grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-    grad.addColorStop(0.3, 'rgba(0, 217, 255, 0.8)')
+    grad.addColorStop(0.3, 'rgba(169, 154, 255, 0.8)')
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, 32, 32)
     const pTexture = new THREE.CanvasTexture(canvas)
 
     const pMat = new THREE.PointsMaterial({
-      size: 0.075,
+      size: 0.06,
       vertexColors: true,
       map: pTexture,
       transparent: true,
@@ -134,13 +130,13 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
       orbitMesh.rotation.z = -t * 0.14
 
       // Gentle pulse
-      haloMesh.material.opacity = 0.48 + Math.sin(t * 1.8) * 0.15
-      orbitMesh.material.opacity = 0.38 + Math.sin(t * 1.5 + 1) * 0.12
+      haloMesh.material.opacity = 0.36 + Math.sin(t * 1.4) * 0.08
+      orbitMesh.material.opacity = 0.26 + Math.sin(t * 1.2 + 1) * 0.06
 
       particles.rotation.y = t * 0.04
 
       renderer.render(scene, camera)
-      animId = requestAnimationFrame(animate)
+      if (!prefersReducedMotion) animId = requestAnimationFrame(animate)
     }
 
     animate()
@@ -188,89 +184,51 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full max-w-[480px] h-[520px] sm:h-[600px] lg:h-[640px] mx-auto flex items-center justify-center select-none"
+      className="portrait-stage relative mx-auto flex h-[470px] w-full max-w-[620px] select-none items-end justify-center sm:h-[560px] lg:h-[700px]"
     >
-      {/* 1. Behind: 3D Three.js WebGL Particle & Orbital Halo Canvas */}
-      <div ref={mountRef} className="absolute inset-0 pointer-events-none z-0" />
-
-      {/* 2. Ambient Cyber Glowing Auras (No hard borders!) */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-[#00D9FF]/25 blur-[100px] pointer-events-none" />
-      <div className="absolute top-1/3 left-1/3 w-64 h-64 rounded-full bg-[#1558C9]/35 blur-[110px] pointer-events-none" />
-      <div className="absolute bottom-16 right-1/4 w-56 h-56 rounded-full bg-[#A855F7]/25 blur-[90px] pointer-events-none" />
-
-      {/* 3. Main Hero Portrait: Duy in Suit with Arms Crossed (Cutout with ZERO black background box) */}
+      <div ref={mountRef} className="pointer-events-none absolute inset-0 z-0" />
+      <div className="portrait-stage-light pointer-events-none absolute left-1/2 top-[42%] h-[72%] w-[84%] -translate-x-1/2 -translate-y-1/2 rounded-full" />
       <div
-        className="relative z-10 w-full h-full flex flex-col items-center justify-end transition-transform duration-200 ease-out pointer-events-none"
+        className="portrait-stage-orbit pointer-events-none absolute left-1/2 top-[39%] h-[72%] w-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        aria-hidden="true"
+      />
+
+      <div
+        className="relative z-10 flex h-full w-full items-end justify-center transition-transform duration-300 ease-out"
         style={{
-          transform: `perspective(1000px) rotateY(${mousePos.x * 0.3}deg) rotateX(${-mousePos.y * 0.2}deg)`
+          transform: `perspective(1000px) rotateY(${mousePos.x * 0.22}deg) rotateX(${-mousePos.y * 0.15}deg)`
         }}
       >
-        {/* Soft atmospheric halo ring behind Duy's torso */}
-        <div
-          className="absolute top-1/4 w-[340px] sm:w-[380px] h-[340px] sm:h-[380px] rounded-full border border-[#00D9FF]/40 shadow-[0_0_40px_rgba(0,217,255,0.35),inset_0_0_20px_rgba(0,217,255,0.2)] animate-spin-slow pointer-events-none"
-          style={{ animationDuration: '35s' }}
-        />
-
-        {/* The Transparent Cutout Portrait */}
-        <div className="relative w-[300px] sm:w-[350px] lg:w-[390px] h-[430px] sm:h-[490px] lg:h-[530px] flex items-end justify-center overflow-visible">
+        <div className="portrait-cutout relative flex h-[440px] w-[320px] items-end justify-center overflow-visible sm:h-[530px] sm:w-[400px] lg:h-[650px] lg:w-[500px]">
           <img
             src={fallbackImage}
             alt="Le Duy - IT Engineer • Backend Developer • Graphic Designer • Video Editor"
-            className="w-full h-full object-contain object-bottom select-none"
-            style={{
-              filter: 'drop-shadow(0 0 25px rgba(0, 217, 255, 0.4))'
-            }}
+            className="portrait-image h-full w-full select-none object-contain object-bottom"
+            draggable="false"
           />
-
-          {/* Floating Passion Badges with Gentle 3D Parallax */}
-          {/* 1. FC Barcelona Floating Crest (Top Right) */}
-          <div 
-            className="absolute top-10 -right-2 sm:-right-6 p-2.5 rounded-2xl bg-[#070B14]/85 border border-[#004d98] shadow-[0_0_20px_rgba(165,0,68,0.4)] backdrop-blur-md animate-bounce pointer-events-auto transition-transform hover:scale-125"
-            style={{ animationDuration: '4.2s' }}
-            title="FC Barcelona • Culer Passion"
-          >
-            <FCBarcelonaLogo className="w-9 h-9 sm:w-10 sm:h-10 drop-shadow-[0_0_8px_rgba(237,187,0,0.8)]" />
-          </div>
-
-          {/* 2. Landscape Photography DSLR Badge (Top Left) */}
-          <div 
-            className="absolute top-20 -left-2 sm:-left-6 p-2.5 rounded-2xl bg-[#070B14]/85 border border-[#00D9FF]/50 shadow-[0_0_20px_rgba(0,217,255,0.35)] backdrop-blur-md animate-bounce pointer-events-auto transition-transform hover:scale-125"
-            style={{ animationDuration: '4.8s', animationDelay: '1.2s' }}
-            title="Landscape Photography • RAW 4K"
-          >
-            <CameraDSLRLogo className="w-8 h-8 sm:w-9 sm:h-9" />
-          </div>
-
-          {/* 3. DJ Turntable Vinyl Badge (Mid-Right) */}
-          <div 
-            className="absolute bottom-28 -right-3 sm:-right-8 p-2.5 rounded-2xl bg-[#070B14]/85 border border-[#D4FF24]/50 shadow-[0_0_20px_rgba(212,255,36,0.35)] backdrop-blur-md animate-bounce pointer-events-auto transition-transform hover:scale-125"
-            style={{ animationDuration: '3.8s', animationDelay: '0.6s' }}
-            title="DJing & Electronic Music Production"
-          >
-            <DJTurntableLogo className="w-8 h-8 sm:w-9 sm:h-9" />
-          </div>
         </div>
+      </div>
 
-        {/* 4. Futuristic Multi-Layered Pedestal / Platform (As in the reference poster) */}
-        <div className="relative -mt-6 sm:-mt-8 z-20 w-full max-w-[400px] flex flex-col items-center pointer-events-none">
-          {/* Top glowing neon ring (Cyan) */}
-          <div className="w-[290px] sm:w-[350px] h-3 rounded-[50%] bg-[#00D9FF] shadow-[0_0_20px_#00D9FF,0_0_40px_#00D9FF] animate-pulse" />
+      <div className="portrait-gallery pointer-events-none absolute inset-0 z-20" aria-label="Creative interests">
+        <figure className="portrait-gallery-card portrait-gallery-motion">
+          <img src="/images/video-editing.svg" alt="" />
+          <figcaption>01 / MOTION</figcaption>
+        </figure>
+        <figure className="portrait-gallery-card portrait-gallery-dj">
+          <img src="/images/dj-console.svg" alt="" />
+          <figcaption>02 / SOUND</figcaption>
+        </figure>
+        <figure className="portrait-gallery-crest">
+          <img src="/images/fc-barcelona.png" alt="FC Barcelona crest" />
+        </figure>
+      </div>
 
-          {/* Pedestal Top Tier (Metallic Cyber Rim) */}
-          <div className="w-[270px] sm:w-[330px] h-4 rounded-sm bg-gradient-to-r from-[#070B14] via-[#121E33] to-[#070B14] border-t border-b border-[#00D9FF]/60 shadow-[0_8px_20px_rgba(0,0,0,0.9)] flex items-center justify-around px-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_6px_#00D9FF]" />
-            <span className="w-20 h-[1px] bg-[#00D9FF]/40" />
-            <span className="w-1.5 h-1.5 rounded-full bg-[#A855F7] shadow-[0_0_6px_#A855F7]" />
-            <span className="w-20 h-[1px] bg-[#00D9FF]/40" />
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_6px_#00D9FF]" />
-          </div>
-
-          {/* Lower glowing neon ring (Electric Blue / Purple) */}
-          <div className="w-[330px] sm:w-[390px] h-3 rounded-[50%] bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] shadow-[0_0_25px_rgba(0,217,255,0.6)] -mt-1" />
-
-          {/* Base Platform */}
-          <div className="w-[310px] sm:w-[370px] h-6 rounded-b-2xl bg-gradient-to-b from-[#0B101A] to-[#030407] border-b border-[#1558C9]/40 shadow-[0_15px_30px_rgba(0,0,0,0.9)]" />
-        </div>
+      <div className="portrait-signature absolute bottom-8 left-2 z-20 hidden items-center gap-3 sm:flex">
+        <span className="portrait-signature-mark">LD</span>
+        <span className="font-mono text-[9px] uppercase leading-5 tracking-[0.18em]">
+          <strong className="block font-medium text-white">Multidisciplinary</strong>
+          <span>by nature / by design</span>
+        </span>
       </div>
     </div>
   )

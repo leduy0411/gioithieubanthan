@@ -32,18 +32,20 @@ export default function SocialSection() {
       <div className="max-w-6xl mx-auto">
 
         {/* ── Section Header ── */}
-        <div data-reveal className="flex flex-col items-center text-center mb-16">
-          <span className="cyber-badge mb-4">Social Hub</span>
-          <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight text-white mb-3">
-            CONNECT WITH{' '}
-            <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent">
-              LE DUY
-            </span>
-          </h2>
-          <p className="font-body font-normal max-w-xl text-sm sm:text-base text-[#94A3B8] mb-5 leading-relaxed">
-            Reach out across my verified channels. Open directly, scan the mobile QR code, or copy handles with a single click.
-          </p>
-          <div className="section-accent-line" />
+        <div data-reveal className="section-intro mb-12 sm:mb-16">
+          <p className="section-index">04 / Find me out there</p>
+          <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <h2 className="section-title">
+              Let&apos;s
+              <br />
+              <span className="text-gradient">connect.</span>
+            </h2>
+            <p className="max-w-2xl pb-1 text-base leading-relaxed text-[#AAB6C9] sm:text-lg">
+              Reach me through the platforms I use for creative work, everyday
+              moments and new opportunities. You can open a profile, copy a
+              contact link or scan its QR code.
+            </p>
+          </div>
         </div>
 
         {/* ── 5 Social Cards Grid ── */}
@@ -55,7 +57,8 @@ export default function SocialSection() {
             return (
               <div
                 key={item.id}
-                className="relative rounded-2xl p-7 sm:p-8 bg-white/[0.03] border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 group overflow-hidden flex flex-col justify-between"
+                className="cyber-card site-social-card group relative flex flex-col justify-between overflow-hidden rounded-2xl p-6 transition-all duration-300 sm:p-8"
+                style={{ '--social-glow': item.glowColor }}
               >
                 {/* Brand color top line */}
                 <div
@@ -72,7 +75,7 @@ export default function SocialSection() {
                 <div>
                   {/* Icon + Badge row */}
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105">
                       <IconComp className="w-14 h-14" />
                     </div>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-body font-medium bg-white/[0.04] border border-white/[0.08] text-[#94A3B8]">
@@ -135,7 +138,7 @@ export default function SocialSection() {
         </div>
 
         {/* ── Direct Contact Bar ── */}
-        <div data-reveal className="p-7 sm:p-9 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div data-reveal className="cyber-card flex flex-col items-center justify-between gap-6 rounded-2xl p-6 sm:flex-row sm:p-9">
           <div>
             <h4 className="font-display font-bold text-xl sm:text-2xl text-white mb-1.5">
               Direct Business & Engineering Inbox

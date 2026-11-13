@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import LoadingScreen from './components/LoadingScreen'
+import React, { useEffect } from 'react'
 import CustomCursor from './components/CustomCursor'
 import CyberBackground from './components/CyberBackground'
 import Navbar from './components/Navbar'
 import HeroSection from './sections/HeroSection'
 import AboutSection from './sections/AboutSection'
+import ProjectsSection from './sections/ProjectsSection'
 import SkillsSection from './sections/SkillsSection'
 import SocialSection from './sections/SocialSection'
 import Footer from './sections/Footer'
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true)
-
   useEffect(() => {
     if (
       typeof IntersectionObserver === 'undefined' ||
@@ -44,10 +42,7 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative min-h-screen bg-[#050811] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
-      {/* Initial Cyber Loading Screen */}
-      {isLoading && <LoadingScreen onLoaded={() => setIsLoading(false)} />}
-
+    <div className="relative min-h-screen bg-[#070A12] text-[#F5F7FA] font-body selection:bg-[#55DCE7] selection:text-[#070A12] overflow-x-hidden">
       {/* Desktop Glowing Custom Cursor */}
       <CustomCursor />
 
@@ -63,6 +58,7 @@ export default function App() {
         <main className="flex-grow">
           <HeroSection />
           <AboutSection />
+          <ProjectsSection />
           <SkillsSection />
           <SocialSection />
         </main>

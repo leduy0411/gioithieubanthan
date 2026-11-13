@@ -16,12 +16,12 @@
     <polygon points="160,85 100,120 100,190 160,155" fill="#091A3E" stroke="#00D9FF" stroke-width="1.5"/>
     
     <!-- Orbiting Energy Core -->
-    <circle cx="100" cy="85" r="14" fill="#D4FF24" filter="drop-shadow(0 0 10px #D4FF24)"/>
+    <circle cx="100" cy="85" r="14" fill="#A99AFF" filter="drop-shadow(0 0 10px #A99AFF)"/>
 
     <!-- Orbital Ring -->
     <ellipse cx="100" cy="120" rx="130" ry="45" fill="none" stroke="#1558C9" stroke-width="2" stroke-dasharray="8 6"/>
     <circle cx="210" cy="130" r="8" fill="#00D9FF"/>
-    <circle cx="-10" cy="110" r="6" fill="#D4FF24"/>
+    <circle cx="-10" cy="110" r="6" fill="#A99AFF"/>
   </g>
 
   <!-- Title -->
