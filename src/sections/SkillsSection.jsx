@@ -95,10 +95,10 @@ export default function SkillsSection() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveTab(cat.id)}
-                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-display font-bold tracking-wide transition-all duration-200 cursor-pointer ${
+                className={`tactile-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-display font-bold tracking-wide transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-[#00D9FF] text-[#030407] shadow-[0_0_20px_rgba(0,217,255,0.5)] border border-[#00D9FF]'
-                    : 'bg-white/[0.03] text-[#94A3B8] border border-white/[0.08] hover:border-[#00D9FF]/40 hover:text-white'
+                    ? 'bg-[#00D9FF] text-[#050508] shadow-[0_0_20px_rgba(0,217,255,0.45)] border border-[#00D9FF]'
+                    : 'bg-white/[0.03] text-zinc-400 border border-white/[0.08] hover:border-[#00D9FF]/40 hover:text-white'
                 }`}
               >
                 {cat.name}
@@ -114,12 +114,12 @@ export default function SkillsSection() {
             const accentColor =
               category.id === 'backend' ? '#00D9FF'
               : category.id === 'design' ? '#A855F7'
-              : '#D4FF24'
+              : '#F59E0B'
 
             return (
               <div
                 key={category.id}
-                className="cyber-card p-6 sm:p-7 rounded-2xl flex flex-col group justify-between"
+                className="spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex flex-col group justify-between"
               >
                 <div>
                   {/* Category Header */}

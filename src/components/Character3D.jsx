@@ -79,10 +79,10 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
     ring2.position.set(0, -1.1, 0)
     ringGroup.add(ring2)
 
-    // Ring 3: Neon Lime Outer Horizon
+    // Ring 3: Deep Sky Cyan Outer Horizon
     const ring3Geo = new THREE.TorusGeometry(2.0, 0.008, 16, 120)
     const ring3Mat = new THREE.MeshBasicMaterial({
-      color: 0xD4FF24,
+      color: 0x38BDF8,
       transparent: true,
       opacity: 0.35,
       side: THREE.DoubleSide
@@ -117,7 +117,7 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
 
     const cCyan = new THREE.Color('#00D9FF')
     const cViolet = new THREE.Color('#A855F7')
-    const cLime = new THREE.Color('#D4FF24')
+    const cSky = new THREE.Color('#38BDF8')
 
     for (let i = 0; i < sparkCount; i++) {
       const angle = Math.random() * Math.PI * 2
@@ -131,7 +131,7 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
       sparkVel[i * 3 + 2] = (Math.random() - 0.5) * 0.005
 
       const r = Math.random()
-      const c = r > 0.6 ? cCyan : r > 0.3 ? cViolet : cLime
+      const c = r > 0.6 ? cCyan : r > 0.3 ? cViolet : cSky
       sparkColors[i * 3] = c.r
       sparkColors[i * 3 + 1] = c.g
       sparkColors[i * 3 + 2] = c.b
@@ -268,18 +268,18 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
       {/* 2. Cyber Hologram Projector Platform at the base */}
       <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 w-[85%] h-24 z-0">
         {/* Concentric oval glow rings */}
-        <div className="absolute inset-0 rounded-[100%] border border-[#00D9FF]/40 shadow-[0_0_35px_rgba(0,217,255,0.45)] bg-gradient-to-t from-[#00D9FF]/10 to-transparent" />
-        <div className="absolute inset-[15%] rounded-[100%] border border-[#A855F7]/40 shadow-[0_0_25px_rgba(168,85,247,0.4)]" />
-        <div className="absolute inset-[30%] rounded-[100%] border border-[#D4FF24]/40 shadow-[0_0_20px_rgba(212,255,36,0.35)]" />
+        <div className="absolute inset-0 rounded-[100%] border border-[#00D9FF]/40 shadow-[0_0_35px_rgba(0,217,255,0.35)] bg-gradient-to-t from-[#00D9FF]/10 to-transparent" />
+        <div className="absolute inset-[15%] rounded-[100%] border border-[#A855F7]/30 shadow-[0_0_25px_rgba(168,85,247,0.25)]" />
+        <div className="absolute inset-[30%] rounded-[100%] border border-[#38BDF8]/30 shadow-[0_0_20px_rgba(56,189,248,0.25)]" />
         {/* Projector Center Core */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-6 rounded-full bg-[#00D9FF] blur-md opacity-70 animate-pulse" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-6 rounded-full bg-[#00D9FF] blur-md opacity-60 animate-pulse" />
       </div>
 
       {/* 3. Ambient Backlight Volumetric Dome */}
       <div
-        className="pointer-events-none absolute left-1/2 top-[40%] h-[75%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px] opacity-25 transition-opacity duration-500 group-hover:opacity-40"
+        className="pointer-events-none absolute left-1/2 top-[40%] h-[75%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px] opacity-25 transition-opacity duration-500 group-hover:opacity-35"
         style={{
-          background: 'radial-gradient(circle, rgba(0,217,255,0.6) 0%, rgba(168,85,247,0.4) 50%, transparent 100%)'
+          background: 'radial-gradient(circle, rgba(0,217,255,0.45) 0%, rgba(168,85,247,0.3) 50%, transparent 100%)'
         }}
       />
 
@@ -299,27 +299,27 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
           />
 
           {/* Hologram scanline effect over portrait */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#030407]/90 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050508]/90 via-transparent to-transparent" />
         </div>
       </div>
 
       {/* 5. Floating Interactive Holographic Badges */}
       {/* Top Left: Terminal Telemetry Chip */}
       <div
-        className="pointer-events-none absolute top-12 left-2 sm:left-4 z-20 transition-transform duration-300 ease-out hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#070B14]/85 border border-[#00D9FF]/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,217,255,0.25)]"
+        className="pointer-events-none absolute top-12 left-2 sm:left-4 z-20 transition-transform duration-300 ease-out hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0F111A]/85 border border-[#00D9FF]/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,217,255,0.2)]"
         style={{
           transform: `translate3d(${-mousePos.x * 0.4}px, ${-mousePos.y * 0.4}px, 0)`
         }}
       >
         <div className="w-2 h-2 rounded-full bg-[#00D9FF] animate-ping" />
         <div className="font-mono text-[11px] text-white">
-          <span className="text-[#00D9FF]">duy.config</span>: <span className="text-[#D4FF24]">ONLINE</span>
+          <span className="text-[#00D9FF]">duy.config</span>: <span className="text-[#38BDF8]">ONLINE</span>
         </div>
       </div>
 
       {/* Top Right: Code Status Beacon */}
       <div
-        className="pointer-events-none absolute top-20 right-2 sm:right-4 z-20 transition-transform duration-300 ease-out hidden sm:flex flex-col gap-1 px-3.5 py-2 rounded-xl bg-[#070B14]/85 border border-[#A855F7]/40 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.25)]"
+        className="pointer-events-none absolute top-20 right-2 sm:right-4 z-20 transition-transform duration-300 ease-out hidden sm:flex flex-col gap-1 px-3.5 py-2 rounded-xl bg-[#0F111A]/85 border border-[#A855F7]/40 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.2)]"
         style={{
           transform: `translate3d(${mousePos.x * 0.35}px, ${-mousePos.y * 0.35}px, 0)`
         }}
@@ -354,7 +354,7 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
 
       {/* Middle Left: DJ Turntable + Audio Equalizer */}
       <div
-        className="pointer-events-none absolute top-[52%] -left-2 sm:left-2 z-20 transition-transform duration-300 ease-out flex items-center gap-2 px-3 py-2 rounded-xl bg-[#070B14]/90 border border-[#D4FF24]/40 backdrop-blur-md shadow-[0_0_20px_rgba(212,255,36,0.25)]"
+        className="pointer-events-none absolute top-[52%] -left-2 sm:left-2 z-20 transition-transform duration-300 ease-out flex items-center gap-2 px-3 py-2 rounded-xl bg-[#0F111A]/90 border border-[#F59E0B]/40 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.2)]"
         style={{
           transform: `translate3d(${-mousePos.x * 0.4}px, ${mousePos.y * 0.35}px, 0)`
         }}
@@ -363,10 +363,10 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
         <div className="flex flex-col">
           <span className="font-display font-bold text-xs text-white">DJ &amp; SOUND</span>
           <div className="flex items-center gap-0.5 h-2.5 mt-0.5">
-            <span className="w-0.5 bg-[#D4FF24] rounded-full animate-pulse h-2" />
+            <span className="w-0.5 bg-[#F59E0B] rounded-full animate-pulse h-2" />
             <span className="w-0.5 bg-[#00D9FF] rounded-full animate-pulse h-3.5" />
             <span className="w-0.5 bg-[#A855F7] rounded-full animate-pulse h-1.5" />
-            <span className="w-0.5 bg-[#D4FF24] rounded-full animate-pulse h-3" />
+            <span className="w-0.5 bg-[#F59E0B] rounded-full animate-pulse h-3" />
             <span className="w-0.5 bg-[#00D9FF] rounded-full animate-pulse h-2" />
           </div>
         </div>
@@ -374,7 +374,7 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
 
       {/* Bottom Left: Photography DSLR Satellite */}
       <div
-        className="pointer-events-none absolute bottom-16 -left-2 sm:left-4 z-20 transition-transform duration-300 ease-out hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-[#070B14]/90 border border-[#00D9FF]/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,217,255,0.25)]"
+        className="pointer-events-none absolute bottom-16 -left-2 sm:left-4 z-20 transition-transform duration-300 ease-out hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-[#0F111A]/90 border border-[#00D9FF]/40 backdrop-blur-md shadow-[0_0_20px_rgba(0,217,255,0.2)]"
         style={{
           transform: `translate3d(${-mousePos.x * 0.3}px, ${mousePos.y * 0.4}px, 0)`
         }}
@@ -387,8 +387,8 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
       </div>
 
       {/* Bottom Right: Quick Interaction Pill */}
-      <div className="pointer-events-none absolute bottom-8 right-2 sm:right-4 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B101A]/85 border border-white/10 backdrop-blur-md text-[10px] font-mono text-[#94A3B8]">
-        <Zap className="w-3.5 h-3.5 text-[#D4FF24] animate-pulse" />
+      <div className="pointer-events-none absolute bottom-8 right-2 sm:right-4 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F111A]/85 border border-white/10 backdrop-blur-md text-[10px] font-mono text-zinc-400">
+        <Zap className="w-3.5 h-3.5 text-[#00D9FF] animate-pulse" />
         <span>CYBER PROTOCOL v3.8</span>
       </div>
     </div>

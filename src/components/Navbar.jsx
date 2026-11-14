@@ -58,7 +58,7 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#030407]/85 backdrop-blur-2xl border-b border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.8)] py-3'
+          ? 'bg-[#050508]/85 backdrop-blur-2xl border-b border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.85)] py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -94,10 +94,10 @@ export default function Navbar() {
                   e.preventDefault()
                   scrollTo(item.href)
                 }}
-                className={`px-4 py-1.5 rounded-full text-xs font-display font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                className={`tactile-btn px-4 py-1.5 rounded-full text-xs font-display font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-[#00D9FF] text-[#030407] shadow-[0_0_15px_rgba(0,217,255,0.6)] font-bold'
-                    : 'text-[#94A3B8] hover:text-white hover:bg-white/[0.05]'
+                    ? 'bg-[#00D9FF] text-[#050508] shadow-[0_0_15px_rgba(0,217,255,0.6)] font-bold'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/[0.05]'
                 }`}
               >
                 {item.label}
@@ -114,20 +114,20 @@ export default function Navbar() {
             type="button"
             onClick={() => setAudioActive(!audioActive)}
             title={audioActive ? 'Cyber soundscape active' : 'Soundscape muted'}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/40 text-xs font-mono text-[#94A3B8] transition-all cursor-pointer"
+            className="tactile-btn hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/40 text-xs font-mono text-zinc-400 transition-all cursor-pointer"
           >
             {audioActive ? (
               <>
                 <div className="flex items-end gap-0.5 h-3">
                   <span className="w-0.5 bg-[#00D9FF] rounded-full animate-eq-bar h-2" />
                   <span className="w-0.5 bg-[#A855F7] rounded-full animate-eq-bar h-3" style={{ animationDelay: '0.2s' }} />
-                  <span className="w-0.5 bg-[#D4FF24] rounded-full animate-eq-bar h-2.5" style={{ animationDelay: '0.4s' }} />
+                  <span className="w-0.5 bg-[#38BDF8] rounded-full animate-eq-bar h-2.5" style={{ animationDelay: '0.4s' }} />
                 </div>
                 <span className="text-[10px] text-[#00D9FF]">AUDIO FX</span>
               </>
             ) : (
               <>
-                <VolumeX className="w-3.5 h-3.5 text-[#94A3B8]" />
+                <VolumeX className="w-3.5 h-3.5 text-zinc-400" />
                 <span className="text-[10px]">MUTED</span>
               </>
             )}
@@ -140,7 +140,7 @@ export default function Navbar() {
               e.preventDefault()
               scrollTo('#socials')
             }}
-            className="px-5 py-2 rounded-full font-display font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all flex items-center gap-1.5"
+            className="tactile-btn px-5 py-2 rounded-full font-display font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] shadow-[0_0_20px_rgba(0,217,255,0.35)] hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all flex items-center gap-1.5"
           >
             <span>CONNECT</span>
             <ArrowUpRight className="w-3.5 h-3.5" />

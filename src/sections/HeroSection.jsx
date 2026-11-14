@@ -54,9 +54,9 @@ const HERO_MODES = [
   {
     id: 'video',
     label: 'Video Editor',
-    color: '#D4FF24',
-    accentBorder: 'border-[#D4FF24]',
-    glowBg: 'bg-[#D4FF24]/10',
+    color: '#F59E0B',
+    accentBorder: 'border-[#F59E0B]',
+    glowBg: 'bg-[#F59E0B]/10',
     icon: Film,
     quote: 'Assembling dynamic pacing, audio rhythm sync, cinematic color grading, and custom After Effects motion VFX.',
     badge: 'MOTION & 4K CINEMATIC',
@@ -281,8 +281,8 @@ export default function HeroSection() {
             >
               {copiedEmail ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-[#D4FF24]" />
-                  <span className="text-[#D4FF24] font-bold">COPIED EMAIL!</span>
+                  <Check className="w-3.5 h-3.5 text-[#00D9FF]" />
+                  <span className="text-[#00D9FF] font-bold">COPIED EMAIL!</span>
                 </>
               ) : (
                 <>
@@ -320,7 +320,7 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto w-full mt-12 pt-6 border-t border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left: Philosophy Tagline */}
         <div className="flex items-start gap-3 text-left">
-          <div className="w-1 self-stretch bg-gradient-to-b from-[#00D9FF] to-[#D4FF24] rounded-full shadow-[0_0_10px_#00D9FF] shrink-0" />
+          <div className="w-1 self-stretch bg-gradient-to-b from-[#00D9FF] via-[#1558C9] to-[#A855F7] rounded-full shadow-[0_0_10px_#00D9FF] shrink-0" />
           <div className="font-display font-bold text-xs sm:text-sm tracking-wider text-[#F5F7FA] uppercase leading-relaxed">
             <div>BACKEND ARCHITECTURE &amp; CREATIVE PRODUCTION</div>
             <div className="font-body text-[#94A3B8] text-xs font-normal">

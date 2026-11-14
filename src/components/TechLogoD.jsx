@@ -29,8 +29,8 @@ export default function TechLogoD({ size = 42, showText = true, className = '' }
               <stop offset="100%" stop-color="#092863" />
             </linearGradient>
             <linearGradient id="neonLimeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#D4FF24" />
-              <stop offset="100%" stop-color="#9BC700" />
+              <stop offset="0%" stop-color="#00D9FF" />
+              <stop offset="100%" stop-color="#1558C9" />
             </linearGradient>
             <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -88,12 +88,12 @@ export default function TechLogoD({ size = 42, showText = true, className = '' }
       {showText && (
         <div className="flex flex-col">
           <div className="flex items-center gap-1.5">
-            <span className="font-display font-bold text-xl tracking-wider text-[#F5F7FA] group-hover:text-white transition-colors">
+            <span className="font-display font-bold text-xl tracking-tight text-white group-hover:text-[#00D9FF] transition-colors">
               DUY
             </span>
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#D4FF24] shadow-[0_0_8px_#D4FF24] animate-ping" />
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF] animate-ping" />
           </div>
-          <span className="text-[10px] font-mono tracking-widest text-[#9299A6] group-hover:text-[#00D9FF] transition-colors uppercase">
+          <span className="text-[10px] font-mono tracking-[0.2em] text-zinc-400 group-hover:text-[#00D9FF] transition-colors uppercase">
             DEV // ARCHITECT
           </span>
         </div>

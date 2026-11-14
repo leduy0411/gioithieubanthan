@@ -199,8 +199,8 @@ export default function ProjectsSection() {
                   <p className="text-[11px] font-body text-[#94A3B8]">Partitioned event broker, dead-letter queue &amp; replay</p>
                 </div>
 
-                <div className="p-3 rounded-lg bg-black/50 border border-[#D4FF24]/30">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[#D4FF24] mb-1">
+                <div className="p-3 rounded-lg bg-black/50 border border-[#F59E0B]/30">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#F59E0B] mb-1">
                     <Database className="w-3.5 h-3.5" />
                     <span>DATA &amp; CACHE</span>
                   </div>
@@ -212,7 +212,7 @@ export default function ProjectsSection() {
                 <button
                   type="button"
                   onClick={() => setSelectedBlueprint(null)}
-                  className="px-5 py-2.5 rounded-xl font-display font-bold text-xs bg-[#00D9FF] text-[#030407] hover:bg-[#38E5FF] transition-all cursor-pointer"
+                  className="tactile-btn px-5 py-2.5 rounded-xl font-display font-bold text-xs bg-[#00D9FF] text-[#050508] hover:bg-[#38E5FF] transition-all cursor-pointer"
                 >
                   CLOSE BLUEPRINT
                 </button>

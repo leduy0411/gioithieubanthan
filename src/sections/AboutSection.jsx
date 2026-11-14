@@ -48,7 +48,7 @@ const DISCIPLINES = [
   {
     id: 'video',
     icon: Film,
-    color: '#D4FF24',
+    color: '#F59E0B',
     title: 'Video Editing & Motion',
     badge: 'CINEMATIC VFX',
     desc: 'Assembling dynamic visual narratives, beat synchronization, cinematic color grading, and custom After Effects motion graphics.',
@@ -123,7 +123,7 @@ export default function AboutSection() {
               {[
                 { text: 'Backend Architecture & Scalable APIs', color: '#00D9FF' },
                 { text: 'Adobe Photoshop & Illustrator Vector Art', color: '#A855F7' },
-                { text: 'Premiere Pro & After Effects Motion VFX', color: '#D4FF24' },
+                { text: 'Premiere Pro & After Effects Motion VFX', color: '#F59E0B' },
                 { text: 'Database Optimization & High Availability', color: '#00D9FF' }
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm font-body text-[#CBD5E1]">
@@ -144,7 +144,7 @@ export default function AboutSection() {
                     <Languages className="w-4 h-4 text-[#A855F7]" />
                     <span>GLOBAL LANGUAGES</span>
                   </div>
-                  <Globe2 className="w-4 h-4 text-[#D4FF24]" />
+                  <Globe2 className="w-4 h-4 text-[#00D9FF]" />
                 </div>
 
                 <div className="flex flex-col gap-4">
@@ -152,12 +152,12 @@ export default function AboutSection() {
                     <div key={idx} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-[#00D9FF]/40 transition-colors">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-display font-bold text-sm text-white">{lang.name}</span>
-                        <span className="text-xs font-mono font-bold text-[#D4FF24]">{lang.proficiency}%</span>
+                        <span className="text-xs font-mono font-bold text-[#00D9FF]">{lang.proficiency}%</span>
                       </div>
                       <span className="text-xs font-body text-[#94A3B8]">{lang.level}</span>
                       <div className="w-full h-1.5 bg-white/[0.06] rounded-full overflow-hidden mt-2">
                         <div
-                          className="h-full bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#D4FF24] rounded-full"
+                          className="h-full bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] rounded-full"
                           style={{ width: `${lang.proficiency}%` }}
                         />
                       </div>
@@ -258,7 +258,7 @@ export default function AboutSection() {
               <span className="font-mono text-xs uppercase text-[#A855F7] tracking-wider font-bold">
                 LIFESTYLE &amp; PERSONAL PASSIONS
               </span>
-              <Sparkles className="w-4 h-4 text-[#D4FF24] animate-pulse" />
+              <Sparkles className="w-4 h-4 text-[#F59E0B] animate-pulse" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -306,7 +306,7 @@ export default function AboutSection() {
                     alt="Landscape Photography"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#030407] via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
                   <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#00D9FF]/30 text-[#00D9FF]">
                     RAW 35MM
                   </span>
@@ -325,15 +325,15 @@ export default function AboutSection() {
               </div>
 
               {/* 3. DJ & Electronic Music Card */}
-              <div className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#D4FF24]/50 transition-all">
+              <div className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#F59E0B]/50 transition-all">
                 <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
                   <img
                     src="/images/dj-console.svg"
                     alt="DJ Turntable Console"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#030407] via-transparent to-transparent opacity-80" />
-                  <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#D4FF24]/30 text-[#D4FF24]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
+                  <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#F59E0B]/30 text-[#F59E0B]">
                     128 BPM
                   </span>
                 </div>
@@ -341,16 +341,16 @@ export default function AboutSection() {
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2.5">
                       <DJTurntableLogo className="w-6 h-6 shrink-0" />
-                      <h5 className="font-display font-bold text-base text-white group-hover:text-[#D4FF24] transition-colors">
+                      <h5 className="font-display font-bold text-base text-white group-hover:text-[#F59E0B] transition-colors">
                         DJing &amp; Sound
                       </h5>
                     </div>
                     {/* Live Equalizer Rhythm Bars */}
                     <div className="flex items-end gap-0.5 h-4">
-                      <span className="w-1 bg-[#D4FF24] rounded-full animate-eq-bar h-2.5" />
+                      <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-2.5" />
                       <span className="w-1 bg-[#00D9FF] rounded-full animate-eq-bar h-4" style={{ animationDelay: '0.15s' }} />
                       <span className="w-1 bg-[#A855F7] rounded-full animate-eq-bar h-2" style={{ animationDelay: '0.3s' }} />
-                      <span className="w-1 bg-[#D4FF24] rounded-full animate-eq-bar h-3.5" style={{ animationDelay: '0.45s' }} />
+                      <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-3.5" style={{ animationDelay: '0.45s' }} />
                     </div>
                   </div>
                   <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">

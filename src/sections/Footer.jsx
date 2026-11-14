@@ -44,7 +44,7 @@ export default function Footer() {
   const strokeDashoffset = circumference - (scrollProgress / 100) * circumference
 
   return (
-    <footer className="relative bg-[#030407] border-t border-white/[0.08] pt-16 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <footer className="relative bg-[#050508] border-t border-white/[0.08] pt-16 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Top ambient glow line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-[#00D9FF]/50 to-transparent" />
 
@@ -103,7 +103,7 @@ export default function Footer() {
                   target={title === 'Gmail' ? '_self' : '_blank'}
                   rel="noopener noreferrer"
                   title={title}
-                  className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:scale-110 transition-all flex items-center justify-center p-1"
+                  className="tactile-btn w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:scale-110 transition-all flex items-center justify-center p-1"
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = hoverBorder)}
                   onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
                 >
@@ -116,7 +116,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="mt-1 flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF] text-xs font-mono text-[#CBD5E1] hover:text-[#00D9FF] transition-all cursor-pointer group shadow-sm"
+              className="tactile-btn mt-1 flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF] text-xs font-mono text-[#CBD5E1] hover:text-[#00D9FF] transition-all cursor-pointer group shadow-sm"
               title="Return to top of page"
             >
               <div className="relative flex items-center justify-center w-8 h-8">

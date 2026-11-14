@@ -128,7 +128,7 @@ export default function SocialSection() {
                     className="tactile-btn p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[#94A3B8] hover:text-white hover:border-[#00D9FF]/40 hover:bg-[#00D9FF]/10 transition-all cursor-pointer flex items-center justify-center"
                   >
                     {isCopied ? (
-                      <Check className="w-4 h-4 text-[#D4FF24]" />
+                      <Check className="w-4 h-4 text-[#00D9FF]" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -139,7 +139,7 @@ export default function SocialSection() {
                     type="button"
                     onClick={() => setActiveQrModal(item)}
                     title={`View QR Code for ${item.name}`}
-                    className="p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[#94A3B8] hover:text-white hover:border-[#A855F7]/40 hover:bg-[#A855F7]/10 transition-all cursor-pointer flex items-center justify-center"
+                    className="tactile-btn p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[#94A3B8] hover:text-white hover:border-[#A855F7]/40 hover:bg-[#A855F7]/10 transition-all cursor-pointer flex items-center justify-center"
                   >
                     <QrCode className="w-4 h-4" />
                   </button>
@@ -150,7 +150,7 @@ export default function SocialSection() {
         </div>
 
         {/* ── Direct Business Inbox Bar ── */}
-        <div className="p-7 sm:p-9 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="spotlight-card cyber-card p-7 sm:p-9 rounded-2xl border border-white/[0.08] backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div>
             <h4 className="font-display font-bold text-xl sm:text-2xl text-white mb-1.5">
               Direct Business &amp; Engineering Inbox
@@ -164,7 +164,7 @@ export default function SocialSection() {
             {/* Email Chip */}
             <a
               href={`mailto:${personalInfo.email}`}
-              className="px-5 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/50 text-xs sm:text-sm font-mono text-[#F5F7FA] hover:text-[#00D9FF] transition-all flex items-center gap-2.5 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+              className="tactile-btn px-5 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/50 text-xs sm:text-sm font-mono text-[#F5F7FA] hover:text-[#00D9FF] transition-all flex items-center gap-2.5 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
             >
               <Mail className="w-4 h-4 text-[#EA4335]" />
               <span>{personalInfo.email}</span>
@@ -175,12 +175,12 @@ export default function SocialSection() {
               type="button"
               onClick={() => handleCopy('email-chip', personalInfo.email)}
               title="Copy email address"
-              className="px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-[#94A3B8] hover:text-white hover:border-[#00D9FF] transition-all cursor-pointer flex items-center gap-2"
+              className="tactile-btn px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-[#94A3B8] hover:text-white hover:border-[#00D9FF] transition-all cursor-pointer flex items-center gap-2"
             >
               {copiedId === 'email-chip' ? (
                 <>
-                  <Check className="w-4 h-4 text-[#D4FF24]" />
-                  <span className="text-[#D4FF24] font-bold">COPIED!</span>
+                  <Check className="w-4 h-4 text-[#00D9FF]" />
+                  <span className="text-[#00D9FF] font-bold">COPIED!</span>
                 </>
               ) : (
                 <>
