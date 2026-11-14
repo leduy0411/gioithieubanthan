@@ -4,11 +4,11 @@ import { Server, Palette, Video, Layers, Terminal as TerminalIcon, Sparkles, Sen
 
 const ICON_MAP = { Server, Palette, Video, Layers }
 
-/* Unsplash showcase images for creative deliverables */
+/* 100% Guaranteed Local Vector Illustrations (No Broken Images!) */
 const SHOWCASE_IMGS = [
-  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=75&fit=crop', // server
-  'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=75&fit=crop', // design
-  'https://images.unsplash.com/photo-1536240478700-b869ad10c746?w=600&q=75&fit=crop'  // video
+  '/images/backend-architecture.svg', // Backend Architecture
+  '/images/graphic-design.svg',        // Graphic Design & Branding
+  '/images/video-editing.svg'         // Video Editing & Motion
 ]
 
 export default function SkillsSection() {

@@ -74,11 +74,11 @@ a {
   outline-offset: 4px;
 }
 
-main > section:not(#home) {
+main>section:not(#home) {
   isolation: isolate;
 }
 
-main > section:not(#home)::before {
+main>section:not(#home)::before {
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -88,7 +88,7 @@ main > section:not(#home)::before {
   opacity: 0.8;
 }
 
-main > section:not(#home)::after {
+main>section:not(#home)::after {
   position: absolute;
   top: 0;
   left: 50%;
@@ -285,7 +285,7 @@ main > section:not(#home)::after {
   margin-top: 0.13em;
 }
 
-.hero-title-last > span {
+.hero-title-last>span {
   color: #A99AFF;
 }
 
@@ -918,6 +918,7 @@ p,
 }
 
 @keyframes ambientDrift {
+
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1);
@@ -1049,7 +1050,7 @@ p,
     min-height: 0;
   }
 
-  main > section:not(#home)::before {
+  main>section:not(#home)::before {
     background: radial-gradient(ellipse at 50% 0%, rgba(75, 114, 232, 0.06), transparent 60%);
   }
 
