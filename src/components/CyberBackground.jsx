@@ -22,6 +22,7 @@ export default function CyberBackground() {
 
     // Scene, Camera, Renderer setup
     const scene = new THREE.Scene()
+    scene.fog = new THREE.FogExp2(0x050508, 0.012)
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
     camera.position.set(0, 0, 70)
 
@@ -37,8 +38,8 @@ export default function CyberBackground() {
     }
 
     renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
-    renderer.setClearColor(0x000000, 0)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setClearColor(0x050508, 0)
     container.appendChild(renderer.domElement)
 
     // ─────────────────────────────────────────────
@@ -145,13 +146,19 @@ export default function CyberBackground() {
     let mouseY = 0
     let targetX = 0
     let targetY = 0
+    let scrollY = 0
 
     const handleMouseMove = (e) => {
       mouseX = ((e.clientX / window.innerWidth) - 0.5) * 35
       mouseY = -((e.clientY / window.innerHeight) - 0.5) * 25
     }
 
+    const handleScroll = () => {
+      scrollY = window.scrollY
+    }
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     let animId
     const clock = new THREE.Clock()
@@ -160,12 +167,14 @@ export default function CyberBackground() {
       const delta = clock.getDelta()
       const time = clock.getElapsedTime()
 
-      // Smooth camera interpolation toward mouse target
+      // Smooth camera interpolation toward mouse target and scroll damping
       targetX += (mouseX - targetX) * 0.04
       targetY += (mouseY - targetY) * 0.04
       camera.position.x = targetX * 0.4
-      camera.position.y = targetY * 0.4
-      camera.lookAt(0, 0, 0)
+      camera.position.y = targetY * 0.4 - (scrollY * 0.015)
+      camera.position.z = 70 + Math.sin(scrollY * 0.002) * 3
+      camera.rotation.z = Math.sin(time * 0.08) * 0.015 + (scrollY * 0.0001)
+      camera.lookAt(0, - (scrollY * 0.01), 0)
 
       // Move grid continuously to create infinite flyover sensation
       if (!prefersReducedMotion) {
@@ -259,6 +268,7 @@ export default function CyberBackground() {
     // Cleanup
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(animId)
       if (renderer.domElement && container.contains(renderer.domElement)) {
@@ -279,8 +289,22 @@ export default function CyberBackground() {
       {/* Three.js Dynamic WebGL Canvas Mount */}
       <div ref={mountRef} className="absolute inset-0" />
 
-      {/* Cyber Grid Base Texture */}
-      <div className="absolute inset-0 bg-cyber-grid opacity-30 mix-blend-screen" />
+      {/* Ultra-Fine Film Grain Noise Overlay (Dark Cyber Luxury) */}
+      <div
+        className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }}
+      />
+
+      {/* Architectural Subtle Grid Lines */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+          backgroundSize: '4rem 4rem'
+        }}
+      />
 
       {/* Volumetric Cosmic Light Radiations */}
       <div
@@ -296,9 +320,9 @@ export default function CyberBackground() {
         style={{ background: 'radial-gradient(circle, rgba(212, 255, 36, 0.35) 0%, rgba(0, 217, 255, 0.1) 70%, transparent 100%)' }}
       />
 
-      {/* Cyberpunk Vignette & Scanline Texture */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(3,4,7,0.85)_100%)] pointer-events-none" />
-      <div className="scanline-effect opacity-40 pointer-events-none" />
+      {/* Radial Dark Vignette Mask for Absolute Text Readability */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(5,5,8,0.85)_100%)] pointer-events-none" />
+      <div className="scanline-effect opacity-30 pointer-events-none" />
     </div>
   )
 }

@@ -117,37 +117,38 @@ export default function HeroSection() {
             </span>
           </div>
 
-          {/* Monumental Name with 3D Orbital Glow Ring */}
-          <div className="relative mb-3 inline-block">
-            <span className="font-display font-bold text-sm sm:text-base md:text-lg tracking-[0.25em] text-[#94A3B8] uppercase block mb-1">
-              HI, I'M
-            </span>
+          {/* Monumental Name with 3D Orbital Glow Ring & Editorial Hierarchy */}
+          <div className="relative mb-4 inline-block">
+            <div className="flex items-center gap-2 mb-2 font-mono text-[11px] uppercase tracking-[0.22em] text-zinc-400 justify-center lg:justify-start">
+              <span className="text-[#00D9FF]">SYS_IDENT //</span>
+              <span>CREATIVE TECHNOLOGIST</span>
+            </div>
 
             <div className="relative inline-block py-1">
-              <h1 className="font-display font-bold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight leading-none text-white select-none">
-                <span className="bg-gradient-to-r from-[#FFFFFF] via-[#00D9FF] to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(0,217,255,0.65)]">
+              <h1 className="font-display font-bold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-[-0.04em] leading-[0.95] text-white select-none">
+                <span className="bg-gradient-to-b from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(255,255,255,0.25)]">
                   LE DUY
                 </span>
               </h1>
 
               {/* Glowing 3D Orbital Ring */}
               <div 
-                className="absolute inset-x-[-12%] top-1/2 -translate-y-1/2 h-[75px] sm:h-[95px] md:h-[110px] rounded-[50%] border-2 border-transparent pointer-events-none -rotate-12"
+                className="absolute inset-x-[-10%] top-1/2 -translate-y-1/2 h-[70px] sm:h-[90px] md:h-[105px] rounded-[50%] border-2 border-transparent pointer-events-none -rotate-12"
                 style={{
                   background: 'linear-gradient(90deg, #00D9FF, #A855F7, #1558C9) border-box',
                   WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
                   WebkitMaskComposite: 'destination-out',
                   maskComposite: 'exclude',
-                  boxShadow: '0 0 25px rgba(0, 217, 255, 0.6), inset 0 0 15px rgba(168, 85, 247, 0.4)'
+                  boxShadow: '0 0 25px rgba(0, 217, 255, 0.45), inset 0 0 15px rgba(168, 85, 247, 0.3)'
                 }}
               />
             </div>
           </div>
 
           {/* Location & Title */}
-          <div className="flex items-center gap-2 text-sm sm:text-base font-body text-[#94A3B8] mb-5">
-            <MapPin className="w-4 h-4 text-[#A855F7] shrink-0" />
-            <span>Tra Vinh Ward, Vinh Long Province, Vietnam • IT Engineer</span>
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-zinc-400 mb-6 uppercase tracking-wider">
+            <MapPin className="w-3.5 h-3.5 text-[#00D9FF] shrink-0" />
+            <span>Tra Vinh Ward, Vinh Long Province, Vietnam // IT Engineer</span>
           </div>
 
           {/* 🌟 INNOVATION: Interactive Role Switcher Cockpit */}
@@ -161,7 +162,7 @@ export default function HeroSection() {
                     key={mode.id}
                     type="button"
                     onClick={() => setActiveMode(mode)}
-                    className={`flex-1 py-2 px-3 rounded-xl text-xs font-display font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    className={`flex-1 py-2 px-3 rounded-xl text-xs font-display font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-btn ${
                       isActive
                         ? 'text-white shadow-lg'
                         : 'text-[#94A3B8] hover:text-white hover:bg-white/[0.04]'
@@ -182,15 +183,15 @@ export default function HeroSection() {
 
             {/* Dynamic Telemetry Box for Active Mode */}
             <div
-              className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border backdrop-blur-xl transition-all duration-300 text-left"
-              style={{ borderColor: `${activeMode.color}50` }}
+              className="spotlight-card p-4 sm:p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 text-left"
+              style={{ borderColor: `${activeMode.color}40` }}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded tracking-wider" style={{ backgroundColor: `${activeMode.color}20`, color: activeMode.color }}>
                   {activeMode.badge}
                 </span>
                 <span className="font-mono text-xs text-[#94A3B8] flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-[#D4FF24]" />
+                  <Zap className="w-3 h-3 text-[#00D9FF]" />
                   <span>CORE PILLAR</span>
                 </span>
               </div>
@@ -224,7 +225,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               title="Facebook Profile"
-              className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#1877F2] hover:scale-110 hover:shadow-[0_0_20px_rgba(24,119,242,0.5)] transition-all duration-300 flex items-center justify-center p-1.5"
+              className="tactile-btn w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#1877F2] hover:scale-105 hover:shadow-[0_0_20px_rgba(24,119,242,0.4)] transition-all duration-300 flex items-center justify-center p-1.5"
             >
               <FacebookIcon className="w-9 h-9" />
             </a>
@@ -235,7 +236,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               title="Locket Widget (ledi04)"
-              className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#FFB020] hover:scale-110 hover:shadow-[0_0_20px_rgba(255,176,32,0.5)] transition-all duration-300 flex items-center justify-center p-1.5"
+              className="tactile-btn w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#FFB020] hover:scale-105 hover:shadow-[0_0_20px_rgba(255,176,32,0.4)] transition-all duration-300 flex items-center justify-center p-1.5"
             >
               <LocketIcon className="w-9 h-9" />
             </a>
@@ -246,7 +247,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               title="Instagram (@leduy1104)"
-              className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#E1306C] hover:scale-110 hover:shadow-[0_0_20px_rgba(225,48,108,0.5)] transition-all duration-300 flex items-center justify-center p-1.5"
+              className="tactile-btn w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#E1306C] hover:scale-105 hover:shadow-[0_0_20px_rgba(225,48,108,0.4)] transition-all duration-300 flex items-center justify-center p-1.5"
             >
               <InstagramIcon className="w-9 h-9" />
             </a>
@@ -257,7 +258,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               title="TikTok (@lee_duy04)"
-              className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00F2FE] hover:scale-110 hover:shadow-[0_0_20px_rgba(0,242,254,0.5)] transition-all duration-300 flex items-center justify-center p-1.5"
+              className="tactile-btn w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00F2FE] hover:scale-105 hover:shadow-[0_0_20px_rgba(0,242,254,0.4)] transition-all duration-300 flex items-center justify-center p-1.5"
             >
               <TikTokIcon className="w-9 h-9" />
             </a>
@@ -266,7 +267,7 @@ export default function HeroSection() {
             <a
               href={`mailto:${personalInfo.email}`}
               title="Send Direct Email"
-              className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#EA4335] hover:scale-110 hover:shadow-[0_0_20px_rgba(234,67,53,0.5)] transition-all duration-300 flex items-center justify-center p-1.5"
+              className="tactile-btn w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] hover:border-[#EA4335] hover:scale-105 hover:shadow-[0_0_20px_rgba(234,67,53,0.4)] transition-all duration-300 flex items-center justify-center p-1.5"
             >
               <GmailIcon className="w-9 h-9" />
             </a>
@@ -276,7 +277,7 @@ export default function HeroSection() {
               type="button"
               onClick={handleCopyEmail}
               title="Copy Email Address"
-              className="px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/50 text-xs font-mono text-[#CBD5E1] hover:text-[#00D9FF] transition-all flex items-center gap-2 cursor-pointer"
+              className="tactile-btn px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/50 text-xs font-mono text-[#CBD5E1] hover:text-[#00D9FF] transition-all flex items-center gap-2 cursor-pointer"
             >
               {copiedEmail ? (
                 <>
@@ -297,7 +298,7 @@ export default function HeroSection() {
             <button
               type="button"
               onClick={() => scrollTo('projects')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full font-display font-bold text-sm tracking-wider flex items-center justify-center gap-2 group cursor-pointer text-[#030407] bg-[#00D9FF] hover:bg-[#38E5FF] shadow-[0_0_25px_rgba(0,217,255,0.5)] hover:scale-105 transition-all duration-300"
+              className="tactile-btn w-full sm:w-auto px-8 py-3.5 rounded-full font-display font-bold text-sm tracking-wider flex items-center justify-center gap-2 group cursor-pointer text-[#050508] bg-[#00D9FF] hover:bg-[#38E5FF] shadow-[0_0_25px_rgba(0,217,255,0.45)] transition-all duration-300"
             >
               <span>EXPLORE ARCHITECTURE</span>
               <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
@@ -306,7 +307,7 @@ export default function HeroSection() {
             <button
               type="button"
               onClick={() => scrollTo('socials')}
-              className="btn-secondary w-full sm:w-auto px-7 py-3.5 rounded-full font-display font-medium text-sm tracking-wider flex items-center justify-center gap-2 group cursor-pointer hover:border-[#A855F7]/50"
+              className="tactile-btn btn-secondary w-full sm:w-auto px-7 py-3.5 rounded-full font-display font-medium text-sm tracking-wider flex items-center justify-center gap-2 group cursor-pointer hover:border-[#A855F7]/50"
             >
               <span>START A CONVERSATION</span>
               <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

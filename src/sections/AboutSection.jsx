@@ -84,7 +84,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
 
           {/* ── BENTO 1: Main Engineer Identity & Narrative (Spans 8 cols on desktop) ── */}
-          <div className="md:col-span-12 lg:col-span-8 cyber-card p-7 sm:p-9 rounded-2xl flex flex-col justify-between">
+          <div className="md:col-span-12 lg:col-span-8 spotlight-card cyber-card p-7 sm:p-9 rounded-2xl flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-5 border-b border-white/[0.08]">
                 <div className="flex items-center gap-3.5">
@@ -95,7 +95,7 @@ export default function AboutSection() {
                     <h3 className="font-display font-bold text-xl sm:text-2xl text-white">
                       IT Engineer &amp; Visual Craftsman
                     </h3>
-                    <div className="flex items-center gap-2 text-xs sm:text-sm font-body text-[#00D9FF] mt-1">
+                    <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-[#00D9FF] mt-1">
                       <MapPin className="w-4 h-4 text-[#A855F7] shrink-0" />
                       <span>{personalInfo.location}</span>
                     </div>
@@ -108,11 +108,11 @@ export default function AboutSection() {
               </div>
 
               {/* Bio Paragraphs */}
-              <p className="font-body text-[#F5F7FA] text-base sm:text-lg leading-relaxed mb-4 font-medium">
+              <p className="font-body text-[#F5F7FA] text-base sm:text-lg leading-relaxed mb-4 font-normal">
                 {personalInfo.bioShort}
               </p>
               {personalInfo.bioLong.map((para, idx) => (
-                <p key={idx} className="font-body text-xs sm:text-sm text-[#CBD5E1] leading-relaxed mb-3">
+                <p key={idx} className="font-body text-xs sm:text-sm text-[#CBD5E1] leading-relaxed mb-3 font-normal">
                   {para}
                 </p>
               ))}
@@ -137,7 +137,7 @@ export default function AboutSection() {
           {/* ── BENTO 2: Multilingual Fluency & Key Metrics (Spans 4 cols on desktop) ── */}
           <div className="md:col-span-12 lg:col-span-4 flex flex-col gap-6 justify-between">
             {/* Multilingual Card */}
-            <div className="cyber-card p-6 sm:p-7 rounded-2xl flex-1 flex flex-col justify-between">
+            <div className="spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex-1 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#00D9FF] uppercase tracking-wider">
@@ -197,7 +197,7 @@ export default function AboutSection() {
                 return (
                   <div
                     key={disc.id}
-                    className="cyber-card rounded-2xl overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                    className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
                     style={{ borderTopWidth: '3px', borderTopColor: disc.color }}
                   >
                     <div>
@@ -265,9 +265,9 @@ export default function AboutSection() {
               
               {/* 1. FC Barcelona Official Blaugrana Card */}
               <div
-                className="cyber-card p-6 rounded-2xl relative overflow-hidden transition-all duration-300 group hover:scale-[1.02]"
+                className="spotlight-card cyber-card p-6 rounded-2xl relative overflow-hidden transition-all duration-300 group hover:scale-[1.02]"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(0, 77, 152, 0.35) 0%, rgba(165, 0, 68, 0.35) 100%)',
+                  background: 'linear-gradient(135deg, rgba(0, 77, 152, 0.4) 0%, rgba(165, 0, 68, 0.4) 100%)',
                   borderColor: 'rgba(0, 77, 152, 0.7)',
                   boxShadow: '0 0 25px rgba(165, 0, 68, 0.25)'
                 }}
@@ -293,13 +293,13 @@ export default function AboutSection() {
                     </p>
                   </div>
                 </div>
-                <p className="font-body text-xs text-[#CBD5E1] leading-relaxed pl-1">
+                <p className="font-body text-xs text-[#CBD5E1] leading-relaxed pl-1 font-normal">
                   Passion, tactical strategy, legendary tiki-taka heritage, and proud support for the Blaugrana spirit.
                 </p>
               </div>
 
               {/* 2. Landscape Photography Card */}
-              <div className="cyber-card rounded-2xl overflow-hidden group hover:border-[#00D9FF]/50 transition-all">
+              <div className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#00D9FF]/50 transition-all">
                 <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
                   <img
                     src="/images/landscape-photography.svg"
@@ -318,14 +318,14 @@ export default function AboutSection() {
                       Landscape Photography
                     </h5>
                   </div>
-                  <p className="font-body text-xs text-[#94A3B8] leading-relaxed">
+                  <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
                     Golden hours, natural depth framing, optical RAW color science, and serene scenic captures.
                   </p>
                 </div>
               </div>
 
               {/* 3. DJ & Electronic Music Card */}
-              <div className="cyber-card rounded-2xl overflow-hidden group hover:border-[#D4FF24]/50 transition-all">
+              <div className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#D4FF24]/50 transition-all">
                 <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
                   <img
                     src="/images/dj-console.svg"
@@ -353,7 +353,7 @@ export default function AboutSection() {
                       <span className="w-1 bg-[#D4FF24] rounded-full animate-eq-bar h-3.5" style={{ animationDelay: '0.45s' }} />
                     </div>
                   </div>
-                  <p className="font-body text-xs text-[#94A3B8] leading-relaxed">
+                  <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
                     Harmonic track mixing, rhythmic cues, bass drops, and crafting energetic electronic soundscapes.
                   </p>
                 </div>

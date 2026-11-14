@@ -58,7 +58,7 @@ export default function SocialSection() {
             return (
               <div
                 key={item.id}
-                className="relative rounded-2xl p-7 sm:p-8 bg-white/[0.03] border border-white/[0.08] hover:border-white/[0.18] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 group overflow-hidden flex flex-col justify-between"
+                className="spotlight-card cyber-card relative rounded-2xl p-7 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 group overflow-hidden flex flex-col justify-between"
                 style={{
                   boxShadow: '0 12px 36px -10px rgba(0,0,0,0.85)'
                 }}
@@ -109,7 +109,7 @@ export default function SocialSection() {
                     href={item.url}
                     target={item.id === 'gmail' ? '_self' : '_blank'}
                     rel="noopener noreferrer"
-                    className="flex-1 py-3 px-3.5 rounded-xl font-display font-bold text-xs tracking-wider flex items-center justify-center gap-2 transition-all duration-300 hover:brightness-110 hover:scale-[1.02]"
+                    className="tactile-btn flex-1 py-3 px-3.5 rounded-xl font-display font-bold text-xs tracking-wider flex items-center justify-center gap-2 transition-all duration-300 hover:brightness-110 hover:scale-[1.02]"
                     style={{
                       backgroundColor: item.color,
                       color: '#FFFFFF',
@@ -125,7 +125,7 @@ export default function SocialSection() {
                     type="button"
                     onClick={() => handleCopy(item.id, item.url)}
                     title="Copy link to clipboard"
-                    className="p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[#94A3B8] hover:text-white hover:border-[#00D9FF]/40 hover:bg-[#00D9FF]/10 transition-all cursor-pointer flex items-center justify-center"
+                    className="tactile-btn p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-[#94A3B8] hover:text-white hover:border-[#00D9FF]/40 hover:bg-[#00D9FF]/10 transition-all cursor-pointer flex items-center justify-center"
                   >
                     {isCopied ? (
                       <Check className="w-4 h-4 text-[#D4FF24]" />

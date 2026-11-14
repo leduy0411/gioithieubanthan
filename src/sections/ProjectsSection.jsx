@@ -49,9 +49,9 @@ export default function ProjectsSection() {
                 key={filter.id}
                 type="button"
                 onClick={() => setActiveFilter(filter.id)}
-                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-display font-bold tracking-wide transition-all duration-200 cursor-pointer ${
+                className={`tactile-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-display font-bold tracking-wide transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-[#00D9FF] text-[#030407] shadow-[0_0_20px_rgba(0,217,255,0.5)] border border-[#00D9FF]'
+                    ? 'bg-[#00D9FF] text-[#050508] shadow-[0_0_20px_rgba(0,217,255,0.45)] border border-[#00D9FF]'
                     : 'bg-white/[0.03] text-[#94A3B8] border border-white/[0.08] hover:border-[#00D9FF]/40 hover:text-white'
                 }`}
               >
@@ -70,7 +70,7 @@ export default function ProjectsSection() {
             return (
               <article
                 key={project.id}
-                className="cyber-card rounded-2xl overflow-hidden group flex flex-col justify-between"
+                className="spotlight-card cyber-card rounded-2xl overflow-hidden group flex flex-col justify-between"
               >
                 <div>
                   {/* Visual Diagram Preview Container */}

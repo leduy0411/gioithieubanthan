@@ -65,23 +65,29 @@
 </head>
 
 <body
-  class="bg-[#030407] text-[#F5F7FA] font-sans antialiased selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
+  class="bg-[#050508] text-[#F5F7FA] font-sans antialiased selection:bg-[#00D9FF] selection:text-[#050508] overflow-x-hidden">
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 
-  <!-- Runtime Netlify Badge Purge Script -->
+  <!-- Runtime Netlify Badge Purge Script (Continuous & Fail-Safe) -->
   <script>
     (function () {
       function purgeNetlifyBadge() {
-        var elements = document.querySelectorAll('button, a, div, span, p');
-        for (var i = 0; i < elements.length; i++) {
-          var el = elements[i];
-          if (el.textContent && el.textContent.trim().toLowerCase().includes('powered by netlify')) {
-            var parent = el.closest('div, a, button') || el;
-            parent.style.setProperty('display', 'none', 'important');
-            parent.remove();
+        // 1. Text match across all potential wrapper tags
+        var candidates = document.querySelectorAll('button, a, div, span, p, aside, footer');
+        for (var i = 0; i < candidates.length; i++) {
+          var el = candidates[i];
+          var txt = (el.textContent || '').trim().toLowerCase();
+          if (txt.includes('powered by netlify') || txt === 'powered by netlify' || txt.includes('netlify')) {
+            if (el.tagName === 'A' || el.tagName === 'BUTTON' || (el.className && typeof el.className === 'string' && el.className.toLowerCase().includes('netlify'))) {
+              var parent = el.closest('div, a, button, aside') || el;
+              parent.style.setProperty('display', 'none', 'important');
+              parent.style.setProperty('visibility', 'hidden', 'important');
+              try { parent.remove(); } catch(e){}
+            }
           }
         }
+        // 2. Attribute and class match
         var selectors = [
           '[data-netlify-drawer]',
           'netlify-drawer',
@@ -89,10 +95,14 @@
           '#netlify-badge',
           '.netlify-badge',
           '[class*="netlify-badge"]',
+          '[id*="netlify-badge"]',
+          '[class*="netlify-feedback"]',
+          '[id*="netlify-feedback"]',
           '[class*="netlify-toolbar"]',
           '[id*="netlify-toolbar"]',
           '.netlify-toolbar',
           'iframe[src*="netlify"]',
+          'iframe[id*="netlify"]',
           '[data-netlify-deploy-id]',
           '[data-netlify]'
         ];
@@ -100,7 +110,7 @@
           var found = document.querySelectorAll(selectors[j]);
           for (var k = 0; k < found.length; k++) {
             found[k].style.setProperty('display', 'none', 'important');
-            found[k].remove();
+            try { found[k].remove(); } catch(e){}
           }
         }
       }
@@ -113,6 +123,13 @@
         var observer = new MutationObserver(purgeNetlifyBadge);
         observer.observe(document.documentElement, { childList: true, subtree: true });
       } catch (e) { }
+      // Interval safety sweep for dynamically injected edge badges
+      var intervalCount = 0;
+      var interval = setInterval(function() {
+        purgeNetlifyBadge();
+        intervalCount++;
+        if (intervalCount > 60) clearInterval(interval);
+      }, 150);
     })();
   </script>
 </body>

@@ -11,11 +11,31 @@ import Footer from './sections/Footer'
 
 export default function App() {
   useEffect(() => {
+    // 1. Interactive Cursor-Tracking Spotlight for Cards
+    const handleGlobalMouseMove = (e) => {
+      const cards = document.querySelectorAll('.spotlight-card, .cyber-card')
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i]
+        const rect = card.getBoundingClientRect()
+        if (
+          e.clientX >= rect.left - 180 &&
+          e.clientX <= rect.right + 180 &&
+          e.clientY >= rect.top - 180 &&
+          e.clientY <= rect.bottom + 180
+        ) {
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
+        }
+      }
+    }
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true })
+
+    // 2. Viewport Scroll-Reveal Observer
     if (
       typeof IntersectionObserver === 'undefined' ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) {
-      return
+      return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
     }
 
     const revealObserver = new IntersectionObserver(
@@ -30,7 +50,7 @@ export default function App() {
       { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
     )
 
-    document.querySelectorAll('main [data-reveal], main .cyber-card').forEach((element) => {
+    document.querySelectorAll('main [data-reveal], main .cyber-card, main .spotlight-card').forEach((element) => {
       const siblings = Array.from(element.parentElement?.children ?? [])
       const siblingIndex = siblings.indexOf(element)
       element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 4) * 75}ms`)
@@ -38,11 +58,14 @@ export default function App() {
       revealObserver.observe(element)
     })
 
-    return () => revealObserver.disconnect()
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove)
+      revealObserver.disconnect()
+    }
   }, [])
 
   return (
-    <div className="relative min-h-screen bg-[#030407] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#050508] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#050508] overflow-x-hidden">
       {/* Desktop Glowing Custom Cursor */}
       <CustomCursor />
 

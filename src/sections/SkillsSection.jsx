@@ -196,7 +196,7 @@ export default function SkillsSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {creativeShowcase.map((item, idx) => (
-              <div key={idx} className="cyber-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform group flex flex-col justify-between">
+              <div key={idx} className="spotlight-card cyber-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform group flex flex-col justify-between">
                 <div>
                   {/* Thumbnail with overlay */}
                   <div className="relative h-36 overflow-hidden">
@@ -206,14 +206,14 @@ export default function SkillsSection() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030407] via-[#030407]/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
                     <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-3 py-1 rounded-full bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30">
                       {item.category}
                     </span>
                   </div>
 
                   <div className="p-6">
-                    <h4 className="font-display font-bold text-lg text-white mb-2">
+                    <h4 className="font-display font-bold text-lg text-white mb-2 group-hover:text-[#00D9FF] transition-colors">
                       {item.title}
                     </h4>
                     <p className="font-body font-normal text-xs sm:text-sm text-[#94A3B8] leading-relaxed mb-5">
@@ -240,7 +240,7 @@ export default function SkillsSection() {
         </div>
 
         {/* ── NEW: Interactive Holographic Cyber Terminal ── */}
-        <div className="cyber-card rounded-2xl overflow-hidden border border-[#00D9FF]/30 shadow-[0_0_40px_rgba(0,217,255,0.15)]">
+        <div className="spotlight-card cyber-card rounded-2xl overflow-hidden border border-[#00D9FF]/30 shadow-[0_0_40px_rgba(0,217,255,0.15)]">
           {/* Terminal Window Chrome */}
           <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/[0.08]">
             <div className="flex items-center gap-2">
