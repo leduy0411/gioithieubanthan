@@ -35,10 +35,10 @@ export default function CustomCursor() {
       setIsHovered(!!targetEl)
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     window.addEventListener('mousedown', handleMouseDown)
     window.addEventListener('mouseup', handleMouseUp)
-    document.addEventListener('mouseover', handleMouseOver)
+    document.addEventListener('mouseover', handleMouseOver, { passive: true })
 
     // Smooth lerp animation loop for the outer cursor ring
     const render = () => {
@@ -65,25 +65,27 @@ export default function CustomCursor() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden transition-opacity duration-300">
-      {/* Outer Glow Ring */}
+      {/* Outer Magnetic Glow Ring */}
       <div
         ref={cursorRef}
         className={`fixed top-0 left-0 -ml-4 -mt-4 rounded-full border transition-all duration-150 ease-out will-change-transform ${
           isHovered
-            ? 'w-10 h-10 -ml-5 -mt-5 border-[#83DDE4]/70 bg-[#83DDE4]/[0.06] shadow-[0_0_18px_rgba(85,220,231,0.25)]'
+            ? 'w-12 h-12 -ml-6 -mt-6 border-[#00D9FF] bg-[#00D9FF]/[0.08] shadow-[0_0_20px_rgba(0,217,255,0.4)]'
             : isClicked
-            ? 'w-6 h-6 -ml-3 -mt-3 border-[#83DDE4] bg-[#83DDE4]/10 shadow-[0_0_12px_rgba(85,220,231,0.25)]'
-            : 'w-8 h-8 border-white/25 bg-white/[0.025] shadow-[0_0_10px_rgba(0,0,0,0.2)]'
+            ? 'w-7 h-7 -ml-3.5 -mt-3.5 border-[#A855F7] bg-[#A855F7]/20 shadow-[0_0_15px_rgba(168,85,247,0.5)] scale-90'
+            : 'w-8 h-8 border-white/30 bg-white/[0.02] shadow-[0_0_10px_rgba(0,0,0,0.5)]'
         }`}
       />
 
-      {/* Inner Precision Dot */}
+      {/* Inner Precision Neon Dot */}
       <div
         ref={dotRef}
         className={`fixed top-0 left-0 -ml-1 -mt-1 rounded-full transition-transform duration-75 ease-out will-change-transform ${
           isHovered
-            ? 'w-2 h-2 -ml-1 -mt-1 bg-[#A6EEF0] shadow-[0_0_8px_#55DCE7]'
-            : 'w-1.5 h-1.5 -ml-[3px] -mt-[3px] bg-[#C8D1E0] shadow-[0_0_6px_#55DCE7]'
+            ? 'w-2.5 h-2.5 -ml-1.5 -mt-1.5 bg-[#00D9FF] shadow-[0_0_10px_#00D9FF]'
+            : isClicked
+            ? 'w-2 h-2 -ml-1 -mt-1 bg-[#D4FF24] shadow-[0_0_8px_#D4FF24]'
+            : 'w-1.5 h-1.5 -ml-[3px] -mt-[3px] bg-[#FFFFFF] shadow-[0_0_6px_#00D9FF]'
         }`}
       />
     </div>

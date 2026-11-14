@@ -42,7 +42,7 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative min-h-screen bg-[#070A12] text-[#F5F7FA] font-body selection:bg-[#55DCE7] selection:text-[#070A12] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#030407] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030407] overflow-x-hidden">
       {/* Desktop Glowing Custom Cursor */}
       <CustomCursor />
 
