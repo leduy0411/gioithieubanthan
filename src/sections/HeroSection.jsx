@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import SplitReveal, { FadeUp } from '../components/SplitReveal'
+import Character3D from '../components/Character3D'
 import { personalInfo } from '../data/portfolioData'
 import {
   ArrowDown,
@@ -263,8 +264,12 @@ export default function HeroSection() {
             </FadeUp>
           </div>
 
-          {/* RIGHT: Clear spatial canvas for the 3D VoidSignal shader mesh */}
-          <div className="lg:col-span-5 hidden lg:block" aria-hidden="true" />
+          {/* RIGHT: 3D Holographic Character Stage & Portrait */}
+          <div className="lg:col-span-5 relative flex items-center justify-center mt-8 lg:mt-0">
+            <FadeUp delay={0.4} className="w-full flex items-center justify-center">
+              <Character3D fallbackImage={personalInfo.avatarUrl} />
+            </FadeUp>
+          </div>
         </div>
 
         {/* Bottom tool strip */}

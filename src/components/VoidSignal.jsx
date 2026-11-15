@@ -199,7 +199,7 @@ export default function VoidSignal() {
       transparent: true, side: THREE.DoubleSide, depthWrite: false
     })
     const mesh = new THREE.Mesh(geo, mat)
-    mesh.position.set(2.5, 0.0, 0)
+    mesh.position.set(2.5, 0.0, -1.2)
     scene.add(mesh)
 
     // ── Outer halo ring ──────────────────────────────────────
@@ -259,7 +259,7 @@ export default function VoidSignal() {
       camera.aspect = el.clientWidth / el.clientHeight
       camera.updateProjectionMatrix()
       renderer.setSize(el.clientWidth, el.clientHeight)
-      mesh.position.set(window.innerWidth < 768 ? 0 : 2.5, 0, 0)
+      mesh.position.set(window.innerWidth < 768 ? 0 : 2.5, 0, -1.2)
       mesh.scale.setScalar(window.innerWidth < 768 ? 0.72 : 1)
     }
     window.addEventListener('resize', onResize)

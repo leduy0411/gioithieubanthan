@@ -296,6 +296,11 @@ export default function Character3D({ fallbackImage = '/images/duy-portrait.png'
             alt="Le Duy - IT Engineer • Backend Developer • Graphic Designer • Video Editor"
             className="h-full w-full select-none object-contain object-bottom drop-shadow-[0_15px_35px_rgba(0,0,0,0.85)] filter contrast-[1.04] transition-all duration-300 group-hover:brightness-105"
             draggable="false"
+            onError={(e) => {
+              if (e.currentTarget.src.indexOf('cutout') === -1) {
+                e.currentTarget.src = '/images/duy-portrait-cutout.png'
+              }
+            }}
           />
 
           {/* Hologram scanline effect over portrait */}
