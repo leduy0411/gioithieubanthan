@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { projectShowcase } from '../data/portfolioData'
 import { ArrowDownRight, ChevronDown, Layers, Terminal, ExternalLink, X, Cpu, Server, Shield, Database, Activity } from 'lucide-react'
+import TiltCard from '../components/TiltCard'
 
 const FILTERS = [
   { id: 'all', label: 'All Concepts' },
@@ -68,9 +69,10 @@ export default function ProjectsSection() {
             const isFeature = index === 0
 
             return (
-              <article
+              <TiltCard
                 key={project.id}
-                className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group flex flex-col justify-between"
+                data-cursor-text="EXPLORE ↗"
+                className="rounded-2xl flex flex-col justify-between"
               >
                 <div>
                   {/* Visual Diagram Preview Container */}
@@ -155,7 +157,7 @@ export default function ProjectsSection() {
                     </div>
                   </div>
                 </div>
-              </article>
+              </TiltCard>
             )
           })}
         </div>

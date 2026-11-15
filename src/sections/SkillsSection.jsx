@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { skillCategories, creativeShowcase, personalInfo } from '../data/portfolioData'
 import { Server, Palette, Video, Layers, Terminal as TerminalIcon, Sparkles, Send, CornerDownLeft, Play, Cpu } from 'lucide-react'
+import KineticMarquee from '../components/KineticMarquee'
+import TiltCard from '../components/TiltCard'
 
 const ICON_MAP = { Server, Palette, Video, Layers }
 
@@ -183,8 +185,11 @@ export default function SkillsSection() {
           })}
         </div>
 
+        {/* ── Scroll-Velocity Kinetic Marquee Ticker ── */}
+        <KineticMarquee />
+
         {/* ── Multidisciplinary Deliverables Showcase ── */}
-        <div className="mb-16 pt-10 border-t border-white/[0.08]">
+        <div className="mb-16 pt-4">
           <div className="text-center mb-10">
             <span className="font-mono text-xs text-[#00D9FF] uppercase tracking-wider block mb-2">
               APPLIED PRODUCTION CRAFT
@@ -196,7 +201,11 @@ export default function SkillsSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {creativeShowcase.map((item, idx) => (
-              <div key={idx} className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform group flex flex-col justify-between">
+              <TiltCard
+                key={idx}
+                data-cursor-text="VIEW"
+                className="rounded-2xl flex flex-col justify-between"
+              >
                 <div>
                   {/* Thumbnail with overlay */}
                   <div className="relative h-36 overflow-hidden">
@@ -237,7 +246,7 @@ export default function SkillsSection() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </TiltCard>
             ))}
           </div>
         </div>

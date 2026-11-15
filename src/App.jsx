@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Preloader from './components/Preloader'
 import CustomCursor from './components/CustomCursor'
 import CyberBackground from './components/CyberBackground'
 import Navbar from './components/Navbar'
@@ -110,6 +111,9 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#030306] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030306] overflow-x-hidden">
+      {/* Cinematic Spatial Preloader */}
+      <Preloader />
+
       {/* Desktop Glowing Custom Cursor */}
       <CustomCursor />
 

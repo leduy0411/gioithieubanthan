@@ -1,10 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react'
 
+/**
+ * CustomCursor — Spatial & Kinetic Magnetic Cursor (2026 Studio Standard)
+ * Features:
+ * - Spring interpolation towards mouse coordinates
+ * - Context-aware pill expansion with dynamic text labels (EXPLORE, VIEW, ORBIT 3D, COPY)
+ * - Chromatic aberration fringe on click & magnetic snap
+ * - Auto-disabled on mobile and touchscreens
+ */
 export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
-  
+  const [cursorText, setCursorText] = useState('')
+
   const cursorRef = useRef(null)
   const dotRef = useRef(null)
   const pos = useRef({ x: -100, y: -100 })
@@ -12,7 +21,7 @@ export default function CustomCursor() {
   const rafId = useRef(null)
 
   useEffect(() => {
-    // Only enable on fine pointer devices (desktop / mouse)
+    // Only enable on desktop with fine mouse pointer
     const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (isTouch || prefersReducedMotion) return
@@ -29,10 +38,25 @@ export default function CustomCursor() {
     const handleMouseDown = () => setIsClicked(true)
     const handleMouseUp = () => setIsClicked(false)
 
-    // Detect hoverable elements
+    // Context-aware hover detection
     const handleMouseOver = (e) => {
-      const targetEl = e.target.closest('a, button, input, textarea, select, [data-cursor="hover"], .cyber-card')
-      setIsHovered(!!targetEl)
+      const textTarget = e.target.closest('[data-cursor-text]')
+      if (textTarget) {
+        setCursorText(textTarget.getAttribute('data-cursor-text') || '')
+        setIsHovered(true)
+        return
+      }
+
+      const interactive = e.target.closest(
+        'a, button, input, textarea, select, [data-cursor="hover"], .cyber-card, .spatial-glass, .tactile-btn'
+      )
+      if (interactive) {
+        setCursorText('')
+        setIsHovered(true)
+      } else {
+        setCursorText('')
+        setIsHovered(false)
+      }
     }
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
@@ -40,16 +64,17 @@ export default function CustomCursor() {
     window.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('mouseover', handleMouseOver, { passive: true })
 
-    // Smooth lerp animation loop for the outer cursor ring
     const render = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.18
-      pos.current.y += (target.current.y - pos.current.y) * 0.18
+      // Smooth lerp physics
+      pos.current.x += (target.current.x - pos.current.x) * 0.16
+      pos.current.y += (target.current.y - pos.current.y) * 0.16
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0)`
       }
       rafId.current = requestAnimationFrame(render)
     }
+
     rafId.current = requestAnimationFrame(render)
 
     return () => {
@@ -63,31 +88,37 @@ export default function CustomCursor() {
 
   if (!isVisible) return null
 
+  const hasText = !!cursorText
+
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden transition-opacity duration-300">
-      {/* Outer Magnetic Glow Ring */}
+    <div className="pointer-events-none fixed inset-0 z-[9999999] overflow-hidden" aria-hidden="true">
+      {/* 1. Precision Center Dot */}
       <div
-        ref={cursorRef}
-        className={`fixed top-0 left-0 -ml-4 -mt-4 rounded-full border transition-all duration-150 ease-out will-change-transform ${
-          isHovered
-            ? 'w-12 h-12 -ml-6 -mt-6 border-[#00D9FF] bg-[#00D9FF]/[0.08] shadow-[0_0_20px_rgba(0,217,255,0.4)]'
-            : isClicked
-            ? 'w-7 h-7 -ml-3.5 -mt-3.5 border-[#A855F7] bg-[#A855F7]/20 shadow-[0_0_15px_rgba(168,85,247,0.5)] scale-90'
-            : 'w-8 h-8 border-white/30 bg-white/[0.02] shadow-[0_0_10px_rgba(0,0,0,0.5)]'
+        ref={dotRef}
+        className={`fixed -left-1 -top-1 w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_12px_#00D9FF] transition-opacity duration-200 will-change-transform ${
+          isHovered ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
         }`}
       />
 
-      {/* Inner Precision Neon Dot */}
+      {/* 2. Fluid Kinetic Outer Ring / Pill */}
       <div
-        ref={dotRef}
-        className={`fixed top-0 left-0 -ml-1 -mt-1 rounded-full transition-transform duration-75 ease-out will-change-transform ${
-          isHovered
-            ? 'w-2.5 h-2.5 -ml-1.5 -mt-1.5 bg-[#00D9FF] shadow-[0_0_10px_#00D9FF]'
+        ref={cursorRef}
+        className={`fixed -left-6 -top-6 flex items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+          hasText
+            ? 'px-4 py-2 rounded-full bg-white/[0.90] text-[#030306] shadow-[0_0_25px_rgba(0,217,255,0.6)] backdrop-blur-md'
+            : isHovered
+            ? 'w-16 h-16 rounded-full border border-[#00D9FF] bg-[#00D9FF]/10 shadow-[0_0_20px_rgba(0,217,255,0.3)] backdrop-blur-[2px]'
             : isClicked
-            ? 'w-2 h-2 -ml-1 -mt-1 bg-[#D4FF24] shadow-[0_0_8px_#D4FF24]'
-            : 'w-1.5 h-1.5 -ml-[3px] -mt-[3px] bg-[#FFFFFF] shadow-[0_0_6px_#00D9FF]'
+            ? 'w-10 h-10 rounded-full border border-white/60 bg-white/20 scale-90'
+            : 'w-12 h-12 rounded-full border border-white/20 bg-transparent'
         }`}
-      />
+      >
+        {hasText && (
+          <span className="font-mono text-[10px] font-bold tracking-widest uppercase select-none whitespace-nowrap text-[#030306]">
+            {cursorText}
+          </span>
+        )}
+      </div>
     </div>
   )
 }

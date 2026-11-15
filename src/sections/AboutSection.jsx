@@ -22,6 +22,7 @@ import {
   CameraDSLRLogo,
   DJTurntableLogo
 } from '../components/SocialIcons'
+import TiltCard from '../components/TiltCard'
 
 /* 3 Core Disciplines with 100% Guaranteed Local Vector Illustrations (No Broken Images!) */
 const DISCIPLINES = [
@@ -195,9 +196,10 @@ export default function AboutSection() {
               {DISCIPLINES.map((disc) => {
                 const Icon = disc.icon
                 return (
-                  <div
+                  <TiltCard
                     key={disc.id}
-                    className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                    data-cursor-text="DISCIPLINE"
+                    className="rounded-2xl flex flex-col justify-between"
                     style={{ borderTopWidth: '3px', borderTopColor: disc.color }}
                   >
                     <div>
@@ -249,7 +251,7 @@ export default function AboutSection() {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </TiltCard>
                 )
               })}
             </div>
@@ -267,8 +269,9 @@ export default function AboutSection() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* 1. FC Barcelona Official Blaugrana Card */}
-              <div
-                className="spatial-glass spotlight-card cyber-card p-6 rounded-2xl relative overflow-hidden transition-all duration-300 group hover:scale-[1.02]"
+              <TiltCard
+                data-cursor-text="BARÇA"
+                className="p-6 rounded-2xl relative overflow-hidden flex flex-col justify-between"
                 style={{
                   background: 'linear-gradient(135deg, rgba(0, 77, 152, 0.4) 0%, rgba(165, 0, 68, 0.4) 100%)',
                   borderColor: 'rgba(0, 77, 152, 0.7)',
@@ -299,75 +302,84 @@ export default function AboutSection() {
                 <p className="font-body text-xs text-[#CBD5E1] leading-relaxed pl-1 font-normal">
                   Passion, tactical strategy, legendary tiki-taka heritage, and proud support for the Blaugrana spirit.
                 </p>
-              </div>
+              </TiltCard>
 
               {/* 2. Landscape Photography Card */}
-              <div className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#00D9FF]/50 transition-all">
-                <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
-                  <img
-                    src="/images/landscape-photography.svg"
-                    alt="Landscape Photography"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
-                  <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#00D9FF]/30 text-[#00D9FF]">
-                    RAW 35MM
-                  </span>
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-2.5 mb-1.5">
-                    <CameraDSLRLogo className="w-6 h-6 shrink-0" />
-                    <h5 className="font-display font-bold text-base text-white group-hover:text-[#00D9FF] transition-colors">
-                      Landscape Photography
-                    </h5>
+              <TiltCard
+                data-cursor-text="VISUALS"
+                className="rounded-2xl overflow-hidden flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
+                    <img
+                      src="/images/landscape-photography.svg"
+                      alt="Landscape Photography"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
+                    <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#00D9FF]/30 text-[#00D9FF]">
+                      RAW 35MM
+                    </span>
                   </div>
-                  <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
-                    Golden hours, natural depth framing, optical RAW color science, and serene scenic captures.
-                  </p>
-                </div>
-              </div>
-
-              {/* 3. DJ & Electronic Music Card */}
-              <div className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#F59E0B]/50 transition-all">
-                <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
-                  <img
-                    src="/images/dj-console.svg"
-                    alt="DJ Turntable Console"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
-                  <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#F59E0B]/30 text-[#F59E0B]">
-                    128 BPM
-                  </span>
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2.5">
-                      <DJTurntableLogo className="w-6 h-6 shrink-0" />
-                      <h5 className="font-display font-bold text-base text-white group-hover:text-[#F59E0B] transition-colors">
-                        DJing &amp; Sound
+                  <div className="p-5">
+                    <div className="flex items-center gap-2.5 mb-1.5">
+                      <CameraDSLRLogo className="w-6 h-6 shrink-0" />
+                      <h5 className="font-display font-bold text-base text-white group-hover:text-[#00D9FF] transition-colors">
+                        Landscape Photography
                       </h5>
                     </div>
-                    {/* Live Equalizer Rhythm Bars */}
-                    <div className="flex items-end gap-0.5 h-4">
-                      <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-2.5" />
-                      <span className="w-1 bg-[#00D9FF] rounded-full animate-eq-bar h-4" style={{ animationDelay: '0.15s' }} />
-                      <span className="w-1 bg-[#A855F7] rounded-full animate-eq-bar h-2" style={{ animationDelay: '0.3s' }} />
-                      <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-3.5" style={{ animationDelay: '0.45s' }} />
-                    </div>
+                    <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
+                      Golden hours, natural depth framing, optical RAW color science, and serene scenic captures.
+                    </p>
                   </div>
-                  <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
-                    Harmonic track mixing, rhythmic cues, bass drops, and crafting energetic electronic soundscapes.
-                  </p>
                 </div>
-              </div>
+              </TiltCard>
 
+              {/* 3. DJ & Electronic Music Card */}
+              <TiltCard
+                data-cursor-text="128 BPM"
+                className="rounded-2xl overflow-hidden flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
+                    <img
+                      src="/images/dj-console.svg"
+                      alt="DJ Turntable Console"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
+                    <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#F59E0B]/30 text-[#F59E0B]">
+                      128 BPM
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center gap-2.5">
+                        <DJTurntableLogo className="w-6 h-6 shrink-0" />
+                        <h5 className="font-display font-bold text-base text-white group-hover:text-[#F59E0B] transition-colors">
+                          DJing &amp; Sound
+                        </h5>
+                      </div>
+                      {/* Live Equalizer Rhythm Bars */}
+                      <div className="flex items-end gap-0.5 h-4">
+                        <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-2.5" />
+                        <span className="w-1 bg-[#00D9FF] rounded-full animate-eq-bar h-4" style={{ animationDelay: '0.15s' }} />
+                        <span className="w-1 bg-[#A855F7] rounded-full animate-eq-bar h-2" style={{ animationDelay: '0.3s' }} />
+                        <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-3.5" style={{ animationDelay: '0.45s' }} />
+                      </div>
+                    </div>
+                    <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
+                      Harmonic track mixing, rhythmic cues, bass drops, and crafting energetic electronic soundscapes.
+                    </p>
+                  </div>
+                </div>
+              </TiltCard>
             </div>
           </div>
 

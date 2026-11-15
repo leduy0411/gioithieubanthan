@@ -8,6 +8,7 @@ import {
   GmailIcon
 } from '../components/SocialIcons'
 import { ExternalLink, Copy, Check, QrCode, X, Mail, ShieldCheck, Share2, Sparkles } from 'lucide-react'
+import TiltCard from '../components/TiltCard'
 
 const ICON_COMPONENTS = {
   facebook: FacebookIcon,
@@ -56,9 +57,10 @@ export default function SocialSection() {
             const isCopied = copiedId === item.id
 
             return (
-              <div
+              <TiltCard
                 key={item.id}
-                className="spatial-glass spotlight-card cyber-card relative rounded-2xl p-7 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 group overflow-hidden flex flex-col justify-between"
+                data-cursor-text={item.name.toUpperCase()}
+                className="relative rounded-2xl p-7 sm:p-8 backdrop-blur-xl flex flex-col justify-between"
                 style={{
                   boxShadow: '0 12px 36px -10px rgba(0,0,0,0.85)'
                 }}
@@ -144,7 +146,7 @@ export default function SocialSection() {
                     <QrCode className="w-4 h-4" />
                   </button>
                 </div>
-              </div>
+              </TiltCard>
             )
           })}
         </div>
