@@ -107,9 +107,9 @@ export default function HeroSection() {
         <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left z-10">
           
           {/* Status Telemetry Pill */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#0B101A]/85 border border-[#00D9FF]/40 mb-5 shadow-[0_0_20px_rgba(0,217,255,0.2)] backdrop-blur-xl">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#0E121D]/75 border border-[#00D9FF]/30 mb-5 shadow-[0_0_20px_rgba(0,217,255,0.18)] backdrop-blur-xl">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00D9FF] opacity-75" />
+              <span className="status-pulse absolute inline-flex h-full w-full rounded-full bg-[#00D9FF] opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" />
             </span>
             <span className="font-mono text-xs font-semibold tracking-wider text-[#00D9FF]">
@@ -121,11 +121,11 @@ export default function HeroSection() {
           <div className="relative mb-4 inline-block">
             <div className="flex items-center gap-2 mb-2 font-mono text-[11px] uppercase tracking-[0.22em] text-zinc-400 justify-center lg:justify-start">
               <span className="text-[#00D9FF]">SYS_IDENT //</span>
-              <span>CREATIVE TECHNOLOGIST</span>
+              <span>FLAGSHIP ARCHITECT</span>
             </div>
 
             <div className="relative inline-block py-1">
-              <h1 className="font-display font-bold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-[-0.04em] leading-[0.95] text-white select-none">
+              <h1 className="font-display font-bold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-[-0.045em] leading-[0.92] text-white select-none">
                 <span className="bg-gradient-to-b from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(255,255,255,0.25)]">
                   LE DUY
                 </span>
@@ -183,7 +183,7 @@ export default function HeroSection() {
 
             {/* Dynamic Telemetry Box for Active Mode */}
             <div
-              className="spotlight-card p-4 sm:p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 text-left"
+              className="spatial-glass spotlight-card p-5 sm:p-6 rounded-2xl border backdrop-blur-xl transition-all duration-300 text-left"
               style={{ borderColor: `${activeMode.color}40` }}
             >
               <div className="flex items-center justify-between mb-2">

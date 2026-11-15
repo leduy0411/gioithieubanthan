@@ -70,7 +70,7 @@ export default function ProjectsSection() {
             return (
               <article
                 key={project.id}
-                className="spotlight-card cyber-card rounded-2xl overflow-hidden group flex flex-col justify-between"
+                className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group flex flex-col justify-between"
               >
                 <div>
                   {/* Visual Diagram Preview Container */}
@@ -80,8 +80,11 @@ export default function ProjectsSection() {
                       alt={project.name}
                       className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030407] via-transparent to-transparent opacity-80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-85" />
                     
                     {/* Badge Pill */}
                     <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-[#0B101A]/90 border border-white/10 text-white backdrop-blur-md">

@@ -84,7 +84,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
 
           {/* ── BENTO 1: Main Engineer Identity & Narrative (Spans 8 cols on desktop) ── */}
-          <div className="md:col-span-12 lg:col-span-8 spotlight-card cyber-card p-7 sm:p-9 rounded-2xl flex flex-col justify-between">
+          <div className="md:col-span-12 lg:col-span-8 spatial-glass spotlight-card cyber-card p-7 sm:p-9 rounded-2xl flex flex-col justify-between">
             <div>
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-5 border-b border-white/[0.08]">
                 <div className="flex items-center gap-3.5">
@@ -137,7 +137,7 @@ export default function AboutSection() {
           {/* ── BENTO 2: Multilingual Fluency & Key Metrics (Spans 4 cols on desktop) ── */}
           <div className="md:col-span-12 lg:col-span-4 flex flex-col gap-6 justify-between">
             {/* Multilingual Card */}
-            <div className="spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex-1 flex flex-col justify-between">
+            <div className="spatial-glass spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex-1 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#00D9FF] uppercase tracking-wider">
@@ -197,7 +197,7 @@ export default function AboutSection() {
                 return (
                   <div
                     key={disc.id}
-                    className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                    className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
                     style={{ borderTopWidth: '3px', borderTopColor: disc.color }}
                   >
                     <div>
@@ -208,8 +208,11 @@ export default function AboutSection() {
                           alt={disc.title}
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                           loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#030407] via-transparent to-transparent opacity-85" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-85" />
                         
                         <div
                           className="absolute top-3 left-3 p-2 rounded-xl backdrop-blur-md"
@@ -265,7 +268,7 @@ export default function AboutSection() {
               
               {/* 1. FC Barcelona Official Blaugrana Card */}
               <div
-                className="spotlight-card cyber-card p-6 rounded-2xl relative overflow-hidden transition-all duration-300 group hover:scale-[1.02]"
+                className="spatial-glass spotlight-card cyber-card p-6 rounded-2xl relative overflow-hidden transition-all duration-300 group hover:scale-[1.02]"
                 style={{
                   background: 'linear-gradient(135deg, rgba(0, 77, 152, 0.4) 0%, rgba(165, 0, 68, 0.4) 100%)',
                   borderColor: 'rgba(0, 77, 152, 0.7)',
@@ -299,14 +302,17 @@ export default function AboutSection() {
               </div>
 
               {/* 2. Landscape Photography Card */}
-              <div className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#00D9FF]/50 transition-all">
+              <div className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#00D9FF]/50 transition-all">
                 <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
                   <img
                     src="/images/landscape-photography.svg"
                     alt="Landscape Photography"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
                   <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#00D9FF]/30 text-[#00D9FF]">
                     RAW 35MM
                   </span>
@@ -325,14 +331,17 @@ export default function AboutSection() {
               </div>
 
               {/* 3. DJ & Electronic Music Card */}
-              <div className="spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#F59E0B]/50 transition-all">
+              <div className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden group hover:border-[#F59E0B]/50 transition-all">
                 <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
                   <img
                     src="/images/dj-console.svg"
                     alt="DJ Turntable Console"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
                   <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#F59E0B]/30 text-[#F59E0B]">
                     128 BPM
                   </span>

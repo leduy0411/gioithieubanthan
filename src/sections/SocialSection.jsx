@@ -58,7 +58,7 @@ export default function SocialSection() {
             return (
               <div
                 key={item.id}
-                className="spotlight-card cyber-card relative rounded-2xl p-7 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 group overflow-hidden flex flex-col justify-between"
+                className="spatial-glass spotlight-card cyber-card relative rounded-2xl p-7 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 group overflow-hidden flex flex-col justify-between"
                 style={{
                   boxShadow: '0 12px 36px -10px rgba(0,0,0,0.85)'
                 }}

@@ -22,7 +22,7 @@ export default function CyberBackground() {
 
     // Scene, Camera, Renderer setup
     const scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(0x050508, 0.012)
+    scene.fog = new THREE.FogExp2(0x030306, 0.014)
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
     camera.position.set(0, 0, 70)
 
@@ -39,7 +39,7 @@ export default function CyberBackground() {
 
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x050508, 0)
+    renderer.setClearColor(0x030306, 0)
     container.appendChild(renderer.domElement)
 
     // ─────────────────────────────────────────────
@@ -52,10 +52,10 @@ export default function CyberBackground() {
     const colors = new Float32Array(particleCount * 3)
 
     const colorPalette = [
-      new THREE.Color('#00D9FF'), // Neon Cyan
-      new THREE.Color('#1558C9'), // Electric Blue
-      new THREE.Color('#A855F7'), // Violet Glow
-      new THREE.Color('#D4FF24'), // Neon Lime
+      new THREE.Color('#00D9FF'), // Electric Cyan
+      new THREE.Color('#1558C9'), // Deep Sapphire
+      new THREE.Color('#8B5CF6'), // Royal Violet
+      new THREE.Color('#38BDF8'), // Soft Sky
       new THREE.Color('#FFFFFF')  // Pure White
     ]
 
@@ -255,12 +255,23 @@ export default function CyberBackground() {
 
     animate()
 
+    // 5. GPU Optimization: Pause render loop when browser tab is inactive
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animId)
+      } else {
+        clock.start()
+        animId = requestAnimationFrame(animate)
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
     // Handle Window Resize
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
       renderer.setSize(window.innerWidth, window.innerHeight)
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     }
 
     window.addEventListener('resize', handleResize)
@@ -270,6 +281,7 @@ export default function CyberBackground() {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
+      document.removeEventListener('visibilitychange', handleVisibility)
       cancelAnimationFrame(animId)
       if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement)
@@ -285,44 +297,54 @@ export default function CyberBackground() {
   }, [])
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#030306]">
       {/* Three.js Dynamic WebGL Canvas Mount */}
       <div ref={mountRef} className="absolute inset-0" />
 
-      {/* Ultra-Fine Film Grain Noise Overlay (Dark Cyber Luxury) */}
+      {/* Ultra-Fine Film Grain Noise Overlay (SVG fractalNoise, pointer-events none) */}
       <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay"
+        className="absolute inset-0 opacity-[0.025] pointer-events-none mix-blend-overlay"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
         }}
       />
 
-      {/* Architectural Subtle Grid Lines */}
+      {/* Architectural Subtle Grid Lines with Radial Gradient Mask */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.035]"
         style={{
           backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-          backgroundSize: '4rem 4rem'
+          backgroundSize: '4rem 4rem',
+          maskImage: 'radial-gradient(ellipse at 50% 50%, black 30%, transparent 75%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, black 30%, transparent 75%)'
         }}
       />
 
-      {/* Volumetric Cosmic Light Radiations */}
+      {/* Volumetric Aurora & Spotlight Glows (Ultra-Slow Ambient Drift) */}
       <div
-        className="absolute -top-40 -left-40 h-[36rem] w-[36rem] rounded-full blur-[140px] opacity-25 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(0, 217, 255, 0.45) 0%, rgba(21, 88, 201, 0.15) 70%, transparent 100%)' }}
+        className="absolute -top-40 -left-40 h-[44rem] w-[44rem] rounded-full blur-[160px] opacity-20 pointer-events-none animate-pulse"
+        style={{
+          background: 'radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, rgba(21, 88, 201, 0.12) 70%, transparent 100%)',
+          animationDuration: '8s'
+        }}
       />
       <div
-        className="absolute top-[35%] -right-40 h-[40rem] w-[40rem] rounded-full blur-[150px] opacity-20 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, rgba(13, 56, 133, 0.15) 70%, transparent 100%)' }}
+        className="absolute top-[35%] -right-40 h-[46rem] w-[46rem] rounded-full blur-[170px] opacity-15 pointer-events-none animate-pulse"
+        style={{
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(13, 56, 133, 0.1) 70%, transparent 100%)',
+          animationDuration: '10s'
+        }}
       />
       <div
-        className="absolute -bottom-48 left-[20%] h-[36rem] w-[36rem] rounded-full blur-[140px] opacity-15 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(212, 255, 36, 0.35) 0%, rgba(0, 217, 255, 0.1) 70%, transparent 100%)' }}
+        className="absolute -bottom-48 left-[25%] h-[40rem] w-[40rem] rounded-full blur-[160px] opacity-15 pointer-events-none animate-pulse"
+        style={{
+          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(0, 217, 255, 0.08) 70%, transparent 100%)',
+          animationDuration: '12s'
+        }}
       />
 
-      {/* Radial Dark Vignette Mask for Absolute Text Readability */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(5,5,8,0.85)_100%)] pointer-events-none" />
-      <div className="scanline-effect opacity-30 pointer-events-none" />
+      {/* Radial Dark Vignette Mask for 100% Crisp Typography Legibility */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(3,3,6,0.9)_100%)] pointer-events-none" />
     </div>
   )
 }

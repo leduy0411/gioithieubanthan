@@ -7,131 +7,87 @@
   <link rel="icon" type="image/png" href="/images/site-logo.png" />
 
   <!-- Primary Meta Tags -->
-  <title>Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor</title>
-  <meta name="title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
+  <title>Le Duy — IT Engineer • Backend Architecture • Graphic Design • Video Editing</title>
+  <meta name="title" content="Le Duy — IT Engineer • Backend Architecture • Graphic Design • Video Editing" />
   <meta name="description"
-    content="Portfolio of Le Duy — IT Engineer based in Tra Vinh Ward, Vinh Long Province, Vietnam. Specializing in Backend Software Architecture, Graphic Design, and Cinematic Video Editing." />
-  <meta name="theme-color" content="#050811" />
+    content="Flagship digital portfolio of Le Duy — IT Engineer based in Tra Vinh, Vinh Long, Vietnam. Engineering high-concurrency backend architectures, vector brand systems, and cinematic 4K motion." />
+  <meta name="theme-color" content="#030306" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph / Meta -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://duy-portfolio.netlify.app/" />
-  <meta property="og:title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
+  <meta property="og:title" content="Le Duy — IT Engineer • Backend Architecture • Graphic Design • Video Editing" />
   <meta property="og:description"
-    content="Engineering robust backend architectures and crafting timeless visual & cinematic digital experiences." />
+    content="Engineering high-concurrency backend architectures, vector brand systems, and cinematic 4K motion." />
   <meta property="og:image" content="/images/duy-portrait.png" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:title" content="Le Duy | IT Engineer • Backend Developer • Graphic Designer • Video Editor" />
+  <meta property="twitter:title" content="Le Duy — IT Engineer • Backend Architecture • Graphic Design • Video Editing" />
   <meta property="twitter:description"
-    content="Engineering robust backend architectures and crafting timeless visual & cinematic digital experiences." />
+    content="Engineering high-concurrency backend architectures, vector brand systems, and cinematic 4K motion." />
   <meta property="twitter:image" content="/images/duy-portrait.png" />
 
-  <!-- Google Fonts: Space Grotesk, Inter, Sora -->
+  <!-- Preconnect Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Anti-Netlify Drawer & Badge Style -->
+  <!-- Failsafe suppression of any injected Netlify badge / drawer snippet -->
   <style>
-    [data-netlify-drawer],
-    netlify-drawer,
-    netlify-badge,
     #netlify-badge,
     .netlify-badge,
+    [data-netlify-badge],
     [class*="netlify-badge"],
     [id*="netlify-badge"],
-    [class*="netlify-toolbar"],
-    [id*="netlify-toolbar"],
-    [data-netlify-deploy-id],
-    [data-netlify],
     iframe[src*="netlify"],
-    div[data-netlify-feedback-drawer],
-    .netlify-toolbar,
-    #netlify-toolbar {
+    a[href*="netlify.com"],
+    a[href*="netlify.app"],
+    netlify-drawer,
+    [data-netlify-drawer],
+    div:has(> a[href*="netlify"]) {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
       pointer-events: none !important;
       width: 0 !important;
       height: 0 !important;
+      max-width: 0 !important;
+      max-height: 0 !important;
       position: absolute !important;
-      left: -9999px !important;
+      top: -99999px !important;
+      left: -99999px !important;
+      z-index: -999999 !important;
     }
   </style>
+  <script>
+    (function () {
+      function purgeBadges() {
+        var targets = document.querySelectorAll(
+          '#netlify-badge, .netlify-badge, [data-netlify-badge], [class*="netlify-badge"], [id*="netlify-badge"], iframe[src*="netlify"], a[href*="netlify.com"], a[href*="netlify.app"], netlify-drawer, [data-netlify-drawer]'
+        );
+        targets.forEach(function (el) {
+          if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
+          }
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', purgeBadges);
+      } else {
+        purgeBadges();
+      }
+      var obs = new MutationObserver(purgeBadges);
+      obs.observe(document.documentElement, { childList: true, subtree: true });
+    })();
+  </script>
 </head>
 
 <body
-  class="bg-[#050508] text-[#F5F7FA] font-sans antialiased selection:bg-[#00D9FF] selection:text-[#050508] overflow-x-hidden">
+  class="bg-[#030306] text-[#F5F7FA] font-sans antialiased selection:bg-[#00D9FF] selection:text-[#030306] overflow-x-hidden">
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
-
-  <!-- Runtime Netlify Badge Purge Script (Continuous & Fail-Safe) -->
-  <script>
-    (function () {
-      function purgeNetlifyBadge() {
-        // 1. Text match across all potential wrapper tags
-        var candidates = document.querySelectorAll('button, a, div, span, p, aside, footer');
-        for (var i = 0; i < candidates.length; i++) {
-          var el = candidates[i];
-          var txt = (el.textContent || '').trim().toLowerCase();
-          if (txt.includes('powered by netlify') || txt === 'powered by netlify' || txt.includes('netlify')) {
-            if (el.tagName === 'A' || el.tagName === 'BUTTON' || (el.className && typeof el.className === 'string' && el.className.toLowerCase().includes('netlify'))) {
-              var parent = el.closest('div, a, button, aside') || el;
-              parent.style.setProperty('display', 'none', 'important');
-              parent.style.setProperty('visibility', 'hidden', 'important');
-              try { parent.remove(); } catch(e){}
-            }
-          }
-        }
-        // 2. Attribute and class match
-        var selectors = [
-          '[data-netlify-drawer]',
-          'netlify-drawer',
-          'netlify-badge',
-          '#netlify-badge',
-          '.netlify-badge',
-          '[class*="netlify-badge"]',
-          '[id*="netlify-badge"]',
-          '[class*="netlify-feedback"]',
-          '[id*="netlify-feedback"]',
-          '[class*="netlify-toolbar"]',
-          '[id*="netlify-toolbar"]',
-          '.netlify-toolbar',
-          'iframe[src*="netlify"]',
-          'iframe[id*="netlify"]',
-          '[data-netlify-deploy-id]',
-          '[data-netlify]'
-        ];
-        for (var j = 0; j < selectors.length; j++) {
-          var found = document.querySelectorAll(selectors[j]);
-          for (var k = 0; k < found.length; k++) {
-            found[k].style.setProperty('display', 'none', 'important');
-            try { found[k].remove(); } catch(e){}
-          }
-        }
-      }
-      purgeNetlifyBadge();
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', purgeNetlifyBadge);
-      }
-      window.addEventListener('load', purgeNetlifyBadge);
-      try {
-        var observer = new MutationObserver(purgeNetlifyBadge);
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-      } catch (e) { }
-      // Interval safety sweep for dynamically injected edge badges
-      var intervalCount = 0;
-      var interval = setInterval(function() {
-        purgeNetlifyBadge();
-        intervalCount++;
-        if (intervalCount > 60) clearInterval(interval);
-      }, 150);
-    })();
-  </script>
 </body>
 
 </html>

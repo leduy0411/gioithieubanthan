@@ -44,7 +44,7 @@ export default function Footer() {
   const strokeDashoffset = circumference - (scrollProgress / 100) * circumference
 
   return (
-    <footer className="relative bg-[#050508] border-t border-white/[0.08] pt-16 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <footer className="relative bg-[#030306] border-t border-white/[0.08] pt-16 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Top ambient glow line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-[#00D9FF]/50 to-transparent" />
 

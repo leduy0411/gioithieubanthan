@@ -119,7 +119,7 @@ export default function SkillsSection() {
             return (
               <div
                 key={category.id}
-                className="spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex flex-col group justify-between"
+                className="spatial-glass spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex flex-col group justify-between"
               >
                 <div>
                   {/* Category Header */}
@@ -196,7 +196,7 @@ export default function SkillsSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {creativeShowcase.map((item, idx) => (
-              <div key={idx} className="spotlight-card cyber-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform group flex flex-col justify-between">
+              <div key={idx} className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform group flex flex-col justify-between">
                 <div>
                   {/* Thumbnail with overlay */}
                   <div className="relative h-36 overflow-hidden">
@@ -205,8 +205,11 @@ export default function SkillsSection() {
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-[#030306]/60 to-transparent" />
                     <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-3 py-1 rounded-full bg-[#00D9FF]/15 text-[#00D9FF] border border-[#00D9FF]/30">
                       {item.category}
                     </span>
@@ -240,7 +243,7 @@ export default function SkillsSection() {
         </div>
 
         {/* ── NEW: Interactive Holographic Cyber Terminal ── */}
-        <div className="spotlight-card cyber-card rounded-2xl overflow-hidden border border-[#00D9FF]/30 shadow-[0_0_40px_rgba(0,217,255,0.15)]">
+        <div className="spatial-glass spotlight-card cyber-card rounded-2xl overflow-hidden border border-[#00D9FF]/30 shadow-[0_0_40px_rgba(0,217,255,0.15)]">
           {/* Terminal Window Chrome */}
           <div className="flex items-center justify-between px-5 py-3.5 bg-black/60 border-b border-white/[0.08]">
             <div className="flex items-center gap-2">
