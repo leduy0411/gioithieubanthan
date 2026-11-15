@@ -41,9 +41,12 @@
     [data-netlify-badge],
     [class*="netlify-badge"],
     [id*="netlify-badge"],
-    iframe[src*="netlify"],
-    a[href*="netlify.com"],
-    a[href*="netlify.app"],
+    [class*="netlify" i],
+    [id*="netlify" i],
+    iframe[src*="netlify" i],
+    a[href*="netlify.com" i],
+    a[href*="netlify.app" i],
+    a[href*="netlify" i],
     netlify-drawer,
     [data-netlify-drawer],
     div:has(> a[href*="netlify"]) {
@@ -65,13 +68,23 @@
     (function () {
       function purgeBadges() {
         var targets = document.querySelectorAll(
-          '#netlify-badge, .netlify-badge, [data-netlify-badge], [class*="netlify-badge"], [id*="netlify-badge"], iframe[src*="netlify"], a[href*="netlify.com"], a[href*="netlify.app"], netlify-drawer, [data-netlify-drawer]'
+          '#netlify-badge, .netlify-badge, [data-netlify-badge], [class*="netlify-badge" i], [id*="netlify-badge" i], iframe[src*="netlify" i], a[href*="netlify.com" i], a[href*="netlify.app" i], a[href*="netlify" i], netlify-drawer, [data-netlify-drawer], [class*="netlify" i], [id*="netlify" i]'
         );
         targets.forEach(function (el) {
           if (el && el.parentNode) {
             el.parentNode.removeChild(el);
           }
         });
+        try {
+          var allLinks = document.querySelectorAll('a, button, div, span');
+          for (var i = 0; i < allLinks.length; i++) {
+            var item = allLinks[i];
+            if (item && item.textContent && item.textContent.toLowerCase().indexOf('powered by netlify') !== -1) {
+              item.style.display = 'none';
+              item.remove();
+            }
+          }
+        } catch (e) {}
       }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', purgeBadges);

@@ -208,10 +208,11 @@ export default function SkillsSection() {
               >
                 <div>
                   {/* Thumbnail with overlay */}
-                  <div className="relative h-36 overflow-hidden">
+                  <div className="relative h-36 overflow-hidden bg-gradient-to-br from-[#0c1222] via-[#070b14] to-[#030306]">
                     <img
                       src={SHOWCASE_IMGS[idx]}
-                      alt={item.title}
+                      alt=""
+                      aria-hidden="true"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                       onError={(e) => {

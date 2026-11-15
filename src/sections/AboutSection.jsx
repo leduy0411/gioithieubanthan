@@ -204,10 +204,11 @@ export default function AboutSection() {
                   >
                     <div>
                       {/* Local SVG Graphic Banner */}
-                      <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14] border-b border-white/[0.08]">
+                      <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#0c1222] via-[#070b14] to-[#030306] border-b border-white/[0.08]">
                         <img
                           src={disc.img}
-                          alt={disc.title}
+                          alt=""
+                          aria-hidden="true"
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                           loading="lazy"
                           onError={(e) => {
@@ -310,10 +311,11 @@ export default function AboutSection() {
                 className="rounded-2xl overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#0c1222] via-[#070b14] to-[#030306]">
                     <img
                       src="/images/landscape-photography.svg"
-                      alt="Landscape Photography"
+                      alt=""
+                      aria-hidden="true"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'
@@ -344,10 +346,11 @@ export default function AboutSection() {
                 className="rounded-2xl overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-[16/9] overflow-hidden bg-[#070B14]">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#160d24] via-[#070b14] to-[#030306]">
                     <img
                       src="/images/dj-console.svg"
-                      alt="DJ Turntable Console"
+                      alt=""
+                      aria-hidden="true"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'

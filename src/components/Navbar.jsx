@@ -1,156 +1,107 @@
 import React, { useState, useEffect } from 'react'
 import { personalInfo } from '../data/portfolioData'
-import {
-  Sparkles,
-  Layers,
-  Cpu,
-  Mail,
-  Check,
-  Copy,
-  Terminal,
-  ExternalLink,
-  Flame,
-  Award
-} from 'lucide-react'
+import { Copy, Check, Mail, Layers, Cpu, Award, Terminal } from 'lucide-react'
 
 const NAV_LINKS = [
-  { id: 'home', label: 'Index', icon: Terminal },
-  { id: 'about', label: 'About', icon: Award },
-  { id: 'skills', label: 'Discipline', icon: Layers },
-  { id: 'projects', label: 'Systems', icon: Cpu },
-  { id: 'contact', label: 'Connect', icon: Mail }
+  { id: 'home',    label: 'INDEX',      icon: Terminal },
+  { id: 'about',   label: 'PROFILE',    icon: Award    },
+  { id: 'skills',  label: 'DISCIPLINE', icon: Layers   },
+  { id: 'projects',label: 'SYSTEMS',    icon: Cpu      },
+  { id: 'socials', label: 'SIGNAL',     icon: Mail     },
 ]
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState('home')
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [hoveredIdx, setHoveredIdx] = useState(null)
+  const [active, setActive]     = useState('home')
+  const [scrolled, setScrolled] = useState(false)
+  const [copied, setCopied]     = useState(false)
+  const [hovIdx, setHovIdx]     = useState(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40)
-
-      // Active section detection
-      const sections = NAV_LINKS.map((link) => document.getElementById(link.id))
-      const scrollPos = window.scrollY + 200
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const sec = sections[i]
-        if (sec && sec.offsetTop <= scrollPos) {
-          setActiveSection(NAV_LINKS[i].id)
-          break
-        }
+    const onScroll = () => {
+      setScrolled(window.scrollY > 48)
+      const offset = window.scrollY + 240
+      for (let i = NAV_LINKS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(NAV_LINKS[i].id)
+        if (el && el.offsetTop <= offset) { setActive(NAV_LINKS[i].id); break }
       }
     }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleCopyEmail = (e) => {
-    e.preventDefault()
+  const copyEmail = () => {
     navigator.clipboard.writeText(personalInfo.email)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    setCopied(true); setTimeout(() => setCopied(false), 2200)
   }
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <header className="fixed top-4 sm:top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-5 sm:pt-6 px-4 pointer-events-none">
       <nav
-        className={`pointer-events-auto flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          isScrolled
-            ? 'bg-[#030306]/85 backdrop-blur-2xl border border-white/[0.12] shadow-[0_12px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(0,217,255,0.15)]'
-            : 'bg-[#070B14]/65 backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.5)]'
+        className={`pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          scrolled
+            ? 'bg-[#010103]/90 backdrop-blur-2xl border border-white/[0.1] shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_30px_rgba(0,217,255,0.08)]'
+            : 'bg-[#050810]/60 backdrop-blur-xl border border-white/[0.06]'
         }`}
-        aria-label="Spatial Navigation Dock"
       >
-        {/* 1. Identity & Live Status Pulse */}
+        {/* Live status beacon */}
         <button
           type="button"
           onClick={() => scrollTo('home')}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-white/[0.06] transition-colors cursor-pointer group"
-          title="Scroll to Top"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-full hover:bg-white/[0.05] transition-colors cursor-pointer group"
         >
-          <div className="relative flex items-center justify-center w-2.5 h-2.5">
-            <span className="absolute w-full h-full rounded-full bg-[#00D9FF] opacity-75 animate-ping" />
-            <span className="relative w-2 h-2 rounded-full bg-[#00D9FF]" />
-          </div>
-          <span className="font-display font-bold text-xs tracking-wider uppercase text-white group-hover:text-[#00D9FF] transition-colors">
-            DUY.OS
+          <span className="relative flex items-center w-2.5 h-2.5">
+            <span className="absolute w-full h-full rounded-full bg-[#00D9FF] opacity-70 animate-ping" />
+            <span className="relative w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_10px_#00D9FF]" />
+          </span>
+          <span className="font-mono text-[11px] font-bold tracking-[0.2em] text-white group-hover:text-[#00D9FF] transition-colors">
+            DUY
           </span>
         </button>
 
-        <div className="w-[1px] h-4 bg-white/10 mx-1" />
+        <div className="w-px h-4 bg-white/[0.1]" />
 
-        {/* 2. macOS Proximity Physics Nav Links */}
-        <div className="flex items-center gap-0.5 sm:gap-1">
-          {NAV_LINKS.map((link, idx) => {
-            const Icon = link.icon
-            const isActive = activeSection === link.id
-            const isHovered = hoveredIdx === idx
-            const isNeighbor = hoveredIdx !== null && Math.abs(hoveredIdx - idx) === 1
+        {/* Navigation links with proximity magnification */}
+        {NAV_LINKS.map((link, idx) => {
+          const isActive = active === link.id
+          const Icon     = link.icon
+          const scale    = hovIdx === idx ? 1.14 : hovIdx !== null && Math.abs(hovIdx - idx) === 1 ? 1.06 : 1
 
-            // Proximity scale calculation
-            const scale = isHovered ? 1.15 : isNeighbor ? 1.05 : 1.0
+          return (
+            <button
+              key={link.id}
+              type="button"
+              onClick={() => scrollTo(link.id)}
+              onMouseEnter={() => setHovIdx(idx)}
+              onMouseLeave={() => setHovIdx(null)}
+              data-cursor-text={link.label}
+              className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono font-bold tracking-wider transition-all duration-250 cursor-pointer will-change-transform ${
+                isActive
+                  ? 'bg-[#00D9FF] text-[#010103] shadow-[0_0_18px_rgba(0,217,255,0.55)]'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/[0.05]'
+              }`}
+              style={{ transform: `scale(${scale})`, transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s, color 0.2s' }}
+            >
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#010103]' : ''}`} />
+              <span className="hidden sm:inline">{link.label}</span>
+            </button>
+          )
+        })}
 
-            return (
-              <button
-                key={link.id}
-                type="button"
-                onClick={() => scrollTo(link.id)}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-                data-cursor-text={link.label.toUpperCase()}
-                className={`relative px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-300 ease-out flex items-center gap-1.5 cursor-pointer will-change-transform ${
-                  isActive
-                    ? 'bg-[#00D9FF] text-[#030306] font-bold shadow-[0_0_15px_rgba(0,217,255,0.5)]'
-                    : 'text-[#94A3B8] hover:text-white hover:bg-white/[0.06]'
-                }`}
-                style={{
-                  transform: `scale(${scale})`
-                }}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#030306]' : 'text-current'}`} />
-                <span className="hidden sm:inline">{link.label}</span>
+        <div className="w-px h-4 bg-white/[0.1]" />
 
-                {/* Subtle active glow pill underlay */}
-                {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3 h-0.5 rounded-full bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" />
-                )}
-              </button>
-            )
-          })}
-        </div>
-
-        <div className="w-[1px] h-4 bg-white/10 mx-1" />
-
-        {/* 3. Fast Tactile Copy Email Chip */}
+        {/* Copy email chip */}
         <button
           type="button"
-          onClick={handleCopyEmail}
-          data-cursor-text="COPY"
-          className="tactile-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] hover:border-[#00D9FF]/50 text-xs font-mono text-[#CBD5E1] hover:text-[#00D9FF] transition-all cursor-pointer"
-          title="Click to copy email"
+          onClick={copyEmail}
+          data-cursor-text="COPY EMAIL"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/40 text-zinc-400 hover:text-[#00D9FF] transition-all cursor-pointer"
         >
-          {copied ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-[#00D9FF]" />
-              <span className="text-[11px] font-bold text-[#00D9FF]">COPIED</span>
-            </>
-          ) : (
-            <>
-              <Copy className="w-3.5 h-3.5" />
-              <span className="hidden md:inline text-[11px]">EMAIL</span>
-            </>
-          )}
+          {copied
+            ? <><Check className="w-3.5 h-3.5 text-[#00D9FF]" /><span className="text-[#00D9FF] font-bold">COPIED</span></>
+            : <><Copy className="w-3.5 h-3.5" /><span className="hidden md:inline">EMAIL</span></>
+          }
         </button>
       </nav>
     </header>

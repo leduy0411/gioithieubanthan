@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Preloader from './components/Preloader'
 import CustomCursor from './components/CustomCursor'
-import CyberBackground from './components/CyberBackground'
+import VoidSignal from './components/VoidSignal'
 import Navbar from './components/Navbar'
 import HeroSection from './sections/HeroSection'
 import AboutSection from './sections/AboutSection'
@@ -81,7 +81,7 @@ export default function App() {
   if (isNotFound) {
     return (
       <div className="relative min-h-screen bg-[#030306] text-[#F5F7FA] font-body flex items-center justify-center p-6">
-        <CyberBackground />
+        <VoidSignal />
         <div className="spatial-glass relative z-10 max-w-lg w-full p-8 sm:p-10 rounded-2xl border border-white/[0.08] text-center shadow-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00D9FF]/10 border border-[#00D9FF]/30 text-xs font-mono text-[#00D9FF] mb-4">
             <Cpu className="w-3.5 h-3.5" />
@@ -117,8 +117,8 @@ export default function App() {
       {/* Desktop Glowing Custom Cursor */}
       <CustomCursor />
 
-      {/* Interactive Three.js Space Background & Cyber Grid */}
-      <CyberBackground />
+      {/* Interactive Three.js Custom GLSL Shader Mesh Centerpiece */}
+      <VoidSignal />
 
       {/* Main Layout Container */}
       <div className="relative z-10 flex flex-col min-h-screen">
