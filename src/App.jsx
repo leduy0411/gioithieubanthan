@@ -10,10 +10,12 @@ import VoidSignal from './components/VoidSignal'
 import CustomCursor from './components/CustomCursor'
 import Preloader from './components/Preloader'
 import KineticMarquee from './components/KineticMarquee'
+import CommandPalette from './components/CommandPalette'
 import { ArrowUpRight } from 'lucide-react'
 
 export default function App() {
   const [introReady, setIntroReady] = useState(false)
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const isNotFound = window.location.pathname !== '/' && window.location.pathname !== ''
 
   if (isNotFound) {
@@ -38,24 +40,27 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#030306] text-[#f8fafc] selection:bg-[#00f2fe]/30 selection:text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#030306] text-[#F8FAFC] selection:bg-[#00f2fe]/30 selection:text-white">
       {/* Cinematic 850ms Preloader */}
       <Preloader onComplete={() => setIntroReady(true)} />
 
       {/* Kinetic Custom Magnetic Context Cursor */}
       <CustomCursor />
 
-      {/* Three.js Custom GLSL Shader Living Mesh Background */}
+      {/* Command Palette (Cmd+K / Ctrl+K) */}
+      <CommandPalette isOpen={commandPaletteOpen} setIsOpen={setCommandPaletteOpen} />
+
+      {/* Three.js Custom GLSL Shader Living Mesh Background with Parallax */}
       <VoidSignal />
 
       {/* Persistent Film Grain Overlay */}
       <div className="grain-overlay pointer-events-none fixed inset-0 z-[1] opacity-[0.035]" aria-hidden="true" />
 
       {/* Primary Navigation Dock */}
-      <Navbar />
+      <Navbar onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
 
       <main className="relative z-10">
-        <HeroSection />
+        <HeroSection onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
         <KineticMarquee />
         <AboutSection />
         <ProjectsSection />

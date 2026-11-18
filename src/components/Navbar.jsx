@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Menu, Terminal, X, Zap } from 'lucide-react'
+import { Command, Menu, Terminal, X, Zap } from 'lucide-react'
 
 const NAV_LINKS = [
   { id: 'home', label: 'INDEX' },
@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { id: 'socials', label: 'SIGNAL' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onOpenCommandPalette }) {
   const [active, setActive] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -47,7 +47,7 @@ export default function Navbar() {
   const closeMenu = () => setMenuOpen(false)
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.08] bg-[#030306]/80 backdrop-blur-2xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.08] bg-[#030306]/85 backdrop-blur-2xl">
       {/* Scroll Progress Line */}
       <div className="absolute inset-x-0 bottom-0 h-[2px] bg-white/[0.05]" aria-hidden="true">
         <div
@@ -95,8 +95,20 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Contact CTA */}
+        {/* Right Action: Cmd+K Search & Transmit CTA */}
         <div className="hidden sm:flex items-center gap-3">
+          {onOpenCommandPalette && (
+            <button
+              type="button"
+              onClick={onOpenCommandPalette}
+              className="tactile-btn inline-flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.04] px-3.5 py-2 font-mono text-xs text-zinc-400 hover:border-[#00f2fe]/40 hover:text-white transition-all"
+              title="Command Palette (Cmd+K)"
+            >
+              <Command size={14} className="text-[#00f2fe]" />
+              <span className="text-[11px]">⌘K</span>
+            </button>
+          )}
+
           <a
             href="#socials"
             className="tactile-btn inline-flex items-center gap-2 rounded-xl border border-[#00f2fe]/40 bg-[#00f2fe]/10 px-4 py-2 font-mono text-xs font-semibold text-[#00f2fe] hover:bg-[#00f2fe]/20 hover:shadow-[0_0_20px_rgba(0,242,254,0.3)] transition-all"
@@ -106,16 +118,27 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu Trigger */}
-        <button
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="primary-navigation"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((open) => !open)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.12] bg-[#070b14]/80 text-zinc-300 transition-colors hover:border-[#00f2fe]/50 hover:text-white sm:hidden"
-        >
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="flex sm:hidden items-center gap-2">
+          {onOpenCommandPalette && (
+            <button
+              type="button"
+              onClick={onOpenCommandPalette}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.1] bg-[#070b14]/80 text-zinc-400 hover:text-white"
+            >
+              <Command size={16} />
+            </button>
+          )}
+          <button
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="primary-navigation"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setMenuOpen((open) => !open)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.12] bg-[#070b14]/80 text-zinc-300 transition-colors hover:border-[#00f2fe]/50 hover:text-white"
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
 
         {/* Mobile Navigation Dropdown */}
         <div

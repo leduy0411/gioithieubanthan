@@ -2,39 +2,29 @@ import React, { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 /**
- * VoidSignal — Awwwards SOTY WebGL Centerpiece
- *
- * Art Direction: "Signal from the Void"
- * A morphing icosahedral signal mesh with custom GLSL shaders creates
- * a living, breathing sculpture that reacts to mouse movement and scroll.
- * The mesh embodies the "invisible architecture" that Le Duy engineers —
- * systems that work in darkness but illuminate everything they touch.
- *
- * Technical highlights:
- * - Dual-pass GLSL: 3D Simplex noise vertex displacement + Chromatic Fresnel fragment
- * - Real-time mouse inertia with exponential damping (not simple lerp)
- * - Scroll-reactive morphing state (5 scroll "chapters")
- * - Full GPU resource lifecycle management
- * - Responsive DPR + mobile geometry simplification
+ * VoidSignal — Flagship Three.js Spatial Shader & Flow Field Mesh
+ * 
+ * Features:
+ * - 3D Simplex noise organic vertex displacement
+ * - Damped mouse parallax with exponential inertia
+ * - Scroll-reactive mesh dilation
+ * - Automatic animation throttling when document is hidden / tab switched
+ * - Radial dark vignette mask for 100% crisp text readability
  */
 
-// ─────────────────────────────────────────────────────────────────
-// VERTEX SHADER — 3D Simplex Noise Organic Displacement
-// ─────────────────────────────────────────────────────────────────
-const VERT = /* glsl */`
+const VERTEX_SHADER = /* glsl */`
 precision highp float;
 
 uniform float uTime;
-uniform float uMorphFactor;
 uniform vec2 uMouse;
-uniform float uDistort;
+uniform float uScroll;
 
 varying vec3 vNormal;
 varying vec3 vViewDir;
-varying float vDispAmt;
+varying float vDisp;
 varying vec3 vWorldPos;
 
-// 3D Simplex Noise (Stefan Gustavson's implementation)
+// 3D Simplex Noise
 vec3 mod289v3(vec3 x) { return x - floor(x*(1./289.))*289.; }
 vec4 mod289v4(vec4 x) { return x - floor(x*(1./289.))*289.; }
 vec4 permute(vec4 x) { return mod289v4(((x*34.)+1.)*x); }
@@ -58,11 +48,11 @@ float snoise(vec3 v) {
     i.x + vec4(0., i1.x, i2.x, 1.));
   float n_ = .142857142857;
   vec3 ns = n_ * vec3(0., .5, 1.) - vec3(1., 0., 1.) * n_;
-  vec4 j  = p - 49.*floor(p*ns.z*ns.z);
+  vec4 j = p - 49.*floor(p*ns.z*ns.z);
   vec4 x_ = floor(j*ns.z), y_ = floor(j - 7.*x_);
-  vec4 x  = x_*ns.x + ns.yyyy;
-  vec4 y  = y_*ns.x + ns.yyyy;
-  vec4 h  = 1. - abs(x) - abs(y);
+  vec4 x = x_*ns.x + ns.yyyy;
+  vec4 y = y_*ns.x + ns.yyyy;
+  vec4 h = 1. - abs(x) - abs(y);
   vec4 b0 = vec4(x.xy, y.xy), b1 = vec4(x.zw, y.zw);
   vec4 s0 = floor(b0)*2. + 1., s1 = floor(b1)*2. + 1.;
   vec4 sh = -step(h, vec4(0.));
@@ -82,77 +72,46 @@ float snoise(vec3 v) {
 void main() {
   vNormal = normalize(normalMatrix * normal);
   
-  // Multi-octave noise for organic complexity
-  vec3 noisePos = position * 0.55 + vec3(uMouse * 0.3, 0.);
-  float n1 = snoise(noisePos + vec3(uTime * 0.18));
-  float n2 = snoise(noisePos * 2.1 - vec3(uTime * 0.14)) * 0.45;
-  float n3 = snoise(noisePos * 4.3 + vec3(uTime * 0.09)) * 0.18;
+  vec3 pos = position;
+  vec3 noiseSeed = pos * 0.45 + vec3(uMouse * 0.25, uScroll * 0.2);
+  float n1 = snoise(noiseSeed + vec3(uTime * 0.12));
+  float n2 = snoise(noiseSeed * 2.2 - vec3(uTime * 0.08)) * 0.45;
   
-  float disp = (n1 + n2 + n3) * (0.38 + uDistort * 0.42 + uMorphFactor * 0.22);
-  vDispAmt = disp;
+  float displacement = (n1 + n2) * 0.42;
+  vDisp = displacement;
   
-  vec3 displaced = position + normal * disp;
-  vWorldPos = (modelMatrix * vec4(displaced, 1.)).xyz;
-  vec4 mvPos = modelViewMatrix * vec4(displaced, 1.);
+  vec3 newPosition = position + normal * displacement;
+  vWorldPos = (modelMatrix * vec4(newPosition, 1.0)).xyz;
+  vec4 mvPos = modelViewMatrix * vec4(newPosition, 1.0);
   vViewDir = normalize(-mvPos.xyz);
   
   gl_Position = projectionMatrix * mvPos;
 }
 `
 
-// ─────────────────────────────────────────────────────────────────
-// FRAGMENT SHADER — Chromatic Iridescent Fresnel
-// ─────────────────────────────────────────────────────────────────
-const FRAG = /* glsl */`
+const FRAGMENT_SHADER = /* glsl */`
 precision highp float;
 
 uniform float uTime;
-uniform vec3 uColorA;  // Electric Cyan
-uniform vec3 uColorB;  // Violet
-uniform vec3 uColorC;  // Obsidian
-
 varying vec3 vNormal;
 varying vec3 vViewDir;
-varying float vDispAmt;
+varying float vDisp;
 varying vec3 vWorldPos;
 
 void main() {
-  vec3 N = normalize(vNormal);
-  vec3 V = normalize(vViewDir);
+  float fresnel = pow(1.0 - max(dot(vNormal, vViewDir), 0.0), 3.2);
   
-  // Fresnel power — grazing angle brightens to full iridescence
-  float fresnel = pow(1. - clamp(dot(N, V), 0., 1.), 2.8);
+  // Electric Cyan to Obsidian Violet Depth
+  vec3 deepVoid = vec3(0.012, 0.015, 0.024);
+  vec3 cyanSignal = vec3(0.0, 0.95, 1.0);
+  vec3 violetSignal = vec3(0.48, 0.16, 0.85);
   
-  // Chromatic spectral shift (oil-slick iridescence)
-  float t = uTime * 0.35;
-  float shR = sin(vDispAmt * 5.0 + t       ) * 0.5 + 0.5;
-  float shG = sin(vDispAmt * 5.0 + t + 2.09) * 0.5 + 0.5;
-  float shB = sin(vDispAmt * 5.0 + t + 4.19) * 0.5 + 0.5;
-  vec3 iridescent = vec3(shR, shG, shB);
+  vec3 color = mix(deepVoid, violetSignal, clamp(vDisp * 1.5 + 0.3, 0.0, 1.0));
+  color = mix(color, cyanSignal, fresnel * 0.75);
   
-  // Dual-tone studio lighting
-  vec3 L1 = normalize(vec3(1.4, 1.8, 1.2));
-  vec3 L2 = normalize(vec3(-1.0, -0.6, 0.9));
+  float alpha = smoothstep(0.0, 0.85, fresnel * 0.85 + 0.12);
   
-  float diff1 = max(dot(N, L1), 0.0);
-  float diff2 = max(dot(N, L2), 0.0);
-  
-  // Blinn-Phong specular
-  float spec1 = pow(max(dot(N, normalize(L1 + V)), 0.0), 48.0);
-  float spec2 = pow(max(dot(N, normalize(L2 + V)), 0.0), 28.0);
-  
-  // Compose final color
-  vec3 col = uColorC;
-  col += diff1 * uColorA * 0.4;
-  col += diff2 * uColorB * 0.3;
-  col += spec1 * uColorA * 1.1;
-  col += spec2 * uColorB * 0.75;
-  col += fresnel * mix(uColorA, iridescent, 0.55) * 1.2;
-  
-  // Atmospheric depth — keep central mass visible through canvas
-  float alpha = clamp(0.28 + fresnel * 0.68, 0.0, 0.88);
-  
-  gl_FragColor = vec4(col, alpha);
+  gl_FragColor = vec4(color, alpha * 0.48);
 }
 `
 
@@ -160,197 +119,145 @@ export default function VoidSignal() {
   const mountRef = useRef(null)
 
   useEffect(() => {
-    const el = mountRef.current
-    if (!el) return
+    const container = mountRef.current
+    if (!container) return undefined
 
-    const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const mobile = window.innerWidth < 768
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // ── Scene ──────────────────────────────────────────────────
     const scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(0x010103, 0.012)
-
-    const camera = new THREE.PerspectiveCamera(42, el.clientWidth / el.clientHeight, 0.1, 100)
-    camera.position.set(0, 0, 8.5)
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100)
+    camera.position.set(0, 0, 5.2)
 
     let renderer
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: !mobile, alpha: true, powerPreference: 'high-performance' })
-    } catch { return }
-
-    renderer.setSize(el.clientWidth, el.clientHeight)
-    renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.3 : 1.8))
-    renderer.setClearColor(0x010103, 0)
-    el.appendChild(renderer.domElement)
-
-    // ── Morphing Signal Mesh (Icosahedron) ───────────────────
-    const geo = new THREE.IcosahedronGeometry(2.6, mobile ? 4 : 6)
-    const uniforms = {
-      uTime:        { value: 0 },
-      uMorphFactor: { value: 0 },
-      uMouse:       { value: new THREE.Vector2(0, 0) },
-      uDistort:     { value: 0.12 },
-      uColorA:      { value: new THREE.Color('#00D9FF') },
-      uColorB:      { value: new THREE.Color('#8B5CF6') },
-      uColorC:      { value: new THREE.Color('#010103') },
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+      })
+    } catch {
+      return undefined
     }
-    const mat = new THREE.ShaderMaterial({
-      vertexShader: VERT, fragmentShader: FRAG, uniforms,
-      transparent: true, side: THREE.DoubleSide, depthWrite: false
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setClearColor(0x000000, 0)
+    container.appendChild(renderer.domElement)
+
+    // Subdivided Icosahedron Geometry
+    const geometry = new THREE.IcosahedronGeometry(2.1, 24)
+    const uniforms = {
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(0, 0) },
+      uScroll: { value: 0 },
+    }
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: VERTEX_SHADER,
+      fragmentShader: FRAGMENT_SHADER,
+      uniforms,
+      transparent: true,
+      wireframe: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     })
-    const mesh = new THREE.Mesh(geo, mat)
-    mesh.position.set(2.5, 0.0, -1.2)
+
+    const mesh = new THREE.Mesh(geometry, material)
+    mesh.position.set(1.4, 0.2, 0) // Shifted to right side of viewport for balance
     scene.add(mesh)
 
-    // ── Outer halo ring ──────────────────────────────────────
-    const haloGeo = new THREE.TorusGeometry(4.2, 0.009, 16, mobile ? 80 : 150)
-    const haloMat = new THREE.MeshBasicMaterial({ color: 0x00D9FF, transparent: true, opacity: 0.14 })
-    const halo = new THREE.Mesh(haloGeo, haloMat)
-    halo.rotation.x = Math.PI * 0.42
-    scene.add(halo)
+    // Damped Mouse Parallax Tracking
+    const mouseTarget = new THREE.Vector2(0, 0)
+    const mouseCurrent = new THREE.Vector2(0, 0)
 
-    // Second thinner ring (violet)
-    const halo2Geo = new THREE.TorusGeometry(3.6, 0.006, 16, mobile ? 60 : 120)
-    const halo2Mat = new THREE.MeshBasicMaterial({ color: 0x8B5CF6, transparent: true, opacity: 0.10 })
-    const halo2 = new THREE.Mesh(halo2Geo, halo2Mat)
-    halo2.rotation.x = -Math.PI * 0.28
-    halo2.rotation.z = Math.PI * 0.15
-    scene.add(halo2)
-
-    // ── Sparse ambient dust ──────────────────────────────────
-    const N = mobile ? 50 : 120
-    const dustGeo = new THREE.BufferGeometry()
-    const pos = new Float32Array(N * 3)
-    for (let i = 0; i < N * 3; i += 3) {
-      pos[i]   = (Math.random() - 0.5) * 20
-      pos[i+1] = (Math.random() - 0.5) * 15
-      pos[i+2] = (Math.random() - 0.5) * 10
+    const handleMouseMove = (e) => {
+      mouseTarget.x = (e.clientX / window.innerWidth) * 2 - 1
+      mouseTarget.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
-    dustGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-    const dustMat = new THREE.PointsMaterial({ size: 0.028, color: 0x38BDF8, transparent: true, opacity: 0.38 })
-    scene.add(new THREE.Points(dustGeo, dustMat))
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
-    // ── Mouse inertia ────────────────────────────────────────
-    const mouse   = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }
-    let   scrollT = 0, scrollV = 0
-    const INERTIA = 0.055, FRICTION = 0.88
-
-    const onMove = (e) => {
-      mouse.tx =  (e.clientX / window.innerWidth)  * 2 - 1
-      mouse.ty = -(e.clientY / window.innerHeight) * 2 + 1
+    let scrollTarget = 0
+    let scrollCurrent = 0
+    const handleScroll = () => {
+      scrollTarget = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1)
     }
-    let lastSY = 0
-    const onScroll = () => {
-      const sy = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1)
-      scrollV  = (sy - lastSY) * 18
-      lastSY   = sy
-      scrollT  = sy
-    }
-    window.addEventListener('mousemove', onMove, { passive: true })
-    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
-    // ── Visibility pause ─────────────────────────────────────
-    let alive = true
-    const onVis = () => { alive = !document.hidden }
-    document.addEventListener('visibilitychange', onVis)
-
-    // ── Resize ───────────────────────────────────────────────
-    const onResize = () => {
-      camera.aspect = el.clientWidth / el.clientHeight
+    const handleResize = () => {
+      const w = window.innerWidth
+      const h = window.innerHeight
+      camera.aspect = w / h
       camera.updateProjectionMatrix()
-      renderer.setSize(el.clientWidth, el.clientHeight)
-      mesh.position.set(window.innerWidth < 768 ? 0 : 2.5, 0, -1.2)
-      mesh.scale.setScalar(window.innerWidth < 768 ? 0.72 : 1)
+      renderer.setSize(w, h)
+
+      // Reposition mesh responsively
+      if (w < 1024) {
+        mesh.position.set(0, 0, 0)
+        mesh.scale.setScalar(0.75)
+      } else {
+        mesh.position.set(1.4, 0.2, 0)
+        mesh.scale.setScalar(1.0)
+      }
     }
-    window.addEventListener('resize', onResize)
-    onResize()
+    handleResize()
+    window.addEventListener('resize', handleResize)
 
-    // ── Animation loop ───────────────────────────────────────
+    // Throttle GPU when tab is inactive
+    let isVisible = true
+    const handleVisibility = () => {
+      isVisible = !document.hidden
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    let animationFrame
     const clock = new THREE.Clock()
-    let raf
 
-    const tick = () => {
-      raf = requestAnimationFrame(tick)
-      if (!alive) return
+    const animate = () => {
+      animationFrame = requestAnimationFrame(animate)
+      if (!isVisible) return
 
-      const t = clock.getElapsedTime()
-      const spd = rm ? 0.25 : 1
+      const delta = clock.getDelta()
+      const elapsedTime = clock.getElapsedTime()
 
-      // Exponential damping inertia (spring physics)
-      mouse.vx += (mouse.tx - mouse.x) * INERTIA
-      mouse.vy += (mouse.ty - mouse.y) * INERTIA
-      mouse.vx *= FRICTION; mouse.vy *= FRICTION
-      mouse.x  += mouse.vx; mouse.y  += mouse.vy
+      // Exponential damping for smooth mouse inertia
+      mouseCurrent.x += (mouseTarget.x - mouseCurrent.x) * 0.04
+      mouseCurrent.y += (mouseTarget.y - mouseCurrent.y) * 0.04
+      scrollCurrent += (scrollTarget - scrollCurrent) * 0.05
 
-      scrollV *= 0.92
+      uniforms.uTime.value = prefersReducedMotion ? 0 : elapsedTime
+      uniforms.uMouse.value.copy(mouseCurrent)
+      uniforms.uScroll.value = scrollCurrent
 
-      // Uniform updates
-      uniforms.uTime.value        = t * spd
-      uniforms.uMouse.value.set(mouse.x, mouse.y)
-      uniforms.uDistort.value     = 0.12 + Math.abs(mouse.vx * mouse.vy) * 3.5 + Math.abs(scrollV) * 0.08
-      uniforms.uMorphFactor.value = scrollT
-
-      // Mesh rotation driven by mouse + time
-      mesh.rotation.y = t * 0.11 * spd + mouse.x * 0.55
-      mesh.rotation.x = Math.sin(t * 0.09 * spd) * 0.18 + mouse.y * 0.38
-      mesh.rotation.z = t * 0.04 * spd
-
-      // Halo counter-rotation
-      halo.rotation.z  =  t * 0.06 * spd + mouse.x * 0.12
-      halo2.rotation.y =  t * 0.08 * spd - mouse.y * 0.1
-
-      // Camera parallax
-      camera.position.x = mouse.x * 0.6
-      camera.position.y = mouse.y * 0.4 - scrollT * 1.2
-      camera.lookAt(mesh.position.x * 0.35, 0, 0)
+      if (!prefersReducedMotion) {
+        mesh.rotation.y = elapsedTime * 0.05 + mouseCurrent.x * 0.25
+        mesh.rotation.x = elapsedTime * 0.02 + mouseCurrent.y * 0.15
+      }
 
       renderer.render(scene, camera)
     }
-    tick()
+    animate()
 
-    // ── Cleanup ──────────────────────────────────────────────
     return () => {
-      cancelAnimationFrame(raf)
-      window.removeEventListener('mousemove', onMove)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onResize)
-      document.removeEventListener('visibilitychange', onVis)
-      if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)
-      ;[geo, mat, haloGeo, haloMat, halo2Geo, halo2Mat, dustGeo, dustMat].forEach(o => o.dispose())
+      cancelAnimationFrame(animationFrame)
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+      document.removeEventListener('visibilitychange', handleVisibility)
+      geometry.dispose()
+      material.dispose()
       renderer.dispose()
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement)
+      }
     }
   }, [])
 
   return (
-    <div ref={mountRef} className="fixed inset-0 z-0 pointer-events-none" aria-hidden>
-      {/* Obsidian Void Foundation */}
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 70% 40%, #0a0d18 0%, #030306 55%, #010103 100%)' }} />
-
-      {/* Architectural Grid — fades at all edges */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)`,
-        backgroundSize: '72px 72px',
-        maskImage: 'radial-gradient(ellipse 85% 70% at 50% 50%, black 20%, transparent 85%)',
-        WebkitMaskImage: 'radial-gradient(ellipse 85% 70% at 50% 50%, black 20%, transparent 85%)',
-      }} />
-
-      {/* Film grain noise overlay */}
-      <div className="absolute inset-0 opacity-[0.022] mix-blend-screen pointer-events-none" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-        backgroundSize: '256px 256px'
-      }} />
-
-      {/* Volumetric aurora — primary cyan glow left */}
-      <div className="absolute top-[-15%] left-[-8%] w-[700px] h-[700px] rounded-full blur-[200px] opacity-[0.11] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #00D9FF 0%, transparent 70%)' }} />
-
-      {/* Aurora — violet right */}
-      <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full blur-[180px] opacity-[0.09] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #8B5CF6 0%, transparent 70%)' }} />
-
-      {/* Text legibility vignette behind content (center-left) */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 55% 80% at 25% 50%, rgba(1,1,3,0.72) 0%, transparent 75%)' }} />
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* 3D WebGL Canvas */}
+      <div ref={mountRef} className="absolute inset-0" aria-hidden="true" />
+      {/* Central radial vignette mask to ensure text readability is 100% crisp */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_40%,rgba(3,3,6,0.65)_0%,rgba(3,3,6,0.92)_65%,#030306_100%)] pointer-events-none" />
     </div>
   )
 }
