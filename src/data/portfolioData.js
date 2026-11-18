@@ -72,7 +72,7 @@ export const personalInfo = {
       id: "facebook",
       name: "Facebook",
       username: "Le Duy",
-      handle: "@facebook/share",
+      handle: "facebook.com/leduy",
       url: "https://www.facebook.com/share/1F5YrEn9Jb/?mibextid=wwXIfr",
       color: "#1877F2",
       badge: "Verified Profile",

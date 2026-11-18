@@ -4,7 +4,6 @@ import {
   Check,
   Copy,
   Mail,
-  MessageSquare,
   Sparkles,
 } from 'lucide-react'
 import { personalInfo } from '../data/portfolioData'
@@ -14,6 +13,13 @@ import {
   LocketLogo,
   TikTokLogo,
 } from '../components/BrandIcons'
+
+const brandLogos = {
+  facebook: FacebookLogo,
+  locket: LocketLogo,
+  instagram: InstagramLogo,
+  tiktok: TikTokLogo,
+}
 
 export default function SocialSection() {
   const [copied, setCopied] = useState(false)
@@ -43,7 +49,7 @@ export default function SocialSection() {
             </p>
 
             {/* Primary Encrypted Inbox Box */}
-            <div className="spatial-glass mt-8 rounded-2xl border border-white/[0.1] bg-[#070b14]/90 p-6 backdrop-blur-xl">
+            <div className="spatial-glass mt-8 rounded-2xl border border-white/[0.08] bg-[#070b14]/75 p-6 backdrop-blur-xl">
               <p className="font-mono text-xs uppercase tracking-wider text-zinc-500">PRIMARY ENCRYPTED INBOX</p>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                 <span className="font-mono text-base font-bold text-white selection:bg-[#00f2fe]/40">
@@ -53,7 +59,7 @@ export default function SocialSection() {
                   <button
                     type="button"
                     onClick={copyEmail}
-                    className="tactile-btn inline-flex items-center gap-1.5 rounded-xl border border-white/[0.1] bg-white/[0.05] px-3.5 py-2 text-xs font-mono text-zinc-300 hover:text-white hover:border-[#00f2fe]/40"
+                    className="tactile-btn inline-flex items-center gap-1.5 rounded-xl border border-white/[0.1] bg-white/[0.04] px-3.5 py-2 text-xs font-mono text-zinc-300 hover:text-white hover:border-[#00f2fe]/40 transition-colors"
                     title="Copy Email Address"
                   >
                     {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
@@ -63,7 +69,7 @@ export default function SocialSection() {
                   </button>
                   <a
                     href={`mailto:${personalInfo.email}`}
-                    className="tactile-btn inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#4facfe] px-4 py-2 text-xs font-mono font-bold text-black shadow-[0_0_20px_rgba(0,242,254,0.3)]"
+                    className="tactile-btn inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-xs font-mono font-bold text-black hover:bg-zinc-200 transition-colors"
                   >
                     <span>COMPOSE</span>
                     <ArrowUpRight size={14} />
@@ -83,137 +89,46 @@ export default function SocialSection() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {/* 1. Facebook */}
-              <a
-                href="https://www.facebook.com/share/1F5YrEn9Jb/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noreferrer"
-                className="cyber-card group relative flex flex-col justify-between rounded-2xl border border-white/[0.1] bg-[#070b14]/85 p-6 backdrop-blur-xl transition-all duration-300 hover:border-[#1877F2]/50 hover:shadow-[0_0_30px_rgba(24,119,242,0.18)]"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#1877F2]/40 bg-[#1877F2]/10 text-[#1877F2] transition-transform duration-300 group-hover:scale-105">
-                      <FacebookLogo className="w-6 h-6" />
+              {personalInfo.socialsList.map((social) => {
+                const Logo = brandLogos[social.id] || FacebookLogo
+                return (
+                  <a
+                    key={social.id}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="cyber-card group relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#070b14]/75 p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/20"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <div
+                          className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10"
+                          style={{ backgroundColor: `${social.color}15`, color: social.color }}
+                        >
+                          <Logo className="w-6 h-6" />
+                        </div>
+                        <span className="rounded-full border border-white/[0.08] bg-white/[0.02] px-2.5 py-1 font-mono text-[10px] text-zinc-400">
+                          {social.badge}
+                        </span>
+                      </div>
+                      <h3 className="mt-5 font-display text-lg font-bold text-white transition-colors group-hover:text-[#00f2fe]">
+                        {social.name}
+                      </h3>
+                      <p className="mt-1 font-mono text-xs text-zinc-400">
+                        {social.username}
+                      </p>
+                      <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
+                        {social.desc}
+                      </p>
                     </div>
-                    <span className="rounded-full border border-[#1877F2]/30 bg-[#1877F2]/10 px-2.5 py-1 font-mono text-[10px] text-[#1877F2]">
-                      Official Profile
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-lg font-bold text-white group-hover:text-[#1877F2] transition-colors">
-                    Facebook
-                  </h3>
-                  <p className="mt-1 font-mono text-xs text-zinc-400">
-                    Le Duy
-                  </p>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-                    Professional network updates, software architecture insights, and community tech networking.
-                  </p>
-                </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-3.5 font-mono text-xs text-zinc-400 group-hover:text-[#1877F2]">
-                  <span>@facebook/share</span>
-                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
-              </a>
-
-              {/* 2. Locket */}
-              <a
-                href="https://locket.cam/ledi04"
-                target="_blank"
-                rel="noreferrer"
-                className="cyber-card group relative flex flex-col justify-between rounded-2xl border border-white/[0.1] bg-[#070b14]/85 p-6 backdrop-blur-xl transition-all duration-300 hover:border-[#FFB800]/50 hover:shadow-[0_0_30px_rgba(255,184,0,0.18)]"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#FFB800]/40 bg-[#FFB800]/10 text-[#FFB800] transition-transform duration-300 group-hover:scale-105">
-                      <LocketLogo className="w-6 h-6" />
+                    <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-3.5 font-mono text-xs text-zinc-400 transition-colors group-hover:text-white">
+                      <span>{social.handle}</span>
+                      <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-zinc-500 group-hover:text-white" />
                     </div>
-                    <span className="rounded-full border border-[#FFB800]/30 bg-[#FFB800]/10 px-2.5 py-1 font-mono text-[10px] text-[#FFB800]">
-                      Live Widget
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-lg font-bold text-white group-hover:text-[#FFB800] transition-colors">
-                    Locket
-                  </h3>
-                  <p className="mt-1 font-mono text-xs text-zinc-400">
-                    ledi04
-                  </p>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-                    Real-time candid camera moments and behind-the-scenes engineering snapshots directly on widget.
-                  </p>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-3.5 font-mono text-xs text-zinc-400 group-hover:text-[#FFB800]">
-                  <span>locket.cam/ledi04</span>
-                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
-              </a>
-
-              {/* 3. Instagram */}
-              <a
-                href="https://www.instagram.com/leduy1104?mdxt=MWdscm55MnNnMjZpbw%3D%3D&utm_source=qr"
-                target="_blank"
-                rel="noreferrer"
-                className="cyber-card group relative flex flex-col justify-between rounded-2xl border border-white/[0.1] bg-[#070b14]/85 p-6 backdrop-blur-xl transition-all duration-300 hover:border-[#E1306C]/50 hover:shadow-[0_0_30px_rgba(225,48,108,0.18)]"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#E1306C]/40 bg-[#E1306C]/10 transition-transform duration-300 group-hover:scale-105">
-                      <InstagramLogo className="w-6 h-6" />
-                    </div>
-                    <span className="rounded-full border border-[#E1306C]/30 bg-[#E1306C]/10 px-2.5 py-1 font-mono text-[10px] text-[#E1306C]">
-                      Visual Feed
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-lg font-bold text-white group-hover:text-[#E1306C] transition-colors">
-                    Instagram
-                  </h3>
-                  <p className="mt-1 font-mono text-xs text-zinc-400">
-                    @leduy1104
-                  </p>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-                    Landscape photography snapshots, graphic design art reels, and creative lifestyle moments.
-                  </p>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-3.5 font-mono text-xs text-zinc-400 group-hover:text-[#E1306C]">
-                  <span>@leduy1104</span>
-                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
-              </a>
-
-              {/* 4. TikTok */}
-              <a
-                href="https://www.tiktok.com/@lee_duy04?_r=1&_t=ZS-9BKZrrsUP4f"
-                target="_blank"
-                rel="noreferrer"
-                className="cyber-card group relative flex flex-col justify-between rounded-2xl border border-white/[0.1] bg-[#070b14]/85 p-6 backdrop-blur-xl transition-all duration-300 hover:border-[#00F2FE]/50 hover:shadow-[0_0_30px_rgba(0,242,254,0.18)]"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#00F2FE]/40 bg-[#00F2FE]/10 transition-transform duration-300 group-hover:scale-105">
-                      <TikTokLogo className="w-6 h-6" />
-                    </div>
-                    <span className="rounded-full border border-[#00F2FE]/30 bg-[#00F2FE]/10 px-2.5 py-1 font-mono text-[10px] text-[#00F2FE]">
-                      Motion Media
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-lg font-bold text-white group-hover:text-[#00F2FE] transition-colors">
-                    TikTok
-                  </h3>
-                  <p className="mt-1 font-mono text-xs text-zinc-400">
-                    @lee_duy04
-                  </p>
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-                    Short-form video edits, tech snippets, electronic DJ sessions, and color grading clips.
-                  </p>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-3.5 font-mono text-xs text-zinc-400 group-hover:text-[#00F2FE]">
-                  <span>@lee_duy04</span>
-                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
-              </a>
+                  </a>
+                )
+              })}
             </div>
           </div>
         </div>

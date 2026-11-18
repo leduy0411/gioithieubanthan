@@ -1,12 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import {
   ArrowUpRight,
-  Code2,
-  Cpu,
   ExternalLink,
-  Layers,
   Sparkles,
-  Terminal,
   X,
   Zap,
 } from 'lucide-react'
@@ -46,8 +42,8 @@ export default function ProjectsSection() {
             </h2>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-2" aria-label="Project filters">
+          {/* 5 Filter Pills in ONE Horizontal Row */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none" aria-label="Project filters">
             {filters.map((filter) => {
               const isActive = activeFilter === filter.id
               return (
@@ -55,10 +51,10 @@ export default function ProjectsSection() {
                   key={filter.id}
                   type="button"
                   onClick={() => setActiveFilter(filter.id)}
-                  className={`tactile-btn rounded-xl px-4 py-2 font-mono text-xs tracking-wider transition-all ${
+                  className={`tactile-btn shrink-0 rounded-xl px-3.5 py-2 font-mono text-xs tracking-wider transition-all ${
                     isActive
-                      ? 'border border-[#00f2fe]/50 bg-[#00f2fe]/15 text-[#00f2fe] shadow-[0_0_15px_rgba(0,242,254,0.25)] font-bold'
-                      : 'border border-white/[0.08] bg-white/[0.03] text-zinc-400 hover:border-white/20 hover:text-white'
+                      ? 'border border-[#00f2fe]/40 bg-[#00f2fe]/10 text-[#00f2fe] font-semibold'
+                      : 'border border-white/[0.07] bg-white/[0.02] text-zinc-400 hover:border-white/20 hover:text-white'
                   }`}
                 >
                   {filter.label}
@@ -68,22 +64,22 @@ export default function ProjectsSection() {
           </div>
         </div>
 
-        {/* Projects Grid: System Window & Live Telemetry Layout */}
+        {/* Projects Grid: Clean Spatial Window Layout */}
         <div className="mt-14 grid gap-8 lg:grid-cols-2">
           {projects.map((project) => (
             <article
               key={project.id}
-              className="spotlight-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.1] bg-[#070b14]/85 backdrop-blur-2xl transition-all duration-300 hover:border-[#00f2fe]/40"
+              className="spotlight-card group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-[#070b14]/75 backdrop-blur-2xl transition-all duration-300 hover:border-[#00f2fe]/35"
             >
               <div>
                 {/* System Window Chrome Titlebar */}
-                <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#04060c]/90 px-5 py-3 font-mono text-xs">
+                <div className="flex items-center justify-between border-b border-white/[0.06] bg-[#04060c]/80 px-5 py-3 font-mono text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f56]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#27c93f]" />
+                    <span className="h-2 w-2 rounded-full bg-[#ff5f56]" />
+                    <span className="h-2 w-2 rounded-full bg-[#ffbd2e]" />
+                    <span className="h-2 w-2 rounded-full bg-[#27c93f]" />
                     <span className="ml-2 text-zinc-400 truncate max-w-[180px] sm:max-w-none">
-                      sys://{project.id}.cluster
+                      sys://{project.id}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-[#00f2fe]">
@@ -97,7 +93,7 @@ export default function ProjectsSection() {
                 {/* Architecture Visual Preview */}
                 <div
                   onClick={() => setSelectedProject(project)}
-                  className="relative h-56 sm:h-64 w-full cursor-pointer overflow-hidden border-b border-white/[0.08] bg-gradient-to-br from-[#0c1224] to-[#04060c] p-6"
+                  className="relative h-56 sm:h-64 w-full cursor-pointer overflow-hidden border-b border-white/[0.06] bg-gradient-to-br from-[#0c1224] to-[#04060c] p-6"
                 >
                   <img
                     src={project.image}
@@ -108,7 +104,7 @@ export default function ProjectsSection() {
                       e.currentTarget.style.display = 'none'
                     }}
                   />
-                  <div className="absolute top-4 right-4 rounded-full border border-white/[0.1] bg-[#070b14]/90 px-3 py-1 font-mono text-[10px] text-zinc-300 backdrop-blur-md">
+                  <div className="absolute top-4 right-4 rounded-full border border-white/[0.08] bg-[#070b14]/85 px-3 py-1 font-mono text-[10px] text-zinc-300 backdrop-blur-md">
                     {project.badge}
                   </div>
                 </div>
@@ -124,12 +120,12 @@ export default function ProjectsSection() {
                   <p className="mt-3 text-sm leading-6 text-zinc-300">
                     {project.summary}
                   </p>
-                  <div className="mt-3 rounded-lg border border-white/[0.06] bg-white/[0.02] p-3 font-mono text-xs text-zinc-400">
+                  <div className="mt-3 rounded-lg border border-white/[0.05] bg-white/[0.02] p-3 font-mono text-xs text-zinc-400">
                     <span className="text-[#00f2fe]">&gt; architecture_focus:</span> {project.focus}
                   </div>
 
                   {/* Production Metrics Row */}
-                  <div className="mt-5 grid grid-cols-3 gap-2 border-y border-white/[0.08] py-3 font-mono">
+                  <div className="mt-5 grid grid-cols-3 gap-2 border-y border-white/[0.06] py-3 font-mono">
                     {project.metrics.map((m) => (
                       <div key={m.label}>
                         <p className="text-[10px] text-zinc-500 uppercase truncate">{m.label}</p>
@@ -143,7 +139,7 @@ export default function ProjectsSection() {
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-md border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-zinc-300"
+                        className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2.5 py-1 font-mono text-[11px] text-zinc-300"
                       >
                         {tech}
                       </span>
@@ -152,12 +148,12 @@ export default function ProjectsSection() {
                 </div>
               </div>
 
-              {/* Action Buttons: 2 Clear Pillars (LIVE DEMO ↗ and GITHUB SOURCE) */}
-              <div className="flex items-center gap-3 border-t border-white/[0.08] bg-[#04060c]/60 p-5 sm:px-7">
+              {/* 2 Clear Action Pillars (LIVE DEMO ↗ and GITHUB SOURCE) */}
+              <div className="flex items-center gap-3 border-t border-white/[0.06] bg-[#04060c]/50 p-5 sm:px-7">
                 <button
                   type="button"
                   onClick={() => setSelectedProject(project)}
-                  className="tactile-btn inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#4facfe] py-2.5 font-mono text-xs font-bold text-black shadow-[0_0_20px_rgba(0,242,254,0.25)] hover:opacity-95"
+                  className="tactile-btn inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-white py-2.5 font-mono text-xs font-bold text-black hover:bg-zinc-200 transition-colors"
                 >
                   <span>LIVE DEMO</span>
                   <ExternalLink size={14} />
@@ -166,7 +162,7 @@ export default function ProjectsSection() {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="tactile-btn inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.05] px-4 py-2.5 font-mono text-xs font-semibold text-white hover:border-[#00f2fe]/40 hover:text-[#00f2fe]"
+                  className="tactile-btn inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 py-2.5 font-mono text-xs font-semibold text-white hover:border-[#00f2fe]/40 hover:text-[#00f2fe] transition-colors"
                 >
                   <GithubLogo className="w-4 h-4" />
                   <span className="hidden sm:inline">GITHUB</span> SOURCE
@@ -186,7 +182,7 @@ export default function ProjectsSection() {
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="animate-scale-up relative w-full max-w-2xl overflow-hidden rounded-3xl border border-[#00f2fe]/40 bg-[#070b14] p-6 sm:p-8 shadow-[0_0_80px_rgba(0,242,254,0.25)]"
+            className="animate-scale-up relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/[0.12] bg-[#070b14] p-6 sm:p-8 shadow-[0_0_80px_rgba(0,0,0,0.9)]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -225,7 +221,7 @@ export default function ProjectsSection() {
               {selectedProject.tech.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-lg border border-[#00f2fe]/30 bg-[#00f2fe]/10 px-3 py-1 font-mono text-xs text-[#00f2fe]"
+                  className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 font-mono text-xs text-zinc-300"
                 >
                   {tag}
                 </span>
@@ -237,7 +233,7 @@ export default function ProjectsSection() {
                 href={selectedProject.liveUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="tactile-btn inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#4facfe] py-3 font-mono text-xs font-bold text-black"
+                className="tactile-btn inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-white py-3 font-mono text-xs font-bold text-black hover:bg-zinc-200"
               >
                 OPEN SYSTEM REPOSITORY ↗
               </a>
