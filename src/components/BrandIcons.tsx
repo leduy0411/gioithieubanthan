@@ -1,11 +1,15 @@
 import React from 'react'
 
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  className?: string
+}
+
 /**
  * BrandIcons — Ultra-crisp Custom SVG Logos & Symbols
  * Strictly follows brand geometry, gradients, and proper aspect ratios.
  */
 
-export function FacebookLogo({ className = 'w-6 h-6', ...props }) {
+export function FacebookLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} {...props}>
       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -13,14 +17,11 @@ export function FacebookLogo({ className = 'w-6 h-6', ...props }) {
   )
 }
 
-export function LocketLogo({ className = 'w-6 h-6', ...props }) {
+export function LocketLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} {...props}>
-      {/* Locket Camera Widget Rounded Container */}
       <rect x="2" y="3" width="20" height="18" rx="5.5" stroke="currentColor" strokeWidth="2" />
-      {/* Top Camera Flash Node */}
       <circle cx="17.5" cy="7" r="1.5" fill="currentColor" />
-      {/* Center Heart Cutout Inside Lens Circle */}
       <circle cx="12" cy="12.5" r="5" stroke="currentColor" strokeWidth="1.8" />
       <path
         d="M12 15.2s-2.8-1.75-2.8-3.45c0-.95.75-1.7 1.7-1.7.6 0 1.1.25 1.4.7.3-.45.8-.7 1.4-.7.95 0 1.7.75 1.7 1.7 0 1.7-2.8 3.45-2.8 3.45z"
@@ -30,7 +31,7 @@ export function LocketLogo({ className = 'w-6 h-6', ...props }) {
   )
 }
 
-export function InstagramLogo({ className = 'w-6 h-6', ...props }) {
+export function InstagramLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} {...props}>
       <defs>
@@ -48,7 +49,7 @@ export function InstagramLogo({ className = 'w-6 h-6', ...props }) {
   )
 }
 
-export function TikTokLogo({ className = 'w-6 h-6', ...props }) {
+export function TikTokLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} {...props}>
       {/* 3D Cyan Offset */}
@@ -75,19 +76,16 @@ export function TikTokLogo({ className = 'w-6 h-6', ...props }) {
 /**
  * DJ Turntable SVG with Grooved Vinyl and Moving Tonearm
  */
-export function TurntableIcon({ className = 'w-8 h-8', ...props }) {
+export function TurntableIcon({ className = 'w-8 h-8', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} {...props}>
       <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" strokeWidth="2" strokeOpacity="0.8" />
-      {/* Vinyl record disc */}
       <circle cx="14" cy="16" r="10" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="14" cy="16" r="7" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.6" />
       <circle cx="14" cy="16" r="4" stroke="currentColor" strokeWidth="1" strokeOpacity="0.8" />
       <circle cx="14" cy="16" r="1.5" fill="currentColor" />
-      {/* Tonearm */}
       <circle cx="26" cy="8" r="2" fill="currentColor" />
       <path d="M26 10l-4 7-2 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      {/* Pitch fader */}
       <line x1="26" y1="21" x2="26" y2="27" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.6" />
       <rect x="24.5" y="23" width="3" height="2" rx="0.5" fill="currentColor" />
     </svg>
@@ -97,12 +95,11 @@ export function TurntableIcon({ className = 'w-8 h-8', ...props }) {
 /**
  * Camera Optical Lens SVG with Aperture Blades
  */
-export function CameraLensIcon({ className = 'w-8 h-8', ...props }) {
+export function CameraLensIcon({ className = 'w-8 h-8', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} {...props}>
       <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="2" />
       <circle cx="16" cy="16" r="9.5" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 2" strokeOpacity="0.6" />
-      {/* Aperture blades */}
       <path d="M16 8l4.5 4.5M22.5 11l-1 6M23 19l-5.5 2M18 24l-4.5-4.5M9.5 21l1-6M9 13l5.5-2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
       <circle cx="16" cy="16" r="4" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="14.5" cy="14.5" r="1.2" fill="currentColor" />
@@ -113,7 +110,7 @@ export function CameraLensIcon({ className = 'w-8 h-8', ...props }) {
 /**
  * FC Barcelona Minimalist Blaugrana Shield
  */
-export function BarcaShieldIcon({ className = 'w-8 h-8', ...props }) {
+export function BarcaShieldIcon({ className = 'w-8 h-8', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} {...props}>
       <path
@@ -121,13 +118,9 @@ export function BarcaShieldIcon({ className = 'w-8 h-8', ...props }) {
         stroke="#FFED00"
         strokeWidth="1.8"
       />
-      {/* Top Left St George Cross */}
       <path d="M8 7h6M11 4v6" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="square" />
-      {/* Top Right Senyera Stripes */}
       <path d="M19 4v6M21.5 4v6M24 4v6" stroke="#FFED00" strokeWidth="1.2" />
-      {/* Center Gold Crossbar */}
       <path d="M6 13h20" stroke="#FFED00" strokeWidth="1.8" />
-      {/* Bottom Blaugrana Stripes */}
       <path d="M11 15v10" stroke="#004D98" strokeWidth="2.4" />
       <path d="M16 15v11" stroke="#A50044" strokeWidth="2.4" />
       <path d="M21 15v10" stroke="#004D98" strokeWidth="2.4" />
@@ -135,8 +128,10 @@ export function BarcaShieldIcon({ className = 'w-8 h-8', ...props }) {
   )
 }
 
-
-export function GithubLogo({ className = 'w-4 h-4', ...props }) {
+/**
+ * GitHub Logo SVG
+ */
+export function GithubLogo({ className = 'w-4 h-4', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} {...props}>
       <path
