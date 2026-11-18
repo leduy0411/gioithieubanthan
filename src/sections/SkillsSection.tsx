@@ -94,10 +94,10 @@ export default function SkillsSection() {
         replies = [
           'COMMUNICATION MATRIX:',
           `  Email:     ${content.identity.email}`,
-          `  Facebook:  ${content.socials.channels.find((s) => s.id === 'facebook')?.url}`,
-          `  Locket:    ${content.socials.channels.find((s) => s.id === 'locket')?.url}`,
-          `  Instagram: ${content.socials.channels.find((s) => s.id === 'instagram')?.url}`,
-          `  TikTok:    ${content.socials.channels.find((s) => s.id === 'tiktok')?.url}`,
+          `  Facebook:  ${content.socials.find((s) => s.id === 'facebook')?.url}`,
+          `  Locket:    ${content.socials.find((s) => s.id === 'locket')?.url}`,
+          `  Instagram: ${content.socials.find((s) => s.id === 'instagram')?.url}`,
+          `  TikTok:    ${content.socials.find((s) => s.id === 'tiktok')?.url}`,
         ]
       } else if (cmd === 'whoami') {
         replies = [

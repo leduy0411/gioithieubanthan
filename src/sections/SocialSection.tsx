@@ -106,7 +106,7 @@ export default function SocialSection() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {content.socials.channels.map((social) => {
+              {content.socials.map((social) => {
                 const Logo = BRAND_LOGOS[social.id] || FacebookLogo
                 return (
                   <a

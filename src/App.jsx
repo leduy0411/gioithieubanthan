@@ -15,6 +15,7 @@ import CommandPalette from './components/CommandPalette'
 import DevPlanetPreview from './scene/DevPlanetPreview'
 import { useActiveSection } from './hooks/useActiveSection'
 import { ArrowUpRight } from 'lucide-react'
+import { ErrorBoundary, CosmicFallback } from './components/ErrorBoundary.tsx'
 
 export default function App() {
   const [introReady, setIntroReady] = useState(false)
@@ -64,7 +65,10 @@ export default function App() {
       <CommandPalette isOpen={commandPaletteOpen} setIsOpen={setCommandPaletteOpen} />
 
       {/* Minimalist Cosmic Odyssey 3D Celestial Stage & Orbital Transitions */}
-      <CosmicScene currentSection={activeStation} />
+      {/* ErrorBoundary: if WebGL crashes, show CSS gradient fallback instead of black screen */}
+      <ErrorBoundary fallback={CosmicFallback} label="CosmicScene">
+        <CosmicScene currentSection={activeStation} />
+      </ErrorBoundary>
 
       {/* Minimalist Cosmic Mission Control HUD Overlay (Brackets, 5-Station Dots, T+ Timer) */}
       <HudOverlay />

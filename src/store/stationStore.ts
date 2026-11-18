@@ -30,22 +30,42 @@ let activeStation: StationIndex = 0
 let direction: 'forward' | 'backward' = 'forward'
 const listeners = new Set<Listener>()
 
+/**
+ * FIX: useSyncExternalStore requires getSnapshot to return the SAME reference
+ * when state hasn't changed. We cache the snapshot object and only create a new
+ * one inside notify() when state actually changes. This prevents the
+ * "getSnapshot should be cached" infinite loop warning.
+ */
+interface StoreSnapshot {
+  activeStation: StationIndex
+  direction: 'forward' | 'backward'
+  currentConfig: StationConfig
+}
+
+let cachedSnapshot: StoreSnapshot = {
+  activeStation: 0,
+  direction: 'forward',
+  currentConfig: STATIONS[0],
+}
+
 function notify() {
+  // Rebuild snapshot with new reference only on actual change
+  cachedSnapshot = {
+    activeStation,
+    direction,
+    currentConfig: STATIONS[activeStation],
+  }
   // Sync CSS variable --accent on document root
   if (typeof document !== 'undefined') {
-    const current = STATIONS[activeStation]
-    document.documentElement.style.setProperty('--accent', current.accentColor)
+    document.documentElement.style.setProperty('--accent', cachedSnapshot.currentConfig.accentColor)
   }
   listeners.forEach((l) => l())
 }
 
 export const stationStore = {
-  getState() {
-    return {
-      activeStation,
-      direction,
-      currentConfig: STATIONS[activeStation],
-    }
+  /** Returns stable cached snapshot — same reference between notify() calls */
+  getState(): StoreSnapshot {
+    return cachedSnapshot
   },
 
   setStation(nextStation: number) {

@@ -2,9 +2,13 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import { ErrorBoundary } from './components/ErrorBoundary.tsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    {/* Global fault boundary: catches crashes outside React tree render */}
+    <ErrorBoundary label="ROOT">
+      <App />
+    </ErrorBoundary>
   </StrictMode>,
 )

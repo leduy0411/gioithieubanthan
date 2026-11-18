@@ -52,22 +52,37 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
     rafId = requestAnimationFrame(frame)
 
-    // Allow user to click to skip
-    const handleSkip = () => {
+    // Safeguard fallback: Force dismiss after 1100ms in case tab is in background
+    const fallbackTimer = setTimeout(() => {
       cancelAnimationFrame(rafId)
       setIsClosing(true)
       setTimeout(() => {
         setIsDone(true)
         sessionStorage.setItem('duy_orbital_intro_shown', 'true')
         if (onComplete) onComplete()
-      }, 200)
+      }, 300)
+    }, 1100)
+
+    // Allow user to click or press any key to skip immediately
+    const handleSkip = () => {
+      cancelAnimationFrame(rafId)
+      clearTimeout(fallbackTimer)
+      setIsClosing(true)
+      setTimeout(() => {
+        setIsDone(true)
+        sessionStorage.setItem('duy_orbital_intro_shown', 'true')
+        if (onComplete) onComplete()
+      }, 150)
     }
 
     window.addEventListener('keydown', handleSkip, { once: true })
+    window.addEventListener('click', handleSkip, { once: true })
 
     return () => {
       cancelAnimationFrame(rafId)
+      clearTimeout(fallbackTimer)
       window.removeEventListener('keydown', handleSkip)
+      window.removeEventListener('click', handleSkip)
     }
   }, [onComplete])
 
