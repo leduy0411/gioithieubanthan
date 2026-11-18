@@ -7,6 +7,7 @@ import SkillsSection from './sections/SkillsSection'
 import SocialSection from './sections/SocialSection'
 import Footer from './sections/Footer'
 import CosmicScene from './scene/CosmicScene'
+import HudOverlay from './components/HudOverlay'
 import CustomCursor from './components/CustomCursor'
 import Preloader from './components/Preloader'
 import KineticMarquee from './components/KineticMarquee'
@@ -64,6 +65,9 @@ export default function App() {
 
       {/* Minimalist Cosmic Odyssey 3D Celestial Stage & Orbital Transitions */}
       <CosmicScene currentSection={activeStation} />
+
+      {/* Minimalist Cosmic Mission Control HUD Overlay (Brackets, 5-Station Dots, T+ Timer) */}
+      <HudOverlay />
 
       {/* Subtle Cosmic Deep Space Grain */}
       <div className="grain-overlay pointer-events-none fixed inset-0 z-[1] opacity-[0.03]" aria-hidden="true" />
