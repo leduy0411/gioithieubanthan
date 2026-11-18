@@ -9,23 +9,55 @@ import {
   Mail,
   Search,
   Server,
-  Sparkles,
   Terminal,
   User,
+  Volume2,
+  VolumeX,
   X,
   Zap,
 } from 'lucide-react'
-import { personalInfo, projectShowcase } from '../data/portfolioData'
+import { content } from '../data/content'
+import { STATIONS, stationStore, StationIndex } from '../store/stationStore'
+import { useAudioDrone } from '../hooks/useAudioDrone'
 
-export default function CommandPalette({ isOpen, setIsOpen }) {
+interface CommandPaletteProps {
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+interface PaletteItem {
+  id: string
+  category: 'NAVIGATION' | 'PROJECTS' | 'ACTIONS'
+  title: string
+  subtitle: string
+  icon: React.ElementType
+  action: () => void
+  highlight?: boolean
+}
+
+export default function CommandPalette({ isOpen, setIsOpen }: CommandPaletteProps) {
   const [query, setQuery] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [copied, setCopied] = useState(false)
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
+  const { isEnabled: isAudioEnabled, toggleAudio } = useAudioDrone()
 
-  // Global Keyboard listener for Cmd+K / Ctrl+K
+  // Save previous focus on open and restore on close
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement
+      setTimeout(() => inputRef.current?.focus(), 50)
+      setQuery('')
+      setSelectedIndex(0)
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus()
+    }
+  }, [isOpen])
+
+  // Global Keyboard listener for Cmd+K / Ctrl+K and Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault()
         setIsOpen((prev) => !prev)
@@ -38,16 +70,8 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, setIsOpen])
 
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50)
-      setQuery('')
-      setSelectedIndex(0)
-    }
-  }, [isOpen])
-
   const copyEmailAction = () => {
-    navigator.clipboard.writeText(personalInfo.email)
+    navigator.clipboard.writeText(content.identity.email)
     setCopied(true)
     setTimeout(() => {
       setCopied(false)
@@ -55,84 +79,65 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
     }, 1200)
   }
 
-  const navigateTo = (hash) => {
+  const navigateToStation = (stationIdx: StationIndex, hash: string) => {
     setIsOpen(false)
+    stationStore.setStation(stationIdx)
     const element = document.querySelector(hash)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
-  const items = [
-    // Sections
-    {
-      id: 'sec-home',
-      category: 'NAVIGATION',
-      title: 'Index // Flagship Stage',
-      subtitle: 'Hero, 3D Character Stage & Identity',
+  const items: PaletteItem[] = [
+    // 5 Stations Navigation
+    ...STATIONS.map((station) => ({
+      id: `station-${station.id}`,
+      category: 'NAVIGATION' as const,
+      title: `${station.callsign}`,
+      subtitle: `Celestial Body: ${station.planetName}`,
       icon: Zap,
-      action: () => navigateTo('#home'),
-    },
-    {
-      id: 'sec-about',
-      category: 'NAVIGATION',
-      title: 'Profile // Architectural Philosophy',
-      subtitle: 'Background, Credentials & Passions',
-      icon: User,
-      action: () => navigateTo('#about'),
-    },
-    {
-      id: 'sec-projects',
-      category: 'NAVIGATION',
-      title: 'Systems // Production Architectures',
-      subtitle: 'FastAPI AI Attendance & Gemini Platform',
-      icon: Layers,
-      action: () => navigateTo('#projects'),
-    },
-    {
-      id: 'sec-skills',
-      category: 'NAVIGATION',
-      title: 'Expertise // Technical Arsenal',
-      subtitle: 'Capabilities, Production Stacks & Bash',
-      icon: Terminal,
-      action: () => navigateTo('#skills'),
-    },
-    {
-      id: 'sec-socials',
-      category: 'NAVIGATION',
-      title: 'Signal // Direct Collaboration',
-      subtitle: 'Verified Channels & Encrypted Inbox',
-      icon: Mail,
-      action: () => navigateTo('#socials'),
-    },
-    // Projects
-    ...projectShowcase.map((p) => ({
-      id: `proj-${p.id}`,
-      category: 'SYSTEMS',
-      title: p.name,
-      subtitle: `${p.category} • ${p.tech.slice(0, 3).join(', ')}`,
-      icon: Code,
-      action: () => navigateTo('#projects'),
+      action: () => navigateToStation(station.id, `#${station.sectionId}`),
     })),
+
+    // 4 Real Production Projects
+    ...content.projects.map((project) => ({
+      id: `proj-${project.id}`,
+      category: 'PROJECTS' as const,
+      title: project.title,
+      subtitle: `${project.categoryLabel} • ${project.techStack.slice(0, 3).join(', ')}`,
+      icon: Code,
+      action: () => navigateToStation(2, '#projects'),
+    })),
+
     // Quick Actions
     {
       id: 'act-copy-email',
-      category: 'QUICK ACTIONS',
+      category: 'ACTIONS' as const,
       title: copied ? 'Email Address Copied! ✓' : 'Copy Primary Email Address',
-      subtitle: personalInfo.email,
+      subtitle: content.identity.email,
       icon: copied ? Check : Copy,
       action: copyEmailAction,
       highlight: true,
     },
     {
       id: 'act-email',
-      category: 'QUICK ACTIONS',
+      category: 'ACTIONS' as const,
       title: 'Compose Direct Email',
-      subtitle: `Open client -> ${personalInfo.email}`,
+      subtitle: `Open client -> ${content.identity.email}`,
       icon: Mail,
       action: () => {
-        window.location.href = `mailto:${personalInfo.email}`
+        window.location.href = `mailto:${content.identity.email}`
         setIsOpen(false)
+      },
+    },
+    {
+      id: 'act-audio',
+      category: 'ACTIONS' as const,
+      title: isAudioEnabled ? 'Mute Cockpit Audio Drone' : 'Activate Cockpit Audio Drone',
+      subtitle: 'Web Audio API real-time synthesis',
+      icon: isAudioEnabled ? VolumeX : Volume2,
+      action: () => {
+        toggleAudio()
       },
     },
   ]
@@ -144,7 +149,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
       item.category.toLowerCase().includes(query.toLowerCase())
   )
 
-  const handleKeyNav = (e) => {
+  const handleKeyNav = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault()
       setSelectedIndex((prev) => (prev + 1) % (filteredItems.length || 1))
@@ -165,16 +170,16 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[99999] flex items-start justify-center p-4 pt-20 sm:pt-28 bg-black/80 backdrop-blur-2xl animate-fade-up"
+      className="fixed inset-0 z-[99999] flex items-start justify-center p-4 pt-20 sm:pt-28 bg-black/80 backdrop-blur-2xl"
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#070b14]/95 shadow-[0_24px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(0,242,254,0.15)] backdrop-blur-3xl"
+        className="w-full max-w-2xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#070b14]/95 shadow-[0_24px_80px_rgba(0,0,0,0.9),0_0_50px_rgba(56,189,248,0.15)] backdrop-blur-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
         <div className="flex items-center gap-3 border-b border-white/[0.08] px-5 py-4">
-          <Search size={18} className="text-[#00f2fe] shrink-0" />
+          <Search size={18} className="text-[#38bdf8] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -184,8 +189,9 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
               setSelectedIndex(0)
             }}
             onKeyDown={handleKeyNav}
-            placeholder="Type a command, jump to system, or search..."
+            placeholder="Type a command, jump to station, or search systems..."
             className="w-full bg-transparent font-mono text-sm text-white placeholder:text-zinc-500 outline-none"
+            aria-label="Mission Command Search"
           />
           <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 font-mono text-[10px] text-zinc-400">
             ESC
@@ -194,6 +200,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
             type="button"
             onClick={() => setIsOpen(false)}
             className="text-zinc-500 hover:text-white"
+            aria-label="Close Command Palette"
           >
             <X size={18} />
           </button>
@@ -203,7 +210,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
         <div className="max-h-[22rem] overflow-y-auto p-2">
           {filteredItems.length === 0 ? (
             <div className="py-12 text-center font-mono text-xs text-zinc-500">
-              No matching commands found for "{query}"
+              No matching mission commands found for &quot;{query}&quot;
             </div>
           ) : (
             <div className="space-y-1">
@@ -218,7 +225,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
                     onMouseEnter={() => setSelectedIndex(idx)}
                     className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition-all ${
                       isSelected
-                        ? 'border border-[#00f2fe]/40 bg-[#00f2fe]/10 text-white'
+                        ? 'border border-[#38bdf8]/40 bg-[#38bdf8]/10 text-white'
                         : 'border border-transparent text-zinc-300 hover:bg-white/[0.03]'
                     }`}
                   >
@@ -226,7 +233,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
                       <div
                         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${
                           isSelected
-                            ? 'border-[#00f2fe]/50 bg-[#00f2fe]/20 text-[#00f2fe]'
+                            ? 'border-[#38bdf8]/50 bg-[#38bdf8]/20 text-[#38bdf8]'
                             : 'border-white/[0.08] bg-white/[0.03] text-zinc-400'
                         }`}
                       >
@@ -234,7 +241,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs uppercase tracking-wider text-[#00f2fe]">
+                          <span className="font-mono text-[10px] uppercase tracking-wider text-[#38bdf8]">
                             {item.category}
                           </span>
                         </div>
@@ -249,7 +256,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
                     <ArrowRight
                       size={15}
                       className={`shrink-0 transition-transform ${
-                        isSelected ? 'translate-x-1 text-[#00f2fe]' : 'text-zinc-600'
+                        isSelected ? 'translate-x-1 text-[#38bdf8]' : 'text-zinc-600'
                       }`}
                     />
                   </button>
@@ -272,7 +279,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
               <span>to execute</span>
             </span>
           </div>
-          <span className="text-[#00f2fe]">LE DUY // CORE COMMAND</span>
+          <span className="text-[#38bdf8]">LE DUY // MISSION CONTROL</span>
         </div>
       </div>
     </div>
