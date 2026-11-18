@@ -11,6 +11,7 @@ import CustomCursor from './components/CustomCursor'
 import Preloader from './components/Preloader'
 import KineticMarquee from './components/KineticMarquee'
 import CommandPalette from './components/CommandPalette'
+import DevPlanetPreview from './scene/DevPlanetPreview'
 import { ArrowUpRight } from 'lucide-react'
 
 const SECTION_IDS = ['home', 'about', 'projects', 'skills', 'socials']
@@ -19,6 +20,11 @@ export default function App() {
   const [introReady, setIntroReady] = useState(false)
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const [activeSectionIndex, setActiveSectionIndex] = useState(0)
+
+  // Dev Testbench for 5 Planet Shaders
+  if (typeof window !== 'undefined' && window.location.pathname === '/dev/planets') {
+    return <DevPlanetPreview />
+  }
 
   // Track active section for CosmicScene planet transitions
   useEffect(() => {
@@ -42,13 +48,16 @@ export default function App() {
     return () => observer.disconnect()
   }, [])
 
-  const isNotFound = window.location.pathname !== '/' && window.location.pathname !== ''
+  const isNotFound =
+    window.location.pathname !== '/' &&
+    window.location.pathname !== '' &&
+    window.location.pathname !== '/dev/planets'
 
   if (isNotFound) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#030307] px-5 text-center text-[#f8fafc]">
+      <main className="flex min-h-screen items-center justify-center bg-[#020307] px-5 text-center text-[#f8fafc]">
         <div className="max-w-md">
-          <p className="font-mono text-sm text-[#00f2fe]">404 // COSMIC_COORDINATE_NOT_FOUND</p>
+          <p className="font-mono text-sm text-[#38bdf8]">404 // COSMIC_COORDINATE_NOT_FOUND</p>
           <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-white">LOST IN DEEP SPACE</h1>
           <p className="mt-3 text-sm leading-6 text-[#94A3B8]">
             The requested coordinate does not exist in the neural architecture.
@@ -66,7 +75,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#030307] text-[#F8FAFC] selection:bg-[#00f2fe]/30 selection:text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#020307] text-[#F8FAFC] selection:bg-[#38bdf8]/30 selection:text-white">
       {/* Cinematic 850ms Preloader */}
       <Preloader onComplete={() => setIntroReady(true)} />
 
@@ -79,7 +88,7 @@ export default function App() {
       {/* Minimalist Cosmic Odyssey 3D Celestial Stage & Orbital Transitions */}
       <CosmicScene currentSection={activeSectionIndex} />
 
-      {/* Subtle Cosmic Grain */}
+      {/* Subtle Cosmic Deep Space Grain */}
       <div className="grain-overlay pointer-events-none fixed inset-0 z-[1] opacity-[0.03]" aria-hidden="true" />
 
       {/* Primary Navigation Dock */}
