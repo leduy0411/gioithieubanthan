@@ -12,41 +12,18 @@ import Preloader from './components/Preloader'
 import KineticMarquee from './components/KineticMarquee'
 import CommandPalette from './components/CommandPalette'
 import DevPlanetPreview from './scene/DevPlanetPreview'
+import { useActiveSection } from './hooks/useActiveSection'
 import { ArrowUpRight } from 'lucide-react'
-
-const SECTION_IDS = ['home', 'about', 'projects', 'skills', 'socials']
 
 export default function App() {
   const [introReady, setIntroReady] = useState(false)
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
-  const [activeSectionIndex, setActiveSectionIndex] = useState(0)
+  const { activeStation } = useActiveSection()
 
   // Dev Testbench for 5 Planet Shaders
   if (typeof window !== 'undefined' && window.location.pathname === '/dev/planets') {
     return <DevPlanetPreview />
   }
-
-  // Track active section for CosmicScene planet transitions
-  useEffect(() => {
-    const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean)
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-
-        if (visible) {
-          const index = SECTION_IDS.indexOf(visible.target.id)
-          if (index !== -1) setActiveSectionIndex(index)
-        }
-      },
-      { rootMargin: '-20% 0px -50% 0px', threshold: [0.1, 0.3, 0.6] }
-    )
-
-    sections.forEach((s) => observer.observe(s))
-    return () => observer.disconnect()
-  }, [])
 
   const isNotFound =
     window.location.pathname !== '/' &&
@@ -86,7 +63,7 @@ export default function App() {
       <CommandPalette isOpen={commandPaletteOpen} setIsOpen={setCommandPaletteOpen} />
 
       {/* Minimalist Cosmic Odyssey 3D Celestial Stage & Orbital Transitions */}
-      <CosmicScene currentSection={activeSectionIndex} />
+      <CosmicScene currentSection={activeStation} />
 
       {/* Subtle Cosmic Deep Space Grain */}
       <div className="grain-overlay pointer-events-none fixed inset-0 z-[1] opacity-[0.03]" aria-hidden="true" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { STATION_PROFILES, StationOrbitalProfile } from './stations'
 import { createPlanetObject } from './PlanetMesh'
@@ -80,9 +80,17 @@ export default function CosmicScene({ currentSection = 0 }: { currentSection?: n
   const mountRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = useReducedMotion()
   const activeSectionRef = useRef<number>(currentSection)
+  const [webGLFailed, setWebGLFailed] = useState<boolean>(false)
 
+  // Sync prop changes with activeSectionRef and stationStore
   useEffect(() => {
     activeSectionRef.current = currentSection
+    if (typeof currentSection === 'number' && currentSection >= 0 && currentSection < 5) {
+      const state = stationStore.getState()
+      if (state.activeStation !== currentSection) {
+        stationStore.setStation(currentSection as StationIndex)
+      }
+    }
   }, [currentSection])
 
   useEffect(() => {
@@ -99,11 +107,18 @@ export default function CosmicScene({ currentSection = 0 }: { currentSection?: n
 
     let renderer: THREE.WebGLRenderer
     try {
+      const canvas = document.createElement('canvas')
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+      if (!gl) {
+        setWebGLFailed(true)
+        return undefined
+      }
       renderer = new THREE.WebGLRenderer({
         antialias: !isLowPower,
         powerPreference: 'high-performance',
       })
     } catch {
+      setWebGLFailed(true)
       return undefined
     }
 
@@ -112,21 +127,35 @@ export default function CosmicScene({ currentSection = 0 }: { currentSection?: n
     renderer.setClearColor(0x020307, 1)
     container.appendChild(renderer.domElement)
 
+    // Mobile placement adjustments (slightly center-right so planet stays framed)
+    const getTargetPosition = (pos: THREE.Vector3) => {
+      if (isMobile) {
+        return new THREE.Vector3(pos.x * 0.55 + 0.35, pos.y, pos.z)
+      }
+      return pos.clone()
+    }
+
+    const getTargetScale = (scale: number) => {
+      return isMobile ? scale * 0.78 : scale
+    }
+
     // 2. Pre-warmed Planet Instances (Max 2)
     let currentPlanet: PlanetInstance | null = null
     let outgoingPlanet: PlanetInstance | null = null
 
     const initialProfile = STATION_PROFILES[Math.min(Math.max(activeSectionRef.current, 0), 4)]
     const initObj = createPlanetObject(initialProfile)
-    initObj.group.position.copy(initialProfile.position)
-    initObj.group.scale.setScalar(initialProfile.scale)
+    const initialPos = getTargetPosition(initialProfile.position)
+    const initialScale = getTargetScale(initialProfile.scale)
+    initObj.group.position.copy(initialPos)
+    initObj.group.scale.setScalar(initialScale)
     scene.add(initObj.group)
 
     currentPlanet = {
       profile: initialProfile,
       obj: initObj,
-      initialPos: initialProfile.position.clone(),
-      initialScale: initialProfile.scale,
+      initialPos: initialPos.clone(),
+      initialScale,
       startTime: 0,
       duration: 0,
       isIncoming: false,
@@ -277,11 +306,14 @@ export default function CosmicScene({ currentSection = 0 }: { currentSection?: n
       // Pre-warm incoming planet shader
       renderer.compile(scene, camera)
 
+      const targetPos = getTargetPosition(nextProfile.position)
+      const targetScale = getTargetScale(nextProfile.scale)
+
       currentPlanet = {
         profile: nextProfile,
         obj: incomingObj,
-        initialPos: nextProfile.position.clone(),
-        initialScale: nextProfile.scale,
+        initialPos: targetPos,
+        initialScale: targetScale,
         startTime: now,
         duration: warpDuration,
         isIncoming: true,
@@ -534,10 +566,33 @@ export default function CosmicScene({ currentSection = 0 }: { currentSection?: n
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* Fallback CSS Deep-Space Stage if WebGL is unavailable */}
+      {webGLFailed && (
+        <div
+          className="absolute inset-0 bg-[#020307]"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 75% 35%, rgba(56, 189, 248, 0.18) 0%, transparent 45%),
+              radial-gradient(circle at 25% 75%, rgba(168, 85, 247, 0.12) 0%, transparent 45%),
+              radial-gradient(ellipse at 50% 50%, #060913 0%, #020307 100%)
+            `,
+          }}
+          aria-hidden="true"
+        >
+          {/* Subtle static CSS stardust dots */}
+          <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:36px_36px] opacity-15" />
+          <span className="sr-only">Cosmic Deep-Space Background (Static Canvas Active)</span>
+        </div>
+      )}
+
       {/* 3D WebGL Canvas Viewport */}
       <div ref={mountRef} className="absolute inset-0" aria-hidden="true" />
-      {/* Central radial vignette mask to ensure text readability is 100% crisp at all times */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_38%_45%,rgba(2,3,7,0.55)_0%,rgba(2,3,7,0.88)_65%,#020307_100%)] pointer-events-none" />
+
+      {/* Legibility text scrim on the left (protecting content hierarchy while letting celestial planet on the right shine vividly) */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#020307]/85 via-[#020307]/35 to-transparent sm:from-[#020307]/75" />
+
+      {/* Outer cinematic perimeter vignette */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(2,3,7,0.65)_100%)]" />
     </div>
   )
 }
