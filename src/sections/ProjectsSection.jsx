@@ -1,233 +1,179 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
+import { ArrowUpRight, Code, ExternalLink, Layers, Sparkles, X, Zap } from 'lucide-react'
 import { projectShowcase } from '../data/portfolioData'
-import { ArrowDownRight, ChevronDown, Layers, Terminal, ExternalLink, X, Cpu, Server, Shield, Database, Activity } from 'lucide-react'
-import TiltCard from '../components/TiltCard'
 
-const FILTERS = [
-  { id: 'all', label: 'All Concepts' },
-  { id: 'platform', label: 'Platforms' },
-  { id: 'data', label: 'Data Systems' },
-  { id: 'security', label: 'Security' }
+const filters = [
+  { id: 'all', label: 'ALL ARCHITECTURES' },
+  { id: 'platform', label: 'PLATFORMS' },
+  { id: 'data', label: 'DATA SYSTEMS' },
+  { id: 'security', label: 'SECURITY' },
 ]
 
 export default function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState('all')
-  const [expandedProject, setExpandedProject] = useState(null)
-  const [selectedBlueprint, setSelectedBlueprint] = useState(null)
+  const [selectedProject, setSelectedProject] = useState(null)
 
-  const visibleProjects = projectShowcase.filter(
-    (project) => activeFilter === 'all' || project.filter === activeFilter
+  const projects = useMemo(
+    () => projectShowcase.filter((p) => activeFilter === 'all' || p.filter === activeFilter),
+    [activeFilter]
   )
 
   return (
-    <section id="projects" className="relative py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto relative z-10">
-        
+    <section id="projects" className="relative border-t border-white/[0.08] px-5 py-24 sm:px-8 lg:py-36">
+      <div className="mx-auto max-w-7xl">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B101A] border border-[#00D9FF]/30 text-xs font-mono text-[#00D9FF] mb-3 shadow-[0_0_15px_rgba(0,217,255,0.15)]">
-            <Cpu className="w-3.5 h-3.5 text-[#00D9FF]" />
-            <span>02 // ARCHITECTURAL CONCEPTS</span>
+        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <div>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#00f2fe]">
+              <span className="w-2 h-2 rounded-full bg-[#00f2fe]" />
+              <span>02 // FLAGSHIP ARCHITECTURES</span>
+            </div>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold leading-tight tracking-[-0.04em] text-white sm:text-5xl">
+              SYSTEMS DESIGNED TO WITHSTAND <br />
+              <span className="gradient-text">CRITICAL THROUGHPUT.</span>
+            </h2>
           </div>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-            SYSTEM{' '}
-            <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent">
-              CONCEPTS &amp; DESIGNS
-            </span>
-          </h2>
-          <p className="font-body font-normal max-w-2xl text-sm sm:text-base text-[#94A3B8] mb-5 leading-relaxed">
-            High-concurrency backend blueprints, distributed data streaming architectures, and cryptographic security designs engineered with modern best practices.
-          </p>
-          <div className="section-accent-line" />
-        </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
-          {FILTERS.map((filter) => {
-            const isActive = activeFilter === filter.id
-            return (
-              <button
-                key={filter.id}
-                type="button"
-                onClick={() => setActiveFilter(filter.id)}
-                className={`tactile-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-display font-bold tracking-wide transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'bg-[#00D9FF] text-[#050508] shadow-[0_0_20px_rgba(0,217,255,0.45)] border border-[#00D9FF]'
-                    : 'bg-white/[0.03] text-[#94A3B8] border border-white/[0.08] hover:border-[#00D9FF]/40 hover:text-white'
-                }`}
-              >
-                {filter.label}
-              </button>
-            )
-          })}
+          {/* Interactive Filter Pills */}
+          <div className="flex flex-wrap gap-2" aria-label="Project filters">
+            {filters.map((filter) => {
+              const isActive = activeFilter === filter.id
+              return (
+                <button
+                  key={filter.id}
+                  type="button"
+                  onClick={() => setActiveFilter(filter.id)}
+                  className={`tactile-btn rounded-xl px-4 py-2 font-mono text-xs tracking-wider transition-all ${
+                    isActive
+                      ? 'border border-[#00f2fe]/50 bg-[#00f2fe]/15 text-[#00f2fe] shadow-[0_0_15px_rgba(0,242,254,0.25)] font-bold'
+                      : 'border border-white/[0.08] bg-white/[0.03] text-zinc-400 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  {filter.label}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-          {visibleProjects.map((project, index) => {
-            const isExpanded = expandedProject === project.id
-            const isFeature = index === 0
+        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+          {projects.map((project, index) => (
+            <article
+              key={project.id}
+              onClick={() => setSelectedProject(project)}
+              className="spotlight-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/[0.1] bg-[#070b14]/80 backdrop-blur-xl transition-all duration-300 hover:border-[#00f2fe]/40"
+            >
+              {/* Architecture Blueprint Visual Preview */}
+              <div className="relative h-60 w-full overflow-hidden border-b border-white/[0.08] bg-gradient-to-br from-[#0c1222] to-[#04060c] p-6 sm:h-72">
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
+                <div className="absolute right-4 top-4 flex items-center gap-2 rounded-full border border-white/[0.1] bg-[#070b14]/85 px-3 py-1 font-mono text-[10px] text-[#00f2fe] backdrop-blur-md">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00f2fe] animate-ping" />
+                  {project.category}
+                </div>
+              </div>
 
-            return (
-              <TiltCard
-                key={project.id}
-                data-cursor-text="EXPLORE ↗"
-                className="rounded-2xl flex flex-col justify-between"
-              >
+              {/* Project Metadata & Technical Summary */}
+              <div className="flex flex-col justify-between p-6 sm:p-8">
                 <div>
-                  {/* Visual Diagram Preview Container */}
-                  <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#0c1222] via-[#070b14] to-[#030306] border-b border-white/[0.08]">
-                    <img
-                      src={project.image}
-                      alt=""
-                      aria-hidden="true"
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-85" />
-                    
-                    {/* Badge Pill */}
-                    <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-[#0B101A]/90 border border-white/10 text-white backdrop-blur-md">
-                      <Layers className="w-3.5 h-3.5 text-[#00D9FF]" />
-                      {project.category}
-                    </span>
+                  <h3 className="font-display text-2xl font-bold text-white transition-colors group-hover:text-[#00f2fe]">
+                    {project.name}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-zinc-300">
+                    {project.summary}
+                  </p>
+                  <p className="mt-3 text-xs leading-5 text-zinc-400 font-mono">
+                    {project.focus}
+                  </p>
+                </div>
 
-                    {/* Telemetry Tag */}
-                    <span className="absolute bottom-3.5 right-3.5 font-mono text-[10px] tracking-widest text-[#00D9FF] bg-black/60 px-2 py-0.5 rounded border border-[#00D9FF]/20">
-                      SYS // {project.id.toUpperCase()}
-                    </span>
-                  </div>
-
-                  {/* Content Area */}
-                  <div className="p-6 sm:p-7">
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                      <div>
-                        <span className="font-mono text-[10px] tracking-widest text-[#A855F7] uppercase block mb-1">
-                          ARCHITECTURAL STUDY 0{index + 1}
-                        </span>
-                        <h3 className="font-display font-bold text-xl sm:text-2xl text-white group-hover:text-[#00D9FF] transition-colors">
-                          {project.name}
-                        </h3>
-                      </div>
-                      <ArrowDownRight className="w-5 h-5 text-[#94A3B8] transition-transform group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-[#00D9FF] shrink-0 mt-1" />
-                    </div>
-
-                    <p className="font-body font-normal text-sm text-[#CBD5E1] leading-relaxed mb-5">
-                      {project.summary}
-                    </p>
-
-                    {/* Tech Tags */}
-                    <div className="flex flex-wrap gap-1.5 mb-5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08] text-xs font-mono text-[#94A3B8]"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Expandable Blueprint Details */}
-                    <div className="border-t border-white/[0.08] pt-4">
-                      <button
-                        type="button"
-                        onClick={() => setExpandedProject(isExpanded ? null : project.id)}
-                        className="flex w-full items-center justify-between text-xs font-mono font-semibold text-[#CBD5E1] hover:text-[#00D9FF] transition-colors cursor-pointer"
+                <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.08] pt-5">
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 font-mono text-[11px] text-zinc-300"
                       >
-                        <span>{isExpanded ? 'COLLAPSE DESIGN NOTES' : 'EXPLORE ARCHITECTURE NOTES'}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
-                      </button>
-
-                      {isExpanded && (
-                        <div className="mt-3.5 pt-3.5 border-t border-white/[0.04] text-xs font-body text-[#94A3B8] leading-relaxed animate-fade-up">
-                          <p className="mb-3">{project.focus}</p>
-                          <button
-                            type="button"
-                            onClick={() => setSelectedBlueprint(project)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#00D9FF]/10 border border-[#00D9FF]/30 text-[#00D9FF] hover:bg-[#00D9FF]/20 text-xs font-mono font-medium transition-colors cursor-pointer"
-                          >
-                            <Activity className="w-3.5 h-3.5" />
-                            <span>INSPECT SYSTEM TOPOLOGY</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                        {tag}
+                      </span>
+                    ))}
                   </div>
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#00f2fe] transition-transform group-hover:translate-x-1">
+                    INSPECT ARCHITECTURE
+                    <ArrowUpRight size={16} />
+                  </span>
                 </div>
-              </TiltCard>
-            )
-          })}
+              </div>
+            </article>
+          ))}
         </div>
+      </div>
 
-        {/* Blueprint Topology Modal */}
-        {selectedBlueprint && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
-            <div className="relative w-full max-w-2xl rounded-2xl bg-[#070B14] border border-[#00D9FF]/40 p-6 sm:p-8 text-left shadow-[0_0_60px_rgba(0,217,255,0.25)] animate-scale-up">
-              {/* Close Button */}
-              <button
-                type="button"
-                onClick={() => setSelectedBlueprint(null)}
-                className="absolute top-4 right-4 p-2 rounded-lg text-[#94A3B8] hover:text-white bg-white/[0.05] border border-white/[0.08] transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+      {/* Deep Inspection Modal */}
+      {selectedProject && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-2xl"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div
+            className="animate-scale-up relative w-full max-w-2xl overflow-hidden rounded-3xl border border-[#00f2fe]/40 bg-[#070b14] p-6 sm:p-8 shadow-[0_0_80px_rgba(0,242,254,0.2)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedProject(null)}
+              className="absolute right-5 top-5 rounded-full border border-white/10 bg-white/5 p-2 text-zinc-400 hover:text-white"
+            >
+              <X size={20} />
+            </button>
 
-              <div className="flex items-center gap-2.5 text-xs font-mono text-[#00D9FF] mb-2">
-                <Terminal className="w-4 h-4" />
-                <span>TOPOLOGY // {selectedBlueprint.name.toUpperCase()}</span>
-              </div>
-              <h3 className="font-display font-bold text-2xl text-white mb-3">
-                {selectedBlueprint.name} — Architecture Blueprint
-              </h3>
-              <p className="font-body text-sm text-[#CBD5E1] mb-6 leading-relaxed">
-                {selectedBlueprint.focus}
-              </p>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#00f2fe]">
+              <Zap size={14} />
+              <span>SYSTEM_TELEMETRY // {selectedProject.category.toUpperCase()}</span>
+            </div>
 
-              {/* Simulated Topology Node Graph */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] mb-6">
-                <div className="p-3 rounded-lg bg-black/50 border border-[#00D9FF]/30">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[#00D9FF] mb-1">
-                    <Server className="w-3.5 h-3.5" />
-                    <span>INGESTION GATEWAY</span>
-                  </div>
-                  <p className="text-[11px] font-body text-[#94A3B8]">Rate limiting, HMAC signature validation &amp; TLS 1.3</p>
-                </div>
+            <h3 className="mt-3 font-display text-3xl font-extrabold text-white">
+              {selectedProject.name}
+            </h3>
 
-                <div className="p-3 rounded-lg bg-black/50 border border-[#A855F7]/30">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[#A855F7] mb-1">
-                    <Activity className="w-3.5 h-3.5" />
-                    <span>ASYNC PIPELINE</span>
-                  </div>
-                  <p className="text-[11px] font-body text-[#94A3B8]">Partitioned event broker, dead-letter queue &amp; replay</p>
-                </div>
+            <div className="mt-6 rounded-2xl border border-white/10 bg-black/40 p-4">
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.name}
+                className="max-h-64 w-full object-contain mx-auto"
+              />
+            </div>
 
-                <div className="p-3 rounded-lg bg-black/50 border border-[#F59E0B]/30">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[#F59E0B] mb-1">
-                    <Database className="w-3.5 h-3.5" />
-                    <span>DATA &amp; CACHE</span>
-                  </div>
-                  <p className="text-[11px] font-body text-[#94A3B8]">Sharded storage, read replicas &amp; sub-millisecond cache</p>
-                </div>
-              </div>
+            <p className="mt-5 text-sm leading-6 text-zinc-300">
+              {selectedProject.summary}
+            </p>
+            <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 font-mono text-xs text-zinc-400">
+              <span className="text-[#00f2fe]">&gt; architecture_focus:</span> {selectedProject.focus}
+            </div>
 
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => setSelectedBlueprint(null)}
-                  className="tactile-btn px-5 py-2.5 rounded-xl font-display font-bold text-xs bg-[#00D9FF] text-[#050508] hover:bg-[#38E5FF] transition-all cursor-pointer"
+            <div className="mt-6 flex flex-wrap gap-2">
+              {selectedProject.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-lg border border-[#00f2fe]/30 bg-[#00f2fe]/10 px-3 py-1 font-mono text-xs text-[#00f2fe]"
                 >
-                  CLOSE BLUEPRINT
-                </button>
-              </div>
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
-        )}
-
-      </div>
+        </div>
+      )}
     </section>
   )
 }

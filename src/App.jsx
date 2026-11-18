@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import Preloader from './components/Preloader'
-import CustomCursor from './components/CustomCursor'
-import VoidSignal from './components/VoidSignal'
+import React, { useState } from 'react'
 import Navbar from './components/Navbar'
 import HeroSection from './sections/HeroSection'
 import AboutSection from './sections/AboutSection'
@@ -9,134 +6,64 @@ import ProjectsSection from './sections/ProjectsSection'
 import SkillsSection from './sections/SkillsSection'
 import SocialSection from './sections/SocialSection'
 import Footer from './sections/Footer'
-import { ArrowLeft, Cpu } from 'lucide-react'
+import VoidSignal from './components/VoidSignal'
+import CustomCursor from './components/CustomCursor'
+import Preloader from './components/Preloader'
+import KineticMarquee from './components/KineticMarquee'
+import { ArrowUpRight } from 'lucide-react'
 
 export default function App() {
-  const [isNotFound, setIsNotFound] = useState(false)
-
-  useEffect(() => {
-    // Check for 404 path on Vercel deployment
-    const path = window.location.pathname
-    if (path !== '/' && path !== '' && !path.startsWith('/#')) {
-      setIsNotFound(true)
-    }
-
-    // 1. Interactive Cursor-Tracking Spotlight for Cards (--x, --y, --mouse-x, --mouse-y)
-    const handleGlobalMouseMove = (e) => {
-      const cards = document.querySelectorAll('.spotlight-card, .cyber-card, .spatial-glass')
-      for (let i = 0; i < cards.length; i++) {
-        const card = cards[i]
-        const rect = card.getBoundingClientRect()
-        if (
-          e.clientX >= rect.left - 200 &&
-          e.clientX <= rect.right + 200 &&
-          e.clientY >= rect.top - 200 &&
-          e.clientY <= rect.bottom + 200
-        ) {
-          const x = `${e.clientX - rect.left}px`
-          const y = `${e.clientY - rect.top}px`
-          card.style.setProperty('--x', x)
-          card.style.setProperty('--y', y)
-          card.style.setProperty('--mouse-x', x)
-          card.style.setProperty('--mouse-y', y)
-        }
-      }
-    }
-    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true })
-
-    // 2. Viewport Scroll-Reveal Observer
-    if (
-      typeof IntersectionObserver === 'undefined' ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      return () => window.removeEventListener('mousemove', handleGlobalMouseMove)
-    }
-
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
-    )
-
-    document.querySelectorAll('main [data-reveal], main .cyber-card, main .spotlight-card, main .spatial-glass').forEach((element) => {
-      const siblings = Array.from(element.parentElement?.children ?? [])
-      const siblingIndex = siblings.indexOf(element)
-      element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 4) * 75}ms`)
-      element.classList.add('scroll-reveal')
-      revealObserver.observe(element)
-    })
-
-    return () => {
-      window.removeEventListener('mousemove', handleGlobalMouseMove)
-      revealObserver.disconnect()
-    }
-  }, [])
+  const [introReady, setIntroReady] = useState(false)
+  const isNotFound = window.location.pathname !== '/' && window.location.pathname !== ''
 
   if (isNotFound) {
     return (
-      <div className="relative min-h-screen bg-[#030306] text-[#F5F7FA] font-body flex items-center justify-center p-6">
-        <VoidSignal />
-        <div className="spatial-glass relative z-10 max-w-lg w-full p-8 sm:p-10 rounded-2xl border border-white/[0.08] text-center shadow-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00D9FF]/10 border border-[#00D9FF]/30 text-xs font-mono text-[#00D9FF] mb-4">
-            <Cpu className="w-3.5 h-3.5" />
-            <span>404 // ROUTE DISCONNECTED</span>
-          </div>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-white mb-3">
-            System Node Not Found
-          </h1>
-          <p className="font-body text-zinc-400 text-sm leading-relaxed mb-8">
-            The requested neural pathway does not exist or has been relocated within the architecture.
+      <main className="flex min-h-screen items-center justify-center bg-[#030306] px-5 text-center text-[#f8fafc]">
+        <div className="max-w-md">
+          <p className="font-mono text-sm text-[#00f2fe]">404 // ROUTE_NOT_FOUND</p>
+          <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-white">LOST IN THE VOID</h1>
+          <p className="mt-3 text-sm leading-6 text-[#94A3B8]">
+            The requested coordinate does not exist in the neural architecture.
           </p>
           <a
             href="/"
-            onClick={() => {
-              window.history.pushState({}, '', '/')
-              setIsNotFound(false)
-            }}
-            className="tactile-btn inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#00D9FF] text-[#030306] font-display font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(0,217,255,0.4)]"
+            className="tactile-btn mt-6 inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#7928ca] px-5 text-sm font-semibold text-black hover:opacity-90 transition-opacity"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Return to Flagship Orbit</span>
+            Return to Core
+            <ArrowUpRight size={16} aria-hidden="true" />
           </a>
         </div>
-      </div>
+      </main>
     )
   }
 
   return (
-    <div className="relative min-h-screen bg-[#030306] text-[#F5F7FA] font-body selection:bg-[#00D9FF] selection:text-[#030306] overflow-x-hidden">
-      {/* Cinematic Spatial Preloader */}
-      <Preloader />
+    <div className="relative min-h-screen overflow-x-hidden bg-[#030306] text-[#f8fafc] selection:bg-[#00f2fe]/30 selection:text-white">
+      {/* Cinematic 850ms Preloader */}
+      <Preloader onComplete={() => setIntroReady(true)} />
 
-      {/* Desktop Glowing Custom Cursor */}
+      {/* Kinetic Custom Magnetic Context Cursor */}
       <CustomCursor />
 
-      {/* Interactive Three.js Custom GLSL Shader Mesh Centerpiece */}
+      {/* Three.js Custom GLSL Shader Living Mesh Background */}
       <VoidSignal />
 
-      {/* Main Layout Container */}
-      <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Sticky Glassmorphic Navbar */}
-        <Navbar />
+      {/* Persistent Film Grain Overlay */}
+      <div className="grain-overlay pointer-events-none fixed inset-0 z-[1] opacity-[0.035]" aria-hidden="true" />
 
-        {/* Streamlined, Concise & Professional Content Sections */}
-        <main className="flex-grow">
-          <HeroSection />
-          <AboutSection />
-          <ProjectsSection />
-          <SkillsSection />
-          <SocialSection />
-        </main>
+      {/* Primary Navigation Dock */}
+      <Navbar />
 
-        {/* Minimal Cyber Tech Footer */}
-        <Footer />
-      </div>
+      <main className="relative z-10">
+        <HeroSection />
+        <KineticMarquee />
+        <AboutSection />
+        <ProjectsSection />
+        <SkillsSection />
+        <SocialSection />
+      </main>
+
+      <Footer />
     </div>
   )
 }

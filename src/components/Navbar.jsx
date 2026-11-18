@@ -1,108 +1,151 @@
-import React, { useState, useEffect } from 'react'
-import { personalInfo } from '../data/portfolioData'
-import { Copy, Check, Mail, Layers, Cpu, Award, Terminal } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Menu, Terminal, X, Zap } from 'lucide-react'
 
 const NAV_LINKS = [
-  { id: 'home',    label: 'INDEX',      icon: Terminal },
-  { id: 'about',   label: 'PROFILE',    icon: Award    },
-  { id: 'skills',  label: 'DISCIPLINE', icon: Layers   },
-  { id: 'projects',label: 'SYSTEMS',    icon: Cpu      },
-  { id: 'socials', label: 'SIGNAL',     icon: Mail     },
+  { id: 'home', label: 'INDEX' },
+  { id: 'about', label: 'PROFILE' },
+  { id: 'projects', label: 'SYSTEMS' },
+  { id: 'skills', label: 'EXPERTISE' },
+  { id: 'socials', label: 'SIGNAL' },
 ]
 
 export default function Navbar() {
-  const [active, setActive]     = useState('home')
-  const [scrolled, setScrolled] = useState(false)
-  const [copied, setCopied]     = useState(false)
-  const [hovIdx, setHovIdx]     = useState(null)
+  const [active, setActive] = useState('home')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 48)
-      const offset = window.scrollY + 240
-      for (let i = NAV_LINKS.length - 1; i >= 0; i--) {
-        const el = document.getElementById(NAV_LINKS[i].id)
-        if (el && el.offsetTop <= offset) { setActive(NAV_LINKS[i].id); break }
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const sections = NAV_LINKS
+      .map(({ id }) => document.getElementById(id))
+      .filter(Boolean)
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+        if (visibleSection) setActive(visibleSection.target.id)
+      },
+      { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.25, 0.5] }
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
   }, [])
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(personalInfo.email)
-    setCopied(true); setTimeout(() => setCopied(false), 2200)
-  }
+  useEffect(() => {
+    const updateProgress = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      setScrollProgress(maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0)
+    }
+    updateProgress()
+    window.addEventListener('scroll', updateProgress, { passive: true })
+    return () => window.removeEventListener('scroll', updateProgress)
+  }, [])
 
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  const closeMenu = () => setMenuOpen(false)
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-5 sm:pt-6 px-4 pointer-events-none">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.08] bg-[#030306]/80 backdrop-blur-2xl">
+      {/* Scroll Progress Line */}
+      <div className="absolute inset-x-0 bottom-0 h-[2px] bg-white/[0.05]" aria-hidden="true">
+        <div
+          className="h-full bg-gradient-to-r from-[#00f2fe] via-[#4facfe] to-[#7928ca] transition-[width] duration-150 ease-out shadow-[0_0_12px_#00f2fe]"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
       <nav
-        className={`pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          scrolled
-            ? 'bg-[#010103]/90 backdrop-blur-2xl border border-white/[0.1] shadow-[0_16px_48px_rgba(0,0,0,0.75),0_0_30px_rgba(0,217,255,0.08)]'
-            : 'bg-[#050810]/60 backdrop-blur-xl border border-white/[0.06]'
-        }`}
+        aria-label="Main navigation"
+        className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 sm:px-8"
       >
-        {/* Live status beacon */}
+        {/* Brand Logo with Glowing Beacon */}
+        <a
+          href="#home"
+          onClick={closeMenu}
+          className="group flex items-center gap-3 rounded-lg font-display text-xl font-bold tracking-tight text-white focus-visible:outline-offset-4"
+        >
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#00f2fe]/40 bg-[#00f2fe]/10 text-[#00f2fe] shadow-[0_0_15px_rgba(0,242,254,0.3)] transition-all group-hover:scale-105 group-hover:bg-[#00f2fe]/20">
+            <Zap size={18} />
+          </div>
+          <span>
+            LE DUY<span className="text-[#00f2fe]">.</span>
+          </span>
+        </a>
+
+        {/* Desktop Navigation Links Pill */}
+        <div className="hidden sm:flex items-center gap-1 rounded-full border border-white/[0.1] bg-[#070b14]/90 p-1.5 backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+          {NAV_LINKS.map((link) => {
+            const isActive = active === link.id
+            return (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                aria-current={isActive ? 'location' : undefined}
+                className={`relative rounded-full px-4 py-2 font-mono text-xs tracking-wider transition-all duration-300 ${
+                  isActive
+                    ? 'border border-[#00f2fe]/40 bg-[#00f2fe]/15 text-[#00f2fe] shadow-[0_0_20px_rgba(0,242,254,0.25)] font-semibold'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/[0.05]'
+                }`}
+              >
+                {link.label}
+              </a>
+            )
+          })}
+        </div>
+
+        {/* Contact CTA */}
+        <div className="hidden sm:flex items-center gap-3">
+          <a
+            href="#socials"
+            className="tactile-btn inline-flex items-center gap-2 rounded-xl border border-[#00f2fe]/40 bg-[#00f2fe]/10 px-4 py-2 font-mono text-xs font-semibold text-[#00f2fe] hover:bg-[#00f2fe]/20 hover:shadow-[0_0_20px_rgba(0,242,254,0.3)] transition-all"
+          >
+            <span>TRANSMIT</span>
+          </a>
+        </div>
+
+        {/* Mobile Menu Trigger */}
         <button
           type="button"
-          onClick={() => scrollTo('home')}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-full hover:bg-white/[0.05] transition-colors cursor-pointer group"
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.12] bg-[#070b14]/80 text-zinc-300 transition-colors hover:border-[#00f2fe]/50 hover:text-white sm:hidden"
         >
-          <span className="relative flex items-center w-2.5 h-2.5">
-            <span className="absolute w-full h-full rounded-full bg-[#00D9FF] opacity-70 animate-ping" />
-            <span className="relative w-2 h-2 rounded-full bg-[#00D9FF] shadow-[0_0_10px_#00D9FF]" />
-          </span>
-          <span className="font-mono text-[11px] font-bold tracking-[0.2em] text-white group-hover:text-[#00D9FF] transition-colors">
-            DUY
-          </span>
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        <div className="w-px h-4 bg-white/[0.1]" />
-
-        {/* Navigation links with proximity magnification */}
-        {NAV_LINKS.map((link, idx) => {
-          const isActive = active === link.id
-          const Icon     = link.icon
-          const scale    = hovIdx === idx ? 1.14 : hovIdx !== null && Math.abs(hovIdx - idx) === 1 ? 1.06 : 1
-
-          return (
-            <button
+        {/* Mobile Navigation Dropdown */}
+        <div
+          id="primary-navigation"
+          className={`absolute inset-x-0 top-18 border-b border-white/[0.1] bg-[#070b14]/98 px-6 py-6 backdrop-blur-3xl sm:hidden ${
+            menuOpen ? 'flex flex-col gap-3' : 'hidden'
+          }`}
+        >
+          {NAV_LINKS.map((link) => (
+            <a
               key={link.id}
-              type="button"
-              onClick={() => scrollTo(link.id)}
-              onMouseEnter={() => setHovIdx(idx)}
-              onMouseLeave={() => setHovIdx(null)}
-              data-cursor-text={link.label}
-              className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono font-bold tracking-wider transition-all duration-250 cursor-pointer will-change-transform ${
-                isActive
-                  ? 'bg-[#00D9FF] text-[#010103] shadow-[0_0_18px_rgba(0,217,255,0.55)]'
-                  : 'text-zinc-400 hover:text-white hover:bg-white/[0.05]'
+              href={`#${link.id}`}
+              onClick={closeMenu}
+              className={`rounded-xl px-4 py-3 font-mono text-sm transition-all ${
+                active === link.id
+                  ? 'border border-[#00f2fe]/40 bg-[#00f2fe]/15 text-[#00f2fe]'
+                  : 'text-zinc-400 hover:bg-white/[0.05] hover:text-white'
               }`}
-              style={{ transform: `scale(${scale})`, transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s, color 0.2s' }}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#010103]' : ''}`} />
-              <span className="hidden sm:inline">{link.label}</span>
-            </button>
-          )
-        })}
-
-        <div className="w-px h-4 bg-white/[0.1]" />
-
-        {/* Copy email chip */}
-        <button
-          type="button"
-          onClick={copyEmail}
-          data-cursor-text="COPY EMAIL"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono bg-white/[0.04] border border-white/[0.08] hover:border-[#00D9FF]/40 text-zinc-400 hover:text-[#00D9FF] transition-all cursor-pointer"
-        >
-          {copied
-            ? <><Check className="w-3.5 h-3.5 text-[#00D9FF]" /><span className="text-[#00D9FF] font-bold">COPIED</span></>
-            : <><Copy className="w-3.5 h-3.5" /><span className="hidden md:inline">EMAIL</span></>
-          }
-        </button>
+              {link.label}
+            </a>
+          ))}
+          <a
+            href="#socials"
+            onClick={closeMenu}
+            className="tactile-btn mt-2 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00f2fe] to-[#7928ca] py-3 font-mono text-sm font-bold text-black"
+          >
+            TRANSMIT SIGNAL
+          </a>
+        </div>
       </nav>
     </header>
   )

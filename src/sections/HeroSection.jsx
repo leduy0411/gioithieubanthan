@@ -1,312 +1,225 @@
-import React, { useState } from 'react'
-import SplitReveal, { FadeUp } from '../components/SplitReveal'
-import Character3D from '../components/Character3D'
-import { personalInfo } from '../data/portfolioData'
+import React, { useEffect, useState } from 'react'
 import {
-  ArrowDown,
+  ArrowDownRight,
   ArrowUpRight,
-  MapPin,
-  Copy,
   Check,
-  Server,
+  Code2,
+  Copy,
+  Cpu,
+  Layers,
   Palette,
-  Film,
+  Server,
+  Sparkles,
+  Terminal,
+  Video,
   Zap,
-  Sparkles
 } from 'lucide-react'
-import {
-  FacebookIcon,
-  LocketIcon,
-  InstagramIcon,
-  TikTokIcon,
-  GmailIcon,
-  NodeLogo,
-  DatabaseLogo,
-  PhotoshopLogo,
-  IllustratorLogo,
-  PremiereLogo,
-  AfterEffectsLogo
-} from '../components/SocialIcons'
-
-const HERO_MODES = [
-  {
-    id: 'backend',
-    label: 'Backend Architect',
-    color: '#00D9FF',
-    icon: Server,
-    quote: 'Designing high-throughput microservices, secured OAuth2 gateways, and resilient distributed databases.',
-    badge: 'API & CLOUD INFRASTRUCTURE',
-    stats: [
-      { label: 'THROUGHPUT', value: '25,000+ RPS' },
-      { label: 'P99 LATENCY', value: '< 2.4 ms' },
-      { label: 'AVAILABILITY', value: '99.99%' }
-    ]
-  },
-  {
-    id: 'design',
-    label: 'Graphic Designer',
-    color: '#A855F7',
-    icon: Palette,
-    quote: 'Crafting brand identities, typography guidelines, vector key art, and futuristic visual directions.',
-    badge: 'BRANDING & VECTOR ART',
-    stats: [
-      { label: 'COLOR SYSTEM', value: 'RGB / CMYK' },
-      { label: 'PRECISION', value: 'Pixel-Perfect' },
-      { label: 'TOOL SUITE', value: 'PS + AI' }
-    ]
-  },
-  {
-    id: 'video',
-    label: 'Video Editor',
-    color: '#F59E0B',
-    icon: Film,
-    quote: 'Assembling dynamic pacing, audio rhythm sync, cinematic color grading, and custom After Effects motion VFX.',
-    badge: 'MOTION & 4K CINEMATIC',
-    stats: [
-      { label: 'RESOLUTION', value: '4K Ultra-HD' },
-      { label: 'FRAME RATE', value: '60 FPS' },
-      { label: 'AUDIO SYNC', value: 'Beat-Matched' }
-    ]
-  }
-]
+import { personalInfo, skillCategories } from '../data/portfolioData'
+import Character3D from '../components/Character3D'
 
 export default function HeroSection() {
-  const [activeMode, setActiveMode] = useState(HERO_MODES[0])
-  const [copiedEmail, setCopiedEmail] = useState(false)
+  const roles = [
+    'Backend Systems Architect',
+    'High-Concurrency API Engineer',
+    'Creative Technologist & Visual Artist',
+    'Video Editor & Motion Designer',
+  ]
+  const [roleIndex, setRoleIndex] = useState(0)
+  const [typedRole, setTypedRole] = useState(roles[0])
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [activeTab, setActiveTab] = useState('backend')
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) return
+    const timer = window.setInterval(
+      () => {
+        const currentRole = roles[roleIndex]
+        if (!isDeleting) {
+          const nextText = currentRole.slice(0, typedRole.length + 1)
+          setTypedRole(nextText)
+          if (nextText === currentRole) {
+            setTimeout(() => setIsDeleting(true), 1500)
+          }
+        } else {
+          const nextText = currentRole.slice(0, typedRole.length - 1)
+          setTypedRole(nextText)
+          if (!nextText) {
+            setIsDeleting(false)
+            setRoleIndex((idx) => (idx + 1) % roles.length)
+          }
+        }
+      },
+      isDeleting ? 40 : 80
+    )
+    return () => window.clearInterval(timer)
+  }, [isDeleting, roleIndex, typedRole.length])
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(personalInfo.email)
-    setCopiedEmail(true)
-    setTimeout(() => setCopiedEmail(false), 2200)
+  const tabSpecs = {
+    backend: {
+      title: 'Backend Systems & Cloud Architecture',
+      desc: 'Engineering resilient microservices, high-throughput Redis caching, and secured OAuth2 gateways.',
+      stat1: { label: 'PEAK THROUGHPUT', value: '25,000+ RPS' },
+      stat2: { label: 'P99 LATENCY', value: '< 2.4 ms' },
+      stat3: { label: 'SERVICE UPTIME', value: '99.99%' },
+    },
+    design: {
+      title: 'Graphic Design & Brand Systems',
+      desc: 'Crafting bold visual identities, cyberpunk vector posters, and futuristic UI layout standards.',
+      stat1: { label: 'BRAND KITS', value: '15+ Systems' },
+      stat2: { label: 'VECTOR RESOLUTION', value: 'Infinite 8K' },
+      stat3: { label: 'TOOL MASTERY', value: 'PS • AI' },
+    },
+    video: {
+      title: 'Cinematic Video Editing & Motion VFX',
+      desc: 'Narrative timeline pacing, custom sound design beatmatching, and broadcast-grade color grading.',
+      stat1: { label: 'OUTPUT TIMELINE', value: '4K Cinematic' },
+      stat2: { label: 'SOUND SYNC', value: '128 BPM Lock' },
+      stat3: { label: 'SUITE', value: 'PR • AE' },
+    },
   }
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 px-6 sm:px-8 lg:px-12 overflow-hidden"
+      className="relative flex min-h-screen items-center overflow-hidden px-5 pb-20 pt-28 sm:px-8 lg:pb-28 lg:pt-32"
     >
-      {/* Giant background holographic wordmark */}
-      <div
-        className="pointer-events-none absolute right-[-2%] top-[8%] select-none font-display font-black text-[clamp(10rem,24vw,22rem)] tracking-[-0.08em] text-white/[0.018] leading-none z-0"
-        aria-hidden="true"
-      >
-        DUY
-      </div>
+      {/* Volumetric ambient background aurora */}
+      <span className="aurora -right-20 top-16" aria-hidden="true" />
+      <span className="aurora -left-32 bottom-20 opacity-10" aria-hidden="true" />
 
-      {/* Horizontal precision accent line */}
-      <div className="absolute top-[18%] left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto w-full relative z-10">
-        {/* Top telemetry strip */}
-        <FadeUp delay={0.1} className="flex items-center gap-4 mb-10">
-          <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.26em] text-zinc-500">
-            <span className="text-[#00D9FF]">◈</span>
-            <span>SYS_IDENT // FLAGSHIP ARCHITECT</span>
-          </div>
-          <div className="flex-1 h-px bg-gradient-to-r from-[#00D9FF]/30 to-transparent" />
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="status-pulse absolute inline-flex h-full w-full rounded-full bg-[#00D9FF] opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#00D9FF]" />
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-12 lg:gap-16">
+        {/* Left Column: Monumental Identity & Editorial Telemetry */}
+        <div className="lg:col-span-7">
+          {/* Top Telemetry Capsule */}
+          <div className="mb-6 flex flex-wrap items-center gap-3 font-mono text-xs text-[#94a3b8]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#00f2fe]/30 bg-[#00f2fe]/[0.08] px-3.5 py-1.5 text-[#00f2fe] backdrop-blur-md">
+              <span className="status-dot" aria-hidden="true" />
+              <span>SYS_ONLINE // OPEN FOR OPPORTUNITIES</span>
             </span>
-            <span className="font-mono text-[10px] tracking-[0.2em] text-[#00D9FF] uppercase">
-              {personalInfo.status}
-            </span>
+            <span className="text-white/20" aria-hidden="true">/</span>
+            <span className="tracking-wider uppercase text-zinc-400">{personalInfo.location}</span>
           </div>
-        </FadeUp>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-start">
-          {/* LEFT: Monumental Typography Column */}
-          <div className="lg:col-span-7 flex flex-col">
+          {/* Monumental Hero Headline */}
+          <h1 className="font-display text-[clamp(3.8rem,9vw,7.8rem)] font-extrabold leading-[0.88] tracking-[-0.05em] text-white">
+            LE DUY<span className="gradient-text">.</span>
+          </h1>
 
-            {/* Giant Name — VOIDBORN monument with metallic chrome sheen */}
-            <div className="mb-6">
-              <SplitReveal
-                tag="h1"
-                delay={0.2}
-                className="font-display font-black leading-[0.88] tracking-[-0.055em] text-[clamp(4.5rem,13vw,12rem)] select-none text-metallic"
+          {/* Subtitle Badge */}
+          <p className="mt-4 font-mono text-xs uppercase tracking-[0.25em] text-[#00f2fe]">
+            IT ENGINEER • BACKEND ARCHITECT • CREATIVE TECHNOLOGIST
+          </p>
+
+          {/* Typewriter Terminal Role line */}
+          <div className="mt-6 flex min-h-12 items-center gap-3 rounded-xl border border-white/[0.08] bg-[#070b14]/80 px-4 py-2.5 font-mono text-sm sm:text-base backdrop-blur-md">
+            <span className="text-[#00f2fe]">&gt; role_execute:</span>
+            <span className="text-white font-medium">{typedRole}</span>
+            <span className="animate-pulse text-[#00f2fe]" aria-hidden="true">_</span>
+          </div>
+
+          {/* Interactive Tri-Discipline Switcher */}
+          <div className="mt-8">
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveTab('backend')}
+                className={`tactile-btn inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-mono transition-all ${
+                  activeTab === 'backend'
+                    ? 'border border-[#00f2fe]/50 bg-[#00f2fe]/15 text-[#00f2fe] shadow-[0_0_20px_rgba(0,242,254,0.2)]'
+                    : 'border border-white/[0.08] bg-white/[0.03] text-zinc-400 hover:border-white/20 hover:text-white'
+                }`}
               >
-                LE{'\n'}DUY
-              </SplitReveal>
+                <Server size={14} /> Backend Architect
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('design')}
+                className={`tactile-btn inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-mono transition-all ${
+                  activeTab === 'design'
+                    ? 'border border-[#7928ca]/50 bg-[#7928ca]/20 text-[#d8b4fe] shadow-[0_0_20px_rgba(121,40,202,0.3)]'
+                    : 'border border-white/[0.08] bg-white/[0.03] text-zinc-400 hover:border-white/20 hover:text-white'
+                }`}
+              >
+                <Palette size={14} /> Graphic Designer
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('video')}
+                className={`tactile-btn inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-mono transition-all ${
+                  activeTab === 'video'
+                    ? 'border border-[#ff0080]/50 bg-[#ff0080]/20 text-[#f472b6] shadow-[0_0_20px_rgba(255,0,128,0.3)]'
+                    : 'border border-white/[0.08] bg-white/[0.03] text-zinc-400 hover:border-white/20 hover:text-white'
+                }`}
+              >
+                <Video size={14} /> Video Editor
+              </button>
             </div>
 
-            {/* Role + Location strip */}
-            <FadeUp delay={0.5} className="flex flex-wrap items-center gap-3 mb-8">
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#00D9FF]" />
-                Tra Vinh Ward, Vinh Long Province, VN
-              </span>
-              <span className="w-px h-3 bg-white/20" />
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-400">IT Engineer</span>
-            </FadeUp>
-
-            {/* Role switcher cockpit */}
-            <FadeUp delay={0.65} className="mb-6 max-w-2xl">
-              <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/[0.03] border border-white/[0.07] backdrop-blur-xl mb-4">
-                {HERO_MODES.map((mode) => {
-                  const isActive = activeMode.id === mode.id
-                  const Icon = mode.icon
-                  return (
-                    <button
-                      key={mode.id}
-                      type="button"
-                      onClick={() => setActiveMode(mode)}
-                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-display font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer tactile-btn"
-                      style={{
-                        backgroundColor: isActive ? `${mode.color}22` : 'transparent',
-                        color: isActive ? mode.color : '#6B7280',
-                        borderWidth: '1px',
-                        borderStyle: 'solid',
-                        borderColor: isActive ? `${mode.color}60` : 'transparent',
-                      }}
-                    >
-                      <Icon className="w-3.5 h-3.5" style={{ color: mode.color }} />
-                      <span className="hidden sm:inline">{mode.label}</span>
-                      <span className="sm:hidden">{mode.label.split(' ')[0]}</span>
-                    </button>
-                  )
-                })}
+            {/* Dynamic Telemetry Metric Card */}
+            <div className="spatial-glass mt-4 rounded-2xl p-5 border border-white/[0.1] bg-[#070b14]/90 backdrop-blur-xl">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-wider text-[#00f2fe]">
+                  {tabSpecs[activeTab].title}
+                </span>
+                <Sparkles size={14} className="text-[#00f2fe]" />
               </div>
-
-              {/* Dynamic telemetry box */}
-              <div
-                className="spatial-glass spotlight-card p-5 rounded-2xl border backdrop-blur-xl transition-all duration-500"
-                style={{ borderColor: `${activeMode.color}35` }}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span
-                    className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-md tracking-widest"
-                    style={{ backgroundColor: `${activeMode.color}18`, color: activeMode.color }}
-                  >
-                    {activeMode.badge}
-                  </span>
-                  <Zap className="w-3.5 h-3.5 text-zinc-500" />
+              <p className="mt-2 text-sm leading-6 text-zinc-300">
+                {tabSpecs[activeTab].desc}
+              </p>
+              <div className="mt-4 grid grid-cols-3 gap-3 border-t border-white/[0.08] pt-4">
+                <div>
+                  <p className="font-mono text-[10px] uppercase text-zinc-500">{tabSpecs[activeTab].stat1.label}</p>
+                  <p className="mt-1 font-display text-base sm:text-lg font-bold text-white">{tabSpecs[activeTab].stat1.value}</p>
                 </div>
-                <p className="font-body text-xs sm:text-sm text-zinc-300 leading-relaxed mb-4">{activeMode.quote}</p>
-                <div className="grid grid-cols-3 gap-3 pt-3 border-t border-white/[0.07]">
-                  {activeMode.stats.map((s, idx) => (
-                    <div key={idx} className="flex flex-col gap-0.5">
-                      <span className="font-mono text-[9px] text-zinc-500 uppercase tracking-wider">{s.label}</span>
-                      <span className="font-display font-bold text-xs sm:text-sm text-white" style={{ color: idx === 0 ? activeMode.color : undefined }}>{s.value}</span>
-                    </div>
-                  ))}
+                <div>
+                  <p className="font-mono text-[10px] uppercase text-zinc-500">{tabSpecs[activeTab].stat2.label}</p>
+                  <p className="mt-1 font-display text-base sm:text-lg font-bold text-[#00f2fe]">{tabSpecs[activeTab].stat2.value}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[10px] uppercase text-zinc-500">{tabSpecs[activeTab].stat3.label}</p>
+                  <p className="mt-1 font-display text-base sm:text-lg font-bold text-emerald-400">{tabSpecs[activeTab].stat3.value}</p>
                 </div>
               </div>
-            </FadeUp>
-
-            {/* Social pills strip */}
-            <FadeUp delay={0.8} className="flex items-center gap-2.5 flex-wrap mb-8">
-              {[
-                { href: personalInfo.socials.facebook, Icon: FacebookIcon, hoverColor: '#1877F2', title: 'Facebook' },
-                { href: personalInfo.socials.locket, Icon: LocketIcon, hoverColor: '#FFB020', title: 'Locket' },
-                { href: personalInfo.socials.instagram, Icon: InstagramIcon, hoverColor: '#E1306C', title: 'Instagram' },
-                { href: personalInfo.socials.tiktok, Icon: TikTokIcon, hoverColor: '#00F2FE', title: 'TikTok' },
-              ].map(({ href, Icon, hoverColor, title }) => (
-                <a
-                  key={title}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={title}
-                  className="tactile-btn w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center transition-all duration-300 hover:scale-110 p-1.5"
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = hoverColor; e.currentTarget.style.boxShadow = `0 0 18px ${hoverColor}55` }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.boxShadow = 'none' }}
-                >
-                  <Icon className="w-8 h-8" />
-                </a>
-              ))}
-              <a
-                href={`mailto:${personalInfo.email}`}
-                title="Gmail"
-                className="tactile-btn w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center transition-all duration-300 hover:scale-110 p-1.5"
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#EA4335'; e.currentTarget.style.boxShadow = '0 0 18px #EA433555' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.boxShadow = 'none' }}
-              >
-                <GmailIcon className="w-8 h-8" />
-              </a>
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                title="Copy Email"
-                className="tactile-btn h-11 px-4 rounded-2xl bg-white/[0.04] border border-white/[0.07] flex items-center gap-2 transition-all duration-300 hover:border-[#00D9FF]/50 hover:text-[#00D9FF] cursor-pointer"
-              >
-                {copiedEmail ? (
-                  <><Check className="w-3.5 h-3.5 text-[#00D9FF]" /><span className="font-mono text-[11px] text-[#00D9FF]">COPIED!</span></>
-                ) : (
-                  <><Copy className="w-3.5 h-3.5 text-zinc-500" /><span className="font-mono text-[11px] text-zinc-400">{personalInfo.email}</span></>
-                )}
-              </button>
-            </FadeUp>
-
-            {/* CTA Buttons */}
-            <FadeUp delay={0.95} className="flex flex-col sm:flex-row items-start gap-3.5">
-              <button
-                type="button"
-                onClick={() => scrollTo('projects')}
-                className="tactile-btn group px-8 py-3.5 rounded-full font-display font-bold text-sm tracking-wider text-[#030306] bg-[#00D9FF] hover:bg-[#38E5FF] shadow-[0_0_28px_rgba(0,217,255,0.5)] transition-all duration-300 flex items-center gap-2 cursor-pointer"
-              >
-                <span>VIEW SYSTEMS</span>
-                <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-1" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollTo('socials')}
-                className="tactile-btn group px-8 py-3.5 rounded-full font-display font-medium text-sm tracking-wider text-zinc-300 bg-white/[0.05] border border-white/[0.1] hover:border-[#A855F7]/50 hover:text-white transition-all duration-300 flex items-center gap-2 cursor-pointer"
-              >
-                <span>SIGNAL ME</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </button>
-            </FadeUp>
+            </div>
           </div>
 
-          {/* RIGHT: 3D Holographic Character Stage & Portrait */}
-          <div className="lg:col-span-5 relative flex items-center justify-center mt-8 lg:mt-0">
-            <FadeUp delay={0.4} className="w-full flex items-center justify-center">
-              <Character3D fallbackImage={personalInfo.avatarUrl} />
-            </FadeUp>
+          {/* Call to Actions & Direct Signals */}
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <a
+              href="#projects"
+              className="tactile-btn group inline-flex h-12 items-center gap-2.5 rounded-xl bg-gradient-to-r from-[#00f2fe] via-[#4facfe] to-[#7928ca] px-6 text-sm font-bold text-black shadow-[0_0_35px_rgba(0,242,254,0.35)] hover:shadow-[0_0_50px_rgba(0,242,254,0.6)]"
+            >
+              EXPLORE ARCHITECTURE
+              <ArrowDownRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+            </a>
+            <a
+              href="#socials"
+              className="tactile-btn inline-flex h-12 items-center gap-2.5 rounded-xl border border-white/[0.15] bg-white/[0.05] px-6 text-sm font-semibold text-white backdrop-blur-md hover:border-[#00f2fe]/60 hover:bg-[#00f2fe]/10 transition-all"
+            >
+              TRANSMIT SIGNAL
+              <ArrowUpRight size={18} className="text-[#00f2fe]" />
+            </a>
+          </div>
+
+          {/* Tech Spec Badges */}
+          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-zinc-400">
+            <span className="inline-flex items-center gap-2">
+              <Check size={14} className="text-[#00f2fe]" /> Microservices &amp; REST / GraphQL
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Check size={14} className="text-[#00f2fe]" /> Adobe Creative Suite 2026
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Check size={14} className="text-[#00f2fe]" /> Three.js &amp; GLSL Shaders
+            </span>
           </div>
         </div>
 
-        {/* Bottom tool strip */}
-        <FadeUp delay={1.1} className="mt-14 pt-6 border-t border-white/[0.06] flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-          <div className="flex items-start gap-3">
-            <div className="w-0.5 self-stretch bg-gradient-to-b from-[#00D9FF] via-[#8B5CF6] to-transparent rounded-full" />
-            <div>
-              <div className="font-display font-bold text-xs text-zinc-200 uppercase tracking-wider mb-0.5">
-                Backend Architecture &amp; Creative Production
-              </div>
-              <div className="font-mono text-[11px] text-zinc-500">
-                Scalable Microservices · Timeless Vector Identity · 4K Cinematic Edits
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            {[
-              { Logo: NodeLogo, border: '#22C55E', title: 'Node.js' },
-              { Logo: DatabaseLogo, border: '#00D9FF', title: 'Databases' },
-              { Logo: PhotoshopLogo, border: '#31A8FF', title: 'Photoshop' },
-              { Logo: IllustratorLogo, border: '#FF9A00', title: 'Illustrator' },
-              { Logo: PremiereLogo, border: '#9999FF', title: 'Premiere Pro' },
-              { Logo: AfterEffectsLogo, border: '#D291FF', title: 'After Effects' },
-            ].map(({ Logo, border, title }) => (
-              <div
-                key={title}
-                title={title}
-                className="p-2.5 rounded-xl bg-white/[0.04] border transition-all duration-300 cursor-pointer group"
-                style={{ borderColor: `${border}40` }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = border; e.currentTarget.style.boxShadow = `0 0 16px ${border}50` }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${border}40`; e.currentTarget.style.boxShadow = 'none' }}
-              >
-                <Logo className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              </div>
-            ))}
-          </div>
-        </FadeUp>
+        {/* Right Column: 3D Holographic Character Stage with Duy Portrait */}
+        <div className="relative lg:col-span-5">
+          <Character3D fallbackImage={personalInfo.avatarUrl} />
+        </div>
       </div>
     </section>
   )

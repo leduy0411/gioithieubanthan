@@ -1,393 +1,139 @@
 import React from 'react'
-import { personalInfo } from '../data/portfolioData'
 import {
-  GraduationCap,
-  MapPin,
-  Languages,
-  CheckCircle2,
-  Server,
-  Palette,
-  Film,
-  Sparkles,
-  Award,
-  Globe2,
-  ArrowUpRight,
-  ShieldCheck,
   Camera,
-  Music2,
-  Flame
+  Disc3,
+  Globe2,
+  GraduationCap,
+  Languages,
+  MapPin,
+  ShieldAlert,
+  Sparkles,
 } from 'lucide-react'
-import {
-  FCBarcelonaLogo,
-  CameraDSLRLogo,
-  DJTurntableLogo
-} from '../components/SocialIcons'
-import TiltCard from '../components/TiltCard'
-
-/* 3 Core Disciplines with 100% Guaranteed Local Vector Illustrations (No Broken Images!) */
-const DISCIPLINES = [
-  {
-    id: 'backend',
-    icon: Server,
-    color: '#00D9FF',
-    title: 'Backend Engineering',
-    badge: 'API & CLOUD',
-    desc: 'Designing microservice systems, async message pipelines, resilient database layers, and secured OAuth2 gateways with high availability.',
-    img: '/images/backend-architecture.svg',
-    tags: ['Node.js', 'PostgreSQL', 'Redis', 'Docker']
-  },
-  {
-    id: 'design',
-    icon: Palette,
-    color: '#A855F7',
-    title: 'Graphic Design',
-    badge: 'BRAND IDENTITY',
-    desc: 'Crafting brand visual identity systems, typography direction, vector key visuals, and photo manipulation with Photoshop & Illustrator.',
-    img: '/images/graphic-design.svg',
-    tags: ['Photoshop', 'Illustrator', 'Branding', 'Vector']
-  },
-  {
-    id: 'video',
-    icon: Film,
-    color: '#F59E0B',
-    title: 'Video Editing & Motion',
-    badge: 'CINEMATIC VFX',
-    desc: 'Assembling dynamic visual narratives, beat synchronization, cinematic color grading, and custom After Effects motion graphics.',
-    img: '/images/video-editing.svg',
-    tags: ['Premiere Pro', 'After Effects', 'Color Grading', 'Sound Sync']
-  }
-]
+import { personalInfo } from '../data/portfolioData'
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section id="about" className="relative border-t border-white/[0.08] px-5 py-24 sm:px-8 lg:py-36">
+      {/* Background subtle radial glow */}
+      <div className="pointer-events-none absolute right-1/4 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#7928ca]/10 blur-[120px]" />
 
-        {/* ── Section Header ── */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B101A] border border-[#00D9FF]/30 text-xs font-mono text-[#00D9FF] mb-3 shadow-[0_0_15px_rgba(0,217,255,0.15)]">
-            <Award className="w-3.5 h-3.5 text-[#00D9FF]" />
-            <span>01 // ARCHITECT &amp; CREATOR PROFILE</span>
-          </div>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-            ABOUT{' '}
-            <span className="bg-gradient-to-r from-[#00D9FF] via-[#1558C9] to-[#A855F7] bg-clip-text text-transparent">
-              LE DUY
-            </span>
-          </h2>
-          <p className="font-body font-normal max-w-xl text-sm sm:text-base text-[#94A3B8] mb-5 leading-relaxed">
-            A versatile bridge between dependable software engineering logic and high-impact visual &amp; cinematic artistic instinct.
-          </p>
-          <div className="section-accent-line" />
-        </div>
+      <div className="mx-auto max-w-7xl">
+        {/* Section Intro */}
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 items-start">
+          <div>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#00f2fe]">
+              <span className="w-2 h-2 rounded-full bg-[#00f2fe]" />
+              <span>01 // ARCHITECTURAL PROFILE</span>
+            </div>
+            <h2 className="mt-4 font-display text-4xl font-extrabold leading-tight tracking-[-0.04em] text-white sm:text-5xl">
+              ENGINEERING RESILIENCE. <br />
+              <span className="gradient-text">DIRECTING VISUALS.</span>
+            </h2>
 
-        {/* ── INNOVATIVE ASYMMETRIC BENTO GRID ── */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
-
-          {/* ── BENTO 1: Main Engineer Identity & Narrative (Spans 8 cols on desktop) ── */}
-          <div className="md:col-span-12 lg:col-span-8 spatial-glass spotlight-card cyber-card p-7 sm:p-9 rounded-2xl flex flex-col justify-between">
-            <div>
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-5 border-b border-white/[0.08]">
-                <div className="flex items-center gap-3.5">
-                  <div className="p-3 rounded-2xl bg-[#00D9FF]/10 text-[#00D9FF] border border-[#00D9FF]/30 shadow-[0_0_15px_rgba(0,217,255,0.2)]">
-                    <GraduationCap className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-bold text-xl sm:text-2xl text-white">
-                      IT Engineer &amp; Visual Craftsman
-                    </h3>
-                    <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-[#00D9FF] mt-1">
-                      <MapPin className="w-4 h-4 text-[#A855F7] shrink-0" />
-                      <span>{personalInfo.location}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <span className="cyber-badge text-xs px-3.5 py-1.5 font-bold">
-                  Verified Degree
-                </span>
+            {/* Academic & Geographic Credentials */}
+            <div className="mt-8 space-y-3.5 font-mono text-xs text-zinc-400 border-l-2 border-[#00f2fe]/40 pl-4">
+              <div className="flex items-center gap-3">
+                <MapPin size={16} className="text-[#00f2fe] shrink-0" aria-hidden="true" />
+                <span>{personalInfo.location}</span>
               </div>
+              <div className="flex items-center gap-3">
+                <GraduationCap size={16} className="text-[#00f2fe] shrink-0" aria-hidden="true" />
+                <span className="text-zinc-200">{personalInfo.education}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Languages size={16} className="text-[#00f2fe] shrink-0" aria-hidden="true" />
+                <span>Vietnamese (Native) • English (Proficient) • Chinese (Conversational)</span>
+              </div>
+            </div>
+          </div>
 
-              {/* Bio Paragraphs */}
-              <p className="font-body text-[#F5F7FA] text-base sm:text-lg leading-relaxed mb-4 font-normal">
-                {personalInfo.bioShort}
+          {/* Detailed Narrative */}
+          <div className="space-y-6 text-base leading-8 text-zinc-300">
+            {personalInfo.bioLong.map((paragraph, index) => (
+              <p
+                key={index}
+                className="relative rounded-2xl border border-white/[0.06] bg-[#070b14]/60 p-6 backdrop-blur-xl"
+              >
+                {paragraph}
               </p>
-              {personalInfo.bioLong.map((para, idx) => (
-                <p key={idx} className="font-body text-xs sm:text-sm text-[#CBD5E1] leading-relaxed mb-3 font-normal">
-                  {para}
-                </p>
-              ))}
-            </div>
-
-            {/* Core Competencies Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 pt-6 border-t border-white/[0.08]">
-              {[
-                { text: 'Backend Architecture & Scalable APIs', color: '#00D9FF' },
-                { text: 'Adobe Photoshop & Illustrator Vector Art', color: '#A855F7' },
-                { text: 'Premiere Pro & After Effects Motion VFX', color: '#F59E0B' },
-                { text: 'Database Optimization & High Availability', color: '#00D9FF' }
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm font-body text-[#CBD5E1]">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: item.color }} />
-                  <span>{item.text}</span>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
-
-          {/* ── BENTO 2: Multilingual Fluency & Key Metrics (Spans 4 cols on desktop) ── */}
-          <div className="md:col-span-12 lg:col-span-4 flex flex-col gap-6 justify-between">
-            {/* Multilingual Card */}
-            <div className="spatial-glass spotlight-card cyber-card p-6 sm:p-7 rounded-2xl flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#00D9FF] uppercase tracking-wider">
-                    <Languages className="w-4 h-4 text-[#A855F7]" />
-                    <span>GLOBAL LANGUAGES</span>
-                  </div>
-                  <Globe2 className="w-4 h-4 text-[#00D9FF]" />
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  {personalInfo.languages.map((lang, idx) => (
-                    <div key={idx} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-[#00D9FF]/40 transition-colors">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-display font-bold text-sm text-white">{lang.name}</span>
-                        <span className="text-xs font-mono font-bold text-[#00D9FF]">{lang.proficiency}%</span>
-                      </div>
-                      <span className="text-xs font-body text-[#94A3B8]">{lang.level}</span>
-                      <div className="w-full h-1.5 bg-white/[0.06] rounded-full overflow-hidden mt-2">
-                        <div
-                          className="h-full bg-gradient-to-r from-[#1558C9] via-[#00D9FF] to-[#A855F7] rounded-full"
-                          style={{ width: `${lang.proficiency}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Metrics Grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {personalInfo.stats.slice(0, 2).map((stat, idx) => (
-                <div key={idx} className="cyber-card p-4 rounded-xl text-center">
-                  <div className="font-display font-bold text-2xl text-[#00D9FF] mb-0.5">
-                    {stat.value}{stat.suffix}
-                  </div>
-                  <div className="font-body text-[11px] text-[#94A3B8] uppercase">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── BENTO 3: Triple Discipline Production Showcase (3 Cards across full width) ── */}
-          <div className="md:col-span-12 mt-2">
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-mono text-xs uppercase text-[#00D9FF] tracking-wider font-bold">
-                CORE PRODUCTION PILLARS
-              </span>
-              <span className="font-mono text-xs text-[#94A3B8]">03 SPECIALIZED DISCIPLINES</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {DISCIPLINES.map((disc) => {
-                const Icon = disc.icon
-                return (
-                  <TiltCard
-                    key={disc.id}
-                    data-cursor-text="DISCIPLINE"
-                    className="rounded-2xl flex flex-col justify-between"
-                    style={{ borderTopWidth: '3px', borderTopColor: disc.color }}
-                  >
-                    <div>
-                      {/* Local SVG Graphic Banner */}
-                      <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#0c1222] via-[#070b14] to-[#030306] border-b border-white/[0.08]">
-                        <img
-                          src={disc.img}
-                          alt=""
-                          aria-hidden="true"
-                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                          loading="lazy"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none'
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-85" />
-                        
-                        <div
-                          className="absolute top-3 left-3 p-2 rounded-xl backdrop-blur-md"
-                          style={{ backgroundColor: `${disc.color}20`, border: `1px solid ${disc.color}50` }}
-                        >
-                          <Icon className="w-4 h-4" style={{ color: disc.color }} />
-                        </div>
-
-                        <span className="absolute top-3 right-3 font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-black/70 border border-white/10 text-white">
-                          {disc.badge}
-                        </span>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6">
-                        <h4 className="font-display font-bold text-lg text-white mb-2 group-hover:text-[#00D9FF] transition-colors">
-                          {disc.title}
-                        </h4>
-                        <p className="font-body text-xs sm:text-sm text-[#94A3B8] leading-relaxed mb-4">
-                          {disc.desc}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="px-6 pb-6">
-                      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/[0.08]">
-                        {disc.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="font-mono text-[10px] px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-[#CBD5E1]"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </TiltCard>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* ── BENTO 4: Lifestyle, Passions & FC Barcelona Tribute (3 Cards) ── */}
-          <div className="md:col-span-12 mt-2">
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-mono text-xs uppercase text-[#A855F7] tracking-wider font-bold">
-                LIFESTYLE &amp; PERSONAL PASSIONS
-              </span>
-              <Sparkles className="w-4 h-4 text-[#F59E0B] animate-pulse" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
-              {/* 1. FC Barcelona Official Blaugrana Card */}
-              <TiltCard
-                data-cursor-text="BARÇA"
-                className="p-6 rounded-2xl relative overflow-hidden flex flex-col justify-between"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(0, 77, 152, 0.4) 0%, rgba(165, 0, 68, 0.4) 100%)',
-                  borderColor: 'rgba(0, 77, 152, 0.7)',
-                  boxShadow: '0 0 25px rgba(165, 0, 68, 0.25)'
-                }}
-              >
-                <div
-                  className="absolute top-0 left-0 bottom-0 w-2"
-                  style={{ background: 'linear-gradient(180deg, #004d98 0%, #a50044 100%)' }}
-                />
-                
-                <div className="flex items-center justify-between mb-4 pl-1">
-                  <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded text-[#EDBB00] bg-black/60 border border-[#EDBB00]/50">
-                    ★ CULER SUPPORTER
-                  </span>
-                  <div className="w-3.5 h-3.5 rounded-full" style={{ background: 'linear-gradient(45deg, #004d98 50%, #a50044 50%)' }} />
-                </div>
-
-                <div className="flex items-center gap-4 mb-3 pl-1">
-                  <FCBarcelonaLogo className="w-14 h-14 shrink-0 drop-shadow-[0_0_12px_rgba(237,187,0,0.7)] group-hover:scale-110 transition-transform" />
-                  <div>
-                    <h5 className="font-display font-bold text-lg text-white">FC Barcelona</h5>
-                    <p className="font-body text-xs text-[#F5F7FA]/90 italic font-medium">
-                      "Més que un club"
-                    </p>
-                  </div>
-                </div>
-                <p className="font-body text-xs text-[#CBD5E1] leading-relaxed pl-1 font-normal">
-                  Passion, tactical strategy, legendary tiki-taka heritage, and proud support for the Blaugrana spirit.
-                </p>
-              </TiltCard>
-
-              {/* 2. Landscape Photography Card */}
-              <TiltCard
-                data-cursor-text="VISUALS"
-                className="rounded-2xl overflow-hidden flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#0c1222] via-[#070b14] to-[#030306]">
-                    <img
-                      src="/images/landscape-photography.svg"
-                      alt=""
-                      aria-hidden="true"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
-                    <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#00D9FF]/30 text-[#00D9FF]">
-                      RAW 35MM
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-center gap-2.5 mb-1.5">
-                      <CameraDSLRLogo className="w-6 h-6 shrink-0" />
-                      <h5 className="font-display font-bold text-base text-white group-hover:text-[#00D9FF] transition-colors">
-                        Landscape Photography
-                      </h5>
-                    </div>
-                    <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
-                      Golden hours, natural depth framing, optical RAW color science, and serene scenic captures.
-                    </p>
-                  </div>
-                </div>
-              </TiltCard>
-
-              {/* 3. DJ & Electronic Music Card */}
-              <TiltCard
-                data-cursor-text="128 BPM"
-                className="rounded-2xl overflow-hidden flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-[#160d24] via-[#070b14] to-[#030306]">
-                    <img
-                      src="/images/dj-console.svg"
-                      alt=""
-                      aria-hidden="true"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-transparent opacity-80" />
-                    <span className="absolute top-3 left-3 font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-black/70 border border-[#F59E0B]/30 text-[#F59E0B]">
-                      128 BPM
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <div className="flex items-center gap-2.5">
-                        <DJTurntableLogo className="w-6 h-6 shrink-0" />
-                        <h5 className="font-display font-bold text-base text-white group-hover:text-[#F59E0B] transition-colors">
-                          DJing &amp; Sound
-                        </h5>
-                      </div>
-                      {/* Live Equalizer Rhythm Bars */}
-                      <div className="flex items-end gap-0.5 h-4">
-                        <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-2.5" />
-                        <span className="w-1 bg-[#00D9FF] rounded-full animate-eq-bar h-4" style={{ animationDelay: '0.15s' }} />
-                        <span className="w-1 bg-[#A855F7] rounded-full animate-eq-bar h-2" style={{ animationDelay: '0.3s' }} />
-                        <span className="w-1 bg-[#F59E0B] rounded-full animate-eq-bar h-3.5" style={{ animationDelay: '0.45s' }} />
-                      </div>
-                    </div>
-                    <p className="font-body text-xs text-[#94A3B8] leading-relaxed font-normal">
-                      Harmonic track mixing, rhythmic cues, bass drops, and crafting energetic electronic soundscapes.
-                    </p>
-                  </div>
-                </div>
-              </TiltCard>
-            </div>
-          </div>
-
         </div>
 
+        {/* 4 Flagship Metrics */}
+        <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {personalInfo.stats.map((stat, idx) => (
+            <div
+              key={stat.label}
+              className="spatial-glass rounded-2xl p-6 border border-white/[0.08] bg-[#070b14]/80 backdrop-blur-xl"
+            >
+              <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500">{stat.label}</p>
+              <p className="mt-3 font-display text-4xl font-extrabold text-white">
+                {stat.value}
+                <span className="ml-1 text-lg text-[#00f2fe]">{stat.suffix}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Passions Bento Grid: Photography, DJing & Barça */}
+        <div className="mt-20">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-wider text-[#00f2fe]">DISCIPLINES BEYOND CODE</p>
+              <h3 className="mt-2 font-display text-2xl sm:text-3xl font-bold text-white">
+                THE HUMAN &amp; KINETIC LAYER
+              </h3>
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {/* Photography Card */}
+            <article className="cyber-card group relative overflow-hidden rounded-2xl p-7 border border-white/[0.1] bg-[#070b14]/80 backdrop-blur-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#00f2fe]/30 bg-[#00f2fe]/10 text-[#00f2fe]">
+                <Camera size={24} />
+              </div>
+              <h4 className="mt-6 font-display text-xl font-bold text-white">Landscape Photography</h4>
+              <p className="mt-3 text-sm leading-6 text-zinc-400">
+                Capturing scenic vistas, golden hour horizons, and raw environmental geometry with disciplined framing and calibrated color science.
+              </p>
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4 font-mono text-xs text-zinc-500">
+                <span>VISUAL DEPTH</span>
+                <span className="text-[#00f2fe]">OPTICAL ART</span>
+              </div>
+            </article>
+
+            {/* DJing & Electronic Sound Card */}
+            <article className="cyber-card group relative overflow-hidden rounded-2xl p-7 border border-white/[0.1] bg-[#070b14]/80 backdrop-blur-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#7928ca]/30 bg-[#7928ca]/20 text-[#d8b4fe]">
+                <Disc3 size={24} className="animate-spin" style={{ animationDuration: '8s' }} />
+              </div>
+              <h4 className="mt-6 font-display text-xl font-bold text-white">DJing &amp; Electronic Sound</h4>
+              <p className="mt-3 text-sm leading-6 text-zinc-400">
+                Harmonic mixing, beat-matching rhythms, and building immersive sonic momentum through high-energy electronic soundscapes.
+              </p>
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4 font-mono text-xs text-zinc-500">
+                <span>128 BPM SYNC</span>
+                <span className="text-[#d8b4fe]">AUDIO KINETICS</span>
+              </div>
+            </article>
+
+            {/* FC Barcelona Blaugrana Card */}
+            <article className="cyber-card group relative overflow-hidden rounded-2xl p-7 border border-[#a50044]/30 bg-[#070b14]/80 backdrop-blur-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#004d98] bg-[#a50044]/30 text-white">
+                <ShieldAlert size={24} className="text-[#ffed00]" />
+              </div>
+              <h4 className="mt-6 font-display text-xl font-bold text-white">FC Barcelona</h4>
+              <p className="mt-3 text-sm leading-6 text-zinc-400">
+                Unwavering passion for the Blaugrana philosophy — <span className="text-white italic">"Més que un club"</span>. Elegance, collective strategy, and enduring character.
+              </p>
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4 font-mono text-xs text-zinc-500">
+                <span>BLAUGRANA</span>
+                <span className="text-[#ffed00]">VISCA EL BARÇA</span>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
   )
