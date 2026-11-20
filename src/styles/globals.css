@@ -1,52 +1,79 @@
 @import "tailwindcss";
 
+@theme {
+  --color-abyss: #110b1f;
+  --color-midnight: #19112b;
+  --color-royal: #251640;
+  --color-indigo-deep: #130d24;
+  --color-twilight-rose: #f4939e;
+  --color-twilight-dusk: #8b5a8c;
+  --color-sakura: #ec4899;
+  --color-coral: #f472b6;
+  --color-ember: #f59e0b;
+  --color-arcane: #8b5cf6;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b8b0c8;
+
+  --font-display: 'Cinzel', 'Chakra Petch', serif;
+  --font-gaming: 'Chakra Petch', 'Be Vietnam Pro', sans-serif;
+  --font-body: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+@property --beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 :root {
   color-scheme: dark;
-  --bg-deep: #020307;
-  --bg-sub: #05070f;
-  --surface-glass: rgba(8, 11, 20, 0.58);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --hairline: rgba(255, 255, 255, 0.08);
-  --top-edge-specular: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
-  
-  /* Station Dynamic Accent (Interpolated via station hook) */
-  --accent: #38bdf8;
-  --accent-cyan: #38bdf8;
-  --accent-silver: #e2e8f0;
-  --accent-amber: #f59e0b;
-  --accent-violet: #a855f7;
-  --accent-eclipse: #bfdbfe;
+  --bg-abyss: #110b1f;
+  --bg-midnight: #19112b;
+  --bg-royal: #251640;
+  --text-primary: #ffffff;
+  --text-secondary: #b8b0c8;
+  --accent-sakura: #ec4899;
+  --accent-ember: #f59e0b;
+  --accent-arcane: #8b5cf6;
 
-  --font-display: 'Space Grotesk', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
+  /* Live Scroll Motion Engine Defaults */
+  --scroll-progress: 0;
+  --scroll-velocity: 0;
+  --hero-progress: 0;
+  --hero-opacity: 1;
+
+  --font-display: 'Cinzel', 'Chakra Petch', serif;
+  --font-gaming: 'Chakra Petch', 'Be Vietnam Pro', sans-serif;
+  --font-body: 'Be Vietnam Pro', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-  background-color: var(--bg-deep);
+  scroll-padding-top: 5.5rem;
+  background-color: var(--bg-abyss);
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background-color: var(--bg-deep);
+  background-color: var(--bg-abyss);
   color: var(--text-primary);
   font-family: var(--font-body);
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-
-/* Subtle Cosmic Deep Space Grain (Zero harsh grid lines) */
-.grain-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  overflow-x: clip;
 }
 
 .font-display {
   font-family: var(--font-display);
+}
+
+.font-gaming {
+  font-family: var(--font-gaming);
 }
 
 .font-body {
@@ -57,166 +84,878 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Minimalist Deep-Space Odyssey Glass Viewport Card */
-.spatial-glass,
-.cyber-card,
-.spotlight-card {
-  position: relative;
-  background: var(--surface-glass);
-  backdrop-filter: blur(24px) saturate(135%);
-  -webkit-backdrop-filter: blur(24px) saturate(135%);
-  border: 1px solid var(--hairline);
-  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.75);
-  transition: border-color 250ms ease, background 250ms ease, transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+/* ─────────────────────────────────────────────────────────────────
+   GLOBAL 3PX GLOWING MULTI-PAGE PROGRESS BAR & PAGE TRANSITIONS
+   ───────────────────────────────────────────────────────────────── */
+.page-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 60;
+  pointer-events: none;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #f59e0b 0%, #ec4899 45%, #f472b6 70%, #8b5cf6 100%);
+  box-shadow: 0 0 14px rgba(236, 72, 153, 0.95), 0 0 6px rgba(139, 92, 246, 0.9);
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-/* Specular top-edge 1px highlight line */
-.spatial-glass::before,
-.cyber-card::before,
-.spotlight-card::before {
+@keyframes pageEnterForward {
+  0% {
+    opacity: 0;
+    transform: translate3d(32px, 10px, 0) scale(0.986);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes pageEnterBackward {
+  0% {
+    opacity: 0;
+    transform: translate3d(-32px, 10px, 0) scale(0.986);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.page-stage-forward {
+  animation: pageEnterForward 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+.page-stage-backward {
+  animation: pageEnterBackward 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   SCROLL-DRIFTING DIAMOND TEXTURE IN 02. SYSTEMS
+   ───────────────────────────────────────────────────────────────── */
+.diamond-pattern-bg {
+  background-color: #251640;
+  background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M32 2L62 32L32 62L2 32Z' fill='none' stroke='%238B5CF6' stroke-opacity='0.18' stroke-width='1'/%3E%3Cpath d='M32 16L48 32L32 48L16 32Z' fill='none' stroke='%23EC4899' stroke-opacity='0.11' stroke-width='0.75'/%3E%3C/svg%3E");
+  background-size: 64px 64px;
+  background-position: 0px calc(var(--p, 0) * -190px);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ORNATE FANTASY GAMING CARD & CONTINUOUS IDLE TOP SHEEN
+   ───────────────────────────────────────────────────────────────── */
+.fantasy-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(35, 22, 62, 0.88) 0%, rgba(17, 11, 31, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 0 24px 55px -18px rgba(6, 3, 14, 0.85);
+  transition: border-color 280ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms ease;
+}
+
+.fantasy-card::before {
   content: '';
   position: absolute;
   inset-x: 0;
   top: 0;
-  height: 1px;
-  background: var(--top-edge-specular);
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(244, 114, 182, 0.15) 20%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(245, 158, 11, 0.7) 65%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: topBorderSweep 5.5s linear infinite;
   pointer-events: none;
 }
 
-/* Corner Crosshair + (6px, 30% opacity) */
-.crosshair-corner {
-  position: relative;
+.fantasy-card:hover {
+  border-color: rgba(236, 72, 153, 0.65);
+  box-shadow: 0 26px 64px -15px rgba(236, 72, 153, 0.32);
 }
 
-.crosshair-corner::after {
-  content: '+';
+@keyframes topBorderSweep {
+  0% {
+    background-position: 180% 0%;
+  }
+  100% {
+    background-position: -120% 0%;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   3D COLLECTIBLE CARD FLIP, ORBITING CONIC BORDER & HOLO FOIL
+   ───────────────────────────────────────────────────────────────── */
+.card-perspective {
+  perspective: 1400px;
+}
+
+.card-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.card-backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Orbiting Conic Border Beam on Active Card (do NOT set position here so Tailwind `absolute inset-0` works cleanly) */
+.conic-border-beam {
+  padding: 2.5px;
+  border-radius: 1rem;
+  background: conic-gradient(
+    from var(--beam-angle),
+    rgba(139, 92, 246, 0.3) 0deg,
+    rgba(236, 72, 153, 1) 60deg,
+    rgba(255, 255, 255, 0.98) 88deg,
+    rgba(245, 158, 11, 0.95) 115deg,
+    rgba(139, 92, 246, 0.3) 185deg,
+    rgba(139, 92, 246, 0.2) 360deg
+  );
+  animation: borderBeamOrbit 4s linear infinite;
+  box-shadow: 0 24px 72px -10px rgba(236, 72, 153, 0.45);
+}
+
+@keyframes borderBeamOrbit {
+  from {
+    --beam-angle: 0deg;
+  }
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* Periodic Idle + Hover Diagonal Holographic Foil Sheen */
+.holo-foil {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.3);
+  inset: 0;
   pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 26%,
+    rgba(255, 255, 255, 0.14) 41%,
+    rgba(244, 114, 182, 0.28) 48%,
+    rgba(245, 158, 11, 0.2) 54%,
+    transparent 68%
+  );
+  background-size: 250% 250%;
+  animation: holoIdleSweep 5.5s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes holoIdleSweep {
+  0%, 60% {
+    background-position: 130% 130%;
+    opacity: 0;
+  }
+  72% {
+    opacity: 0.75;
+  }
+  92% {
+    background-position: -30% -30%;
+    opacity: 0.75;
+  }
+  100% {
+    background-position: -30% -30%;
+    opacity: 0;
+  }
+}
+
+.group:hover .holo-foil {
+  animation: none;
+  opacity: 0.95;
+  background-position: 15% 15%;
+  transition: background-position 500ms ease, opacity 250ms ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   LAYER A: DISTINCT CONTINUOUS IDLE / AMBIENT ANIMATIONS
+   ───────────────────────────────────────────────────────────────── */
+
+/* 1. Hero Artwork Ken Burns Breathing Zoom (16s alternate infinite) */
+@keyframes kenBurnsBreath {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.09);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurnsBreath 16s ease-in-out alternate infinite;
+  will-change: transform;
+}
+
+/* 2. Metallic Light Sheen sweeping across Display Headlines */
+@keyframes titleShine {
+  0% {
+    background-position: -150% center;
+  }
+  100% {
+    background-position: 250% center;
+  }
+}
+
+.animate-title-shine {
+  background-image: linear-gradient(
+    110deg,
+    #ffffff 0%,
+    #ffffff 38%,
+    #fde68a 47%,
+    #f9a8d4 53%,
+    #ffffff 62%,
+    #ffffff 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleShine 6.5s linear infinite;
+}
+
+/* 3. Drifting Twilight Mist between Hero Mountain Layers */
+@keyframes mistDrift {
+  0%, 100% {
+    transform: translateX(-4%);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateX(4%);
+    opacity: 0.8;
+  }
+}
+
+.animate-mist-drift {
+  animation: mistDrift 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 4. Pulsing Amber Radar Ring */
+@keyframes radarPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.95;
+  }
+  75%, 100% {
+    transform: scale(2.9);
+    opacity: 0;
+  }
+}
+
+.animate-radar-ring {
+  animation: radarPulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* 5. Periodic 4.2s Light-Glint Shimmer across White CTA Buttons */
+@keyframes buttonGlint {
+  0%, 66% {
+    transform: translateX(-160%) skewX(-24deg);
+    opacity: 0;
+  }
+  74% {
+    opacity: 1;
+  }
+  94% {
+    transform: translateX(280%) skewX(-24deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(280%) skewX(-24deg);
+    opacity: 0;
+  }
+}
+
+.animate-btn-glint {
+  animation: buttonGlint 4.2s ease-in-out infinite;
+}
+
+/* 6. Gentle Vertical Bounce on Down Arrow */
+@keyframes arrowBob {
+  0%, 100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-arrow-bob {
+  animation: arrowBob 1.7s ease-in-out infinite;
+}
+
+/* 7. Collectible Card Levitation (-10px <-> +10px) */
+@keyframes cardLevitate {
+  0%, 100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.animate-card-levitate {
+  animation: cardLevitate 4.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-card-levitate-delayed {
+  animation: cardLevitate 4.4s ease-in-out -2.2s infinite;
+  will-change: transform;
+}
+
+/* 8. Staggered Wave Floating for Profile Tech Tiles, Social Cards & Portrait */
+@keyframes tileWaveFloat {
+  0%, 100% {
+    transform: translateY(-4px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-tile-float {
+  animation: tileWaveFloat 4.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 9. Crystal Emblem Breathing on Card Backs (1.0 -> 1.13) */
+@keyframes crystalBreath {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.84;
+  }
+  50% {
+    transform: scale(1.13);
+    opacity: 1;
+  }
+}
+
+.animate-crystal-breath {
+  animation: crystalBreath 3.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 10. Slow Arcane Ring Rotation (Card Back Crest, Top Relic Halo, Optics Lens) */
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slowSpin 18s linear infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.animate-slow-spin-reverse {
+  animation: slowSpin 24s linear reverse infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* 11. Live Scanline Sweep inside Card HUD Previews */
+@keyframes scanlineSweep {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  15%, 85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(144px);
+    opacity: 0;
+  }
+}
+
+.animate-scanline {
+  animation: scanlineSweep 2.8s linear infinite;
+  will-change: transform, opacity;
+}
+
+/* 12. Blinking HUD Landmark / Status Nodes */
+@keyframes nodeBlink {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+.animate-node-blink {
+  animation: nodeBlink 2s ease-in-out infinite;
+}
+
+/* 13. Live Dancing Equalizer / Throughput Bars inside Card HUDs & DJ Badge */
+@keyframes eqDance {
+  0%, 100% {
+    transform: scaleY(0.45);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-eq-dance {
+  transform-origin: bottom center;
+  animation: eqDance 1.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 14. Independent Floating for Expertise Relic, Gold Diamond & Bottom 3 Badges */
+@keyframes floatRelic {
+  0%, 100% {
+    transform: translateY(-8px);
+  }
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+.animate-float-42 {
+  animation: floatRelic 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-36 {
+  animation: floatRelic 3.2s ease-in-out -1.2s infinite;
+  will-change: transform;
+}
+
+.animate-badge-bob {
+  animation: floatRelic 3.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 15. Soft Pulsing Ambient Aura */
+@keyframes auraBreath {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+.animate-aura-breath {
+  animation: auraBreath 5.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 16. Ambient Pink Badge Pill Glow Pulse */
+@keyframes pillGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 0px rgba(236, 72, 153, 0);
+    opacity: 0.85;
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.55);
+    opacity: 1;
+  }
+}
+
+.animate-pill-glow {
+  animation: pillGlowPulse 3s ease-in-out infinite;
+}
+
+/* 17. Floating Firefly / Ember Drift */
+@keyframes floatFirefly {
+  0%, 100% {
+    transform: translate3d(-4px, 4px, 0) scale(0.95);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate3d(8px, -18px, 0) scale(1.45);
+    opacity: 1;
+  }
+}
+
+.animate-firefly {
+  animation: floatFirefly 4.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 18. Traveling Light Pulse along Horizontal Dividers */
+@keyframes dividerLight {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  30%, 70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(400%);
+    opacity: 0;
+  }
+}
+
+.animate-divider-pulse {
+  animation: dividerLight 4.5s ease-in-out infinite;
 }
 
 .tactile-btn {
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tactile-btn:active {
   transform: scale(0.97);
 }
 
-.status-dot {
-  position: relative;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-  transition: background-color 300ms ease, box-shadow 300ms ease;
-}
-
-.status-dot::after {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 999px;
-  border: 1px solid var(--accent);
-  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@keyframes ping {
-  75%, 100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-
-/* Equalizer Bars for DJ Telemetry Chip */
-@keyframes eqBar {
-  0%, 100% { height: 25%; }
-  50% { height: 95%; }
-}
-
-.animate-eq-bar {
-  animation: eqBar 1.2s ease-in-out infinite;
-}
-
-/* Zero-Gravity Float Entrance Animation */
-.zero-gravity-reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.zero-gravity-reveal.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.animate-fade-up {
-  animation: fade-up 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.animate-scale-up {
-  animation: scale-up 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-up {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Custom Deep Space Scrollbar */
+/* Custom Deep Violet Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #020307;
+  background: #110b1f;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(139, 92, 246, 0.38);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: #ec4899;
 }
 
-/* Reduced Motion Compliance */
+/* ─────────────────────────────────────────────────────────────────
+   HEXTECH / ARCANE MECHANICAL GEAR ASSEMBLY (5-LAYER CLOCKWORK)
+   ───────────────────────────────────────────────────────────────── */
+.gear-assembly {
+  perspective: 760px;
+}
+
+.gear-stage {
+  transform-style: preserve-3d;
+}
+
+.gear-layer {
+  transform-style: preserve-3d;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), filter 320ms ease;
+  will-change: transform;
+}
+
+/* Stepped 3D Z-Depths (Idle) */
+.gear-z-0 {
+  transform: translateZ(2px);
+}
+.gear-z-1 {
+  transform: translateZ(8px);
+}
+.gear-z-2 {
+  transform: translateZ(18px);
+}
+.gear-z-4 {
+  transform: translateZ(22px);
+}
+.gear-z-3 {
+  transform: translateZ(26px);
+}
+.gear-z-5 {
+  transform: translateZ(36px);
+}
+
+/* Hover Overdrive: Push layers outward in Z-depth for heightened 3D parallax */
+.group:hover .gear-z-1 {
+  transform: translateZ(12px);
+}
+.group:hover .gear-z-2 {
+  transform: translateZ(26px);
+}
+.group:hover .gear-z-4 {
+  transform: translateZ(32px);
+}
+.group:hover .gear-z-3 {
+  transform: translateZ(38px);
+}
+.group:hover .gear-z-5 {
+  transform: translateZ(50px);
+}
+
+/* Metallic Glow Finishes & Hover Overdrive Illumination */
+.gear-glow-gold {
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.35));
+  transition: filter 320ms ease;
+}
+
+.gear-glow-violet {
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.42));
+  transition: filter 320ms ease;
+}
+
+.gear-crystal-glow {
+  filter: drop-shadow(0 0 14px rgba(236, 72, 153, 0.85));
+  transition: filter 320ms ease;
+}
+
+.group:hover .gear-glow-gold {
+  filter: drop-shadow(0 0 14px rgba(253, 230, 138, 0.78))
+    drop-shadow(0 0 24px rgba(245, 158, 11, 0.52));
+}
+
+.group:hover .gear-glow-violet {
+  filter: drop-shadow(0 0 14px rgba(236, 72, 153, 0.7))
+    drop-shadow(0 0 22px rgba(139, 92, 246, 0.6));
+}
+
+.group:hover .gear-crystal-glow {
+  filter: drop-shadow(0 0 22px rgba(244, 114, 182, 1))
+    drop-shadow(0 0 34px rgba(245, 158, 11, 0.65));
+}
+
+/* Hextech Energy Spoke Traces: Dormant at idle, ignited in Hover Overdrive */
+.gear-energy-traces {
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.95));
+  transition: opacity 280ms ease;
+}
+
+.group:hover .gear-energy-traces {
+  opacity: 0.95;
+  animation: gearEnergyPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes gearEnergyPulse {
+  0%,
+  100% {
+    opacity: 0.68;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ── STATE 1: IDLE CLOCKWORK ESCAPEMENT TICK (4-Beat Synchronized Horology) ──
+   Each beat snaps forward with spring overshoot cubic-bezier(0.34, 1.56, 0.64, 1)
+   followed by a brief dead-stop mechanical lock pause.
+   Exact 2:1 meshing: Main (+22.5°/beat -> +90°), Pinions (-45°/beat -> -180°),
+   Inner 12-tooth Ratchet (-30°/beat -> -120°). All loop seamlessly! */
+@keyframes gearEscapementMain {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  10%,
+  25% {
+    transform: rotate(22.5deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  35%,
+  50% {
+    transform: rotate(45deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  60%,
+  75% {
+    transform: rotate(67.5deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  85%,
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes gearEscapementPinion {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  10%,
+  25% {
+    transform: rotate(-45deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  35%,
+  50% {
+    transform: rotate(-90deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  60%,
+  75% {
+    transform: rotate(-135deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  85%,
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes gearEscapementRatchet {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  10%,
+  25% {
+    transform: rotate(-30deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  35%,
+  50% {
+    transform: rotate(-60deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  60%,
+  75% {
+    transform: rotate(-90deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  85%,
+  100% {
+    transform: rotate(-120deg);
+  }
+}
+
+.gear-tick-main {
+  animation: gearEscapementMain 6.4s infinite;
+  will-change: transform;
+}
+
+.gear-tick-pinion {
+  animation: gearEscapementPinion 6.4s infinite;
+  will-change: transform;
+}
+
+.gear-tick-ratchet {
+  animation: gearEscapementRatchet 6.4s infinite;
+  will-change: transform;
+}
+
+/* ── STATE 3A: HOVER OVERDRIVE (Brisk Energized Synchronized Spin-Up) ── */
+@keyframes gearOverdriveCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gearOverdriveCCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.group:hover .gear-tick-main {
+  animation: gearOverdriveCW 7.2s linear infinite;
+}
+
+/* Pinions stay strictly 2x angular speed opposite to main gear (3.6s = half of 7.2s) */
+.group:hover .gear-tick-pinion {
+  animation: gearOverdriveCCW 3.6s linear infinite;
+}
+
+.group:hover .gear-tick-ratchet {
+  animation: gearOverdriveCCW 5.4s linear infinite;
+}
+
+/* ── STATE 3B: CLICK / FLIP 300ms MECHANICAL UNLOCK SURGE + GOLDEN FLASH ── */
+@keyframes gearUnlockSurgeCW {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes gearUnlockSurgeCCW {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes gearUnlockSurgeCCW2x {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes gearCoreFlashBurst {
+  0% {
+    opacity: 0;
+    transform: translateZ(44px) scale(0.45);
+  }
+  30% {
+    opacity: 1;
+    transform: translateZ(52px) scale(1.12);
+  }
+  100% {
+    opacity: 0;
+    transform: translateZ(46px) scale(1.42);
+  }
+}
+
+.gear-unlock-cw {
+  animation: gearUnlockSurgeCW 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.gear-unlock-ccw {
+  animation: gearUnlockSurgeCCW 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.gear-unlock-ccw-2x {
+  animation: gearUnlockSurgeCCW2x 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.gear-core-flash {
+  animation: gearCoreFlashBurst 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+/* Native prefers-reduced-motion compliance (respects explicit FX ON override when active) */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  html:not([data-motion="active"]) .gear-tick-main,
+  html:not([data-motion="active"]) .gear-tick-pinion,
+  html:not([data-motion="active"]) .gear-tick-ratchet,
+  html:not([data-motion="active"]) .gear-unlock-cw,
+  html:not([data-motion="active"]) .gear-unlock-ccw,
+  html:not([data-motion="active"]) .gear-unlock-ccw-2x,
+  html:not([data-motion="active"]) .gear-core-flash,
+  html:not([data-motion="active"]) .gear-energy-traces {
+    animation: none !important;
+    transition: none !important;
   }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .zero-gravity-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
+}
+
+/* Explicit User Accessibility Motion Toggle (`FX: OFF`) */
+html[data-motion="reduced"] {
+  scroll-behavior: auto;
+}
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }

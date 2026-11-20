@@ -5,8 +5,14 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
 }
 
 /**
- * BrandIcons — Ultra-crisp Custom SVG Logos & Symbols
- * Strictly follows brand geometry, gradients, and proper aspect ratios.
+ * BrandIcons — Custom & Simple-Icons SVG Vector Paths
+ *
+ * Provenance Notes:
+ * - FacebookLogo & GithubLogo: Official simple-icons SVG paths.
+ * - InstagramLogo: Rounded camera glyph with official 4-stop gradient (#F58529 -> #DD2A7B -> #8134AF -> #515BD4).
+ * - TikTokLogo: Musical note glyph (simple-icons derived) with dual Cyan (#00F2FE) + Magenta (#FE2C55) phase offset.
+ * - LocketLogo: Custom geometric approximation (rounded widget frame with #FFB800 heart center).
+ * - TurntableIcon, CameraLensIcon, BarcaShieldIcon: Original bespoke geometric SVGs (non-trademarked Blaugrana shield approximation).
  */
 
 export function FacebookLogo({ className = 'w-6 h-6', ...props }: IconProps) {
@@ -17,56 +23,71 @@ export function FacebookLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   )
 }
 
+/**
+ * Custom Geometric Approximation: Locket Widget Frame with #FFB800 Heart
+ */
 export function LocketLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} {...props}>
-      <rect x="2" y="3" width="20" height="18" rx="5.5" stroke="currentColor" strokeWidth="2" />
-      <circle cx="17.5" cy="7" r="1.5" fill="currentColor" />
-      <circle cx="12" cy="12.5" r="5" stroke="currentColor" strokeWidth="1.8" />
+      <rect
+        x="2.5"
+        y="2.5"
+        width="19"
+        height="19"
+        rx="5.5"
+        stroke="#FFB800"
+        strokeWidth="2"
+      />
       <path
-        d="M12 15.2s-2.8-1.75-2.8-3.45c0-.95.75-1.7 1.7-1.7.6 0 1.1.25 1.4.7.3-.45.8-.7 1.4-.7.95 0 1.7.75 1.7 1.7 0 1.7-2.8 3.45-2.8 3.45z"
-        fill="currentColor"
+        d="M12 16.6s-4.6-2.85-4.6-5.75c0-1.55 1.22-2.75 2.75-2.75.92 0 1.72.45 2.2 1.15.48-.7 1.28-1.15 2.2-1.15 1.53 0 2.75 1.2 2.75 2.75 0 2.9-4.6 5.75-4.6 5.75z"
+        fill="#FFB800"
       />
     </svg>
   )
 }
 
+/**
+ * Instagram Glyph with exact 4-stop Gradient (#F58529 -> #DD2A7B -> #8134AF -> #515BD4)
+ */
 export function InstagramLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} {...props}>
       <defs>
-        <linearGradient id="ig-grad" x1="2" y1="21" x2="22" y2="3" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFC107" />
-          <stop offset="0.3" stopColor="#F44336" />
-          <stop offset="0.65" stopColor="#E91E63" />
-          <stop offset="1" stopColor="#9C27B0" />
+        <linearGradient id="ig-brand-grad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#F58529" />
+          <stop offset="35%" stopColor="#DD2A7B" />
+          <stop offset="70%" stopColor="#8134AF" />
+          <stop offset="100%" stopColor="#515BD4" />
         </linearGradient>
       </defs>
-      <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#ig-grad)" strokeWidth="2" />
-      <circle cx="12" cy="12" r="4.2" stroke="url(#ig-grad)" strokeWidth="2" />
-      <circle cx="17.5" cy="6.5" r="1.3" fill="url(#ig-grad)" />
+      <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#ig-brand-grad)" strokeWidth="2" />
+      <circle cx="12" cy="12" r="4.3" stroke="url(#ig-brand-grad)" strokeWidth="2" />
+      <circle cx="17.5" cy="6.5" r="1.3" fill="url(#ig-brand-grad)" />
     </svg>
   )
 }
 
+/**
+ * TikTok Musical Note with Phase-Offset Cyan (#00F2FE) + Magenta (#FE2C55)
+ */
 export function TikTokLogo({ className = 'w-6 h-6', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} {...props}>
-      {/* 3D Cyan Offset */}
+      {/* Cyan Phase Offset (#00F2FE) */}
       <path
-        d="M19.5 8.2c-1.5-.2-2.9-.9-4-2.1v8.8c0 3.1-2.5 5.6-5.6 5.6-3.1 0-5.6-2.5-5.6-5.6s2.5-5.6 5.6-5.6c.4 0 .8.05 1.2.14v3.2c-.38-.13-.78-.2-1.2-.2-1.4 0-2.6 1.15-2.6 2.55s1.15 2.55 2.6 2.55 2.6-1.15 2.6-2.55V2h3.3c.2 2 1.8 3.6 3.7 3.8v2.4z"
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
         fill="#00F2FE"
-        transform="translate(-0.8, -0.6)"
+        transform="translate(-0.75, -0.6)"
       />
-      {/* 3D Magenta Offset */}
+      {/* Magenta Phase Offset (#FE2C55) */}
       <path
-        d="M19.5 8.2c-1.5-.2-2.9-.9-4-2.1v8.8c0 3.1-2.5 5.6-5.6 5.6-3.1 0-5.6-2.5-5.6-5.6s2.5-5.6 5.6-5.6c.4 0 .8.05 1.2.14v3.2c-.38-.13-.78-.2-1.2-.2-1.4 0-2.6 1.15-2.6 2.55s1.15 2.55 2.6 2.55 2.6-1.15 2.6-2.55V2h3.3c.2 2 1.8 3.6 3.7 3.8v2.4z"
-        fill="#FF0080"
-        transform="translate(0.8, 0.6)"
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
+        fill="#FE2C55"
+        transform="translate(0.75, 0.6)"
       />
-      {/* White Main Glyph */}
+      {/* Core White Glyph */}
       <path
-        d="M19.5 8.2c-1.5-.2-2.9-.9-4-2.1v8.8c0 3.1-2.5 5.6-5.6 5.6-3.1 0-5.6-2.5-5.6-5.6s2.5-5.6 5.6-5.6c.4 0 .8.05 1.2.14v3.2c-.38-.13-.78-.2-1.2-.2-1.4 0-2.6 1.15-2.6 2.55s1.15 2.55 2.6 2.55 2.6-1.15 2.6-2.55V2h3.3c.2 2 1.8 3.6 3.7 3.8v2.4z"
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
         fill="#FFFFFF"
       />
     </svg>
@@ -74,62 +95,78 @@ export function TikTokLogo({ className = 'w-6 h-6', ...props }: IconProps) {
 }
 
 /**
- * DJ Turntable SVG with Grooved Vinyl and Moving Tonearm
+ * Custom Bespoke SVG: DJ Turntable
  */
 export function TurntableIcon({ className = 'w-8 h-8', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} {...props}>
-      <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" strokeWidth="2" strokeOpacity="0.8" />
-      <circle cx="14" cy="16" r="10" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="14" cy="16" r="7" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.6" />
-      <circle cx="14" cy="16" r="4" stroke="currentColor" strokeWidth="1" strokeOpacity="0.8" />
-      <circle cx="14" cy="16" r="1.5" fill="currentColor" />
-      <circle cx="26" cy="8" r="2" fill="currentColor" />
-      <path d="M26 10l-4 7-2 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <line x1="26" y1="21" x2="26" y2="27" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.6" />
-      <rect x="24.5" y="23" width="3" height="2" rx="0.5" fill="currentColor" />
+      <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="14" cy="16" r="9.5" stroke="currentColor" strokeWidth="1.6" />
+      <circle
+        cx="14"
+        cy="16"
+        r="6.5"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeDasharray="2 2"
+        strokeOpacity="0.65"
+      />
+      <circle cx="14" cy="16" r="3" stroke="currentColor" strokeWidth="1.2" />
+      <circle cx="14" cy="16" r="1.2" fill="currentColor" />
+      <circle cx="25.5" cy="8.5" r="1.8" fill="currentColor" />
+      <path d="M25.5 10.3L22 17.5l-2.2 1.1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   )
 }
 
 /**
- * Camera Optical Lens SVG with Aperture Blades
+ * Custom Bespoke SVG: Optical Camera Lens
  */
 export function CameraLensIcon({ className = 'w-8 h-8', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} {...props}>
-      <circle cx="16" cy="16" r="13" stroke="currentColor" strokeWidth="2" />
-      <circle cx="16" cy="16" r="9.5" stroke="currentColor" strokeWidth="1.2" strokeDasharray="3 2" strokeOpacity="0.6" />
-      <path d="M16 8l4.5 4.5M22.5 11l-1 6M23 19l-5.5 2M18 24l-4.5-4.5M9.5 21l1-6M9 13l5.5-2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="16" cy="16" r="4" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="14.5" cy="14.5" r="1.2" fill="currentColor" />
+      <circle cx="16" cy="16" r="12.5" stroke="currentColor" strokeWidth="1.8" />
+      <circle
+        cx="16"
+        cy="16"
+        r="9"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeDasharray="3 2"
+        strokeOpacity="0.6"
+      />
+      <path
+        d="M16 7.5l4 4M22.5 11l-1 5.5M22.5 19.5l-5 1.8M17.5 24l-4-4M9.5 20.5l1-5.5M9.5 12.5l5-1.8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      <circle cx="16" cy="16" r="3.8" stroke="currentColor" strokeWidth="1.6" />
     </svg>
   )
 }
 
 /**
- * FC Barcelona Minimalist Blaugrana Shield
+ * Custom Bespoke SVG: Minimalist Blaugrana Shield (Original design, does not copy official club crest)
  */
 export function BarcaShieldIcon({ className = 'w-8 h-8', ...props }: IconProps) {
   return (
     <svg viewBox="0 0 32 32" fill="none" className={className} {...props}>
       <path
-        d="M16 2l11 3v9c0 8.5-7 14.5-11 16-4-1.5-11-7.5-11-16V5l11-3z"
-        stroke="#FFED00"
-        strokeWidth="1.8"
+        d="M16 3l10.5 3v8.5c0 8.2-6.5 13.8-10.5 15.5-4-1.7-10.5-7.3-10.5-15.5V6L16 3z"
+        stroke="#F59E0B"
+        strokeWidth="1.6"
       />
-      <path d="M8 7h6M11 4v6" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="square" />
-      <path d="M19 4v6M21.5 4v6M24 4v6" stroke="#FFED00" strokeWidth="1.2" />
-      <path d="M6 13h20" stroke="#FFED00" strokeWidth="1.8" />
-      <path d="M11 15v10" stroke="#004D98" strokeWidth="2.4" />
-      <path d="M16 15v11" stroke="#A50044" strokeWidth="2.4" />
-      <path d="M21 15v10" stroke="#004D98" strokeWidth="2.4" />
+      <path d="M6.5 13.5h19" stroke="#F59E0B" strokeWidth="1.4" />
+      <path d="M11.5 15v9.5" stroke="#004D98" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M16 15v10.5" stroke="#A50044" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M20.5 15v9.5" stroke="#004D98" strokeWidth="2.4" strokeLinecap="round" />
     </svg>
   )
 }
 
 /**
- * GitHub Logo SVG
+ * Official Simple-Icons GitHub Path
  */
 export function GithubLogo({ className = 'w-4 h-4', ...props }: IconProps) {
   return (

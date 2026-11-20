@@ -1,170 +1,189 @@
-import React, { useRef, useState } from 'react'
-import { Disc3, ShieldCheck, User } from 'lucide-react'
+import { useState } from 'react'
+import { content } from '../data/content'
 
 interface Character3DProps {
   fallbackImage?: string
 }
 
-export default function Character3D({ fallbackImage = '/images/duy-portrait.png' }: Character3DProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
-  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 })
-  const [imageErrorTier, setImageErrorTier] = useState<number>(0)
+/**
+ * Character3D — Living Atmospheric Dark-Lit Gaming Character Spotlight Frame
+ *
+ * Distinct Idle Motion:
+ * - Whole frame gently levitates (`animate-card-levitate`) inside an orbiting conic border beam
+ * - Breathing warm amber & arcane violet aura behind portrait
+ * - 4 drifting glowing fireflies + pulsing ruby apex crystal
+ * - 2 mini collectible cards at the base bobbing independently on opposing rhythms
+ * - Live dancing 4-bar audio equalizer inside the `128 BPM · CULÉR` chip
+ */
+export default function Character3D({
+  fallbackImage = content.identity.avatarUrl,
+}: Character3DProps) {
+  const [imageTier, setImageTier] = useState<number>(0)
   const [imageLoaded, setImageLoaded] = useState<boolean>(false)
 
-  // 4-Tier Robust Fallback Image Sequence
-  const imageTiers = [
+  const imageSources = [
     fallbackImage,
-    '/images/duy-portrait-cutout.png',
-    '/images/duy-portrait.svg',
+    content.identity.avatarCutoutUrl,
+    content.identity.avatarSvgUrl,
   ]
 
-  const currentImageSrc = imageTiers[imageErrorTier]
-
-  // Gentle 3D perspective tilt & specular glare calculation
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const centerX = rect.width / 2
-    const centerY = rect.height / 2
-
-    // Max 6-degree gentle tilt for physics realism
-    const rotateX = ((y - centerY) / centerY) * -6
-    const rotateY = ((x - centerX) / centerX) * 6
-
-    setTilt({ x: rotateX, y: rotateY })
-    setGlare({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
-      opacity: 0.25,
-    })
-  }
-
-  const handlePointerLeave = () => {
-    setTilt({ x: 0, y: 0 })
-    setGlare((prev) => ({ ...prev, opacity: 0 }))
-  }
+  const currentSrc = imageTier < imageSources.length ? imageSources[imageTier] : null
 
   const handleImageError = () => {
-    if (imageErrorTier < imageTiers.length - 1) {
-      setImageErrorTier((prev) => prev + 1)
-    } else {
-      setImageErrorTier(999) // Trigger Tier 4 Holographic Fallback
-    }
+    setImageLoaded(false)
+    setImageTier((prev) => prev + 1)
   }
 
   return (
-    <div
-      ref={cardRef}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      style={{
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        transition: 'transform 0.16s ease-out',
-      }}
-      className="relative mx-auto h-[28rem] sm:h-[34rem] lg:h-[38rem] w-full max-w-[22rem] sm:max-w-[26rem] lg:max-w-[28rem] select-none rounded-[2rem] border border-white/[0.09] bg-[#070b14]/70 shadow-[0_24px_70px_rgba(0,0,0,0.85)] backdrop-blur-2xl overflow-hidden"
-    >
-      {/* 4 Corner Crosshair Pins (+) */}
-      <span className="pointer-events-none absolute top-3.5 left-4 font-mono text-xs text-white/20 select-none z-30">+</span>
-      <span className="pointer-events-none absolute top-3.5 right-4 font-mono text-xs text-white/20 select-none z-30">+</span>
-      <span className="pointer-events-none absolute bottom-3.5 left-4 font-mono text-xs text-white/20 select-none z-30">+</span>
-      <span className="pointer-events-none absolute bottom-3.5 right-4 font-mono text-xs text-white/20 select-none z-30">+</span>
-
-      {/* Top Specular Edge Line */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/35 to-transparent z-30" />
-
-      {/* Dynamic Specular Reflection Glare */}
+    <div className="relative mx-auto w-full max-w-[390px] py-6">
+      {/* Breathing Warm Amber & Arcane Violet Backlight Aura */}
       <div
-        className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.14) 0%, transparent 60%)`,
-          opacity: glare.opacity,
-        }}
+        aria-hidden="true"
+        className="animate-aura-breath pointer-events-none absolute -inset-5 rounded-[2rem] bg-[radial-gradient(circle_at_72%_25%,rgba(245,158,11,0.28)_0%,transparent_52%),radial-gradient(circle_at_24%_70%,rgba(139,92,246,0.34)_0%,transparent_58%)] blur-2xl"
       />
 
-      {/* Ambient Celestial Atmosphere Dome */}
-      <div className="pointer-events-none absolute inset-x-6 bottom-0 h-3/5 bg-[radial-gradient(ellipse_at_bottom,rgba(56,189,248,0.14),transparent_70%)]" />
+      {/* Floating Micro-Particles around Character Spotlight */}
+      <span
+        aria-hidden="true"
+        className="animate-firefly pointer-events-none absolute -left-3 top-12 z-30 h-2.5 w-2.5 rounded-full bg-[#F59E0B] shadow-[0_0_14px_#F59E0B]"
+      />
+      <span
+        aria-hidden="true"
+        className="animate-firefly pointer-events-none absolute -right-3 top-28 z-30 h-2 w-2 rounded-full bg-[#EC4899] shadow-[0_0_12px_#EC4899]"
+        style={{ animationDelay: '1.3s' }}
+      />
+      <span
+        aria-hidden="true"
+        className="animate-firefly pointer-events-none absolute right-8 top-0 z-30 h-2 w-2 rounded-full bg-[#A855F7] shadow-[0_0_12px_#A855F7]"
+        style={{ animationDelay: '2.2s' }}
+      />
+      <span
+        aria-hidden="true"
+        className="animate-firefly pointer-events-none absolute bottom-16 -left-2 z-30 h-2 w-2 rounded-full bg-[#F472B6] shadow-[0_0_12px_#F472B6]"
+        style={{ animationDelay: '0.8s' }}
+      />
 
-      {/* Viewport Frame Header Tag */}
-      <div className="absolute top-4 inset-x-0 flex items-center justify-between px-6 z-20 pointer-events-none font-mono text-[10px] text-zinc-400">
-        <span className="inline-flex items-center gap-1.5 text-white/40">
-          <ShieldCheck size={12} className="text-[#38bdf8]" />
-          <span>VIEWPORT // OPTICAL 01</span>
-        </span>
-        <span className="text-white/30 tracking-widest">512-D ONNX</span>
-      </div>
+      {/* Levitating Character Frame with Orbiting Conic Border Beam */}
+      <div className="animate-card-levitate">
+        <div className="conic-border-beam relative">
+          <div className="group relative overflow-hidden rounded-[14px] bg-gradient-to-b from-[#23153D] via-[#170E2B] to-[#110B1F]">
+            {/* Periodic Holographic Sheen */}
+            <div className="holo-foil z-20" aria-hidden="true" />
 
-      {/* Main Astronaut Portrait */}
-      {imageErrorTier < 999 && currentImageSrc ? (
-        <div className="relative h-full w-full flex items-end justify-center overflow-hidden">
-          {/* Subtle placeholder while image loads */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-10 w-10 rounded-full border-2 border-white/10 border-t-[#38bdf8] animate-spin" />
+            {/* Ornate Top-Center Ruby/Sakura Gem */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-1/2 top-3 z-30 flex -translate-x-1/2 items-center gap-2"
+            >
+              <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#EC4899]/80" />
+              <span className="animate-crystal-breath h-2.5 w-2.5 rotate-45 border border-white/70 bg-[#EC4899] shadow-[0_0_14px_#EC4899]" />
+              <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#EC4899]/80" />
             </div>
-          )}
-          <img
-            src={currentImageSrc}
-            alt="Le Duy - IT Engineer & Creative Technologist"
-            onLoad={() => setImageLoaded(true)}
-            onError={handleImageError}
-            className={`relative z-10 mx-auto h-[90%] w-auto max-w-[92%] object-contain object-bottom drop-shadow-[0_24px_45px_rgba(0,0,0,0.95)] transition-opacity duration-500 ${
-              imageLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            fetchPriority="high"
-            decoding="async"
-          />
-        </div>
-      ) : (
-        /* Tier 4 Holographic Monogram Fallback */
-        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center p-8 text-center">
-          <div className="relative mb-5 flex h-24 w-24 items-center justify-center rounded-2xl border border-[#38bdf8]/30 bg-[#38bdf8]/10 shadow-[0_0_30px_rgba(56,189,248,0.25)]">
-            <User size={44} className="text-[#38bdf8]" />
-            <div className="absolute inset-0 rounded-2xl border border-white/20 animate-ping opacity-25" />
+
+            {/* Ornate Geometric Corner Accents */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3 top-3 z-30 h-4 w-4 border-l-2 border-t-2 border-[#F59E0B]/80"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute right-3 top-3 z-30 h-4 w-4 border-r-2 border-t-2 border-[#F59E0B]/80"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-3 left-3 z-30 h-4 w-4 border-b-2 border-l-2 border-[#EC4899]/80"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-3 right-3 z-30 h-4 w-4 border-b-2 border-r-2 border-[#EC4899]/80"
+            />
+
+            {/* Portrait Stage */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_32%,rgba(245,158,11,0.24)_0%,transparent_50%),radial-gradient(circle_at_30%_55%,rgba(139,92,246,0.3)_0%,transparent_55%)]"
+              />
+
+              {currentSrc ? (
+                <img
+                  src={currentSrc}
+                  alt="Le Duy — IT Engineer, Backend Architect & Visual Director"
+                  onLoad={() => setImageLoaded(true)}
+                  onError={handleImageError}
+                  className={`relative z-10 h-full w-full object-cover object-top brightness-[0.96] contrast-[1.06] drop-shadow-[0_0_24px_rgba(245,158,11,0.24)] transition-all duration-700 group-hover:scale-[1.03] ${
+                    imageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              ) : (
+                <div className="relative z-10 flex h-full w-full flex-col items-center justify-center p-8 text-center">
+                  <p className="font-display text-3xl font-bold tracking-[0.14em] text-white">
+                    {content.identity.callsign}
+                  </p>
+                  <p className="mt-2 font-gaming text-xs uppercase tracking-[0.2em] text-[#F472B6]">
+                    {content.identity.locationShort}
+                  </p>
+                </div>
+              )}
+
+              {/* Smooth Vertical Vignette */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-36 bg-gradient-to-t from-[#110B1F] via-[#110B1F]/70 to-transparent"
+              />
+
+              {/* Base Character Emblem with Live Dancing Equalizer Bars */}
+              <div className="absolute inset-x-5 bottom-4 z-30 flex items-end justify-between">
+                <div>
+                  <p className="font-gaming text-[10px] font-bold uppercase tracking-[0.24em] text-[#F59E0B]">
+                    CLASS // ARCHITECT
+                  </p>
+                  <p className="font-display text-lg font-bold tracking-[0.1em] text-white">
+                    {content.identity.fullName}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 rounded-md border border-violet-400/40 bg-[#19112B]/90 px-2.5 py-1.5 font-mono text-[10px] text-[#B8B0C8] backdrop-blur-md">
+                  <div className="flex h-3 items-end gap-0.5" aria-hidden="true">
+                    <span className="animate-eq-dance h-full w-0.5 rounded-full bg-[#EC4899]" />
+                    <span
+                      className="animate-eq-dance h-full w-0.5 rounded-full bg-[#F59E0B]"
+                      style={{ animationDelay: '0.25s' }}
+                    />
+                    <span
+                      className="animate-eq-dance h-full w-0.5 rounded-full bg-[#A855F7]"
+                      style={{ animationDelay: '0.5s' }}
+                    />
+                    <span
+                      className="animate-eq-dance h-full w-0.5 rounded-full bg-[#F472B6]"
+                      style={{ animationDelay: '0.75s' }}
+                    />
+                  </div>
+                  <span>128 BPM · CULÉR</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3 className="font-display text-2xl font-bold tracking-tight text-white">LE DUY</h3>
-          <p className="mt-1 font-mono text-xs text-[#38bdf8] tracking-widest">IT ENGINEER // ARCHITECT</p>
-          <p className="mt-3 max-w-[14rem] text-xs text-zinc-400">
-            Tra Vinh, Vinh Long, VN • Tra Vinh University Graduate
-          </p>
-        </div>
-      )}
-
-      {/* ───────────────────────────────────────────────────────────── */}
-      {/* 2 AUTHENTIC TELEMETRY CHIPS                                   */}
-      {/* ───────────────────────────────────────────────────────────── */}
-
-      {/* Chip 1 (Top-Right): 128 BPM // AUDIO with 4-Bar Equalizer */}
-      <div
-        style={{ transform: `translate3d(${tilt.y * 0.5}px, ${tilt.x * 0.5}px, 0)` }}
-        className="absolute top-12 right-4 z-20 flex items-center gap-2 rounded-full border border-white/[0.1] bg-[#070b14]/85 px-3 py-1.5 font-mono text-[11px] text-zinc-200 backdrop-blur-xl shadow-lg"
-      >
-        <Disc3 size={13} className="text-[#38bdf8] animate-spin" style={{ animationDuration: '6s' }} />
-        <span>128 BPM</span>
-        {/* 4-bar dynamic audio equalizer */}
-        <div className="flex items-end gap-0.5 h-2.5">
-          <span className="w-0.5 bg-[#38bdf8] rounded-full animate-eq-bar" style={{ animationDelay: '0ms' }} />
-          <span className="w-0.5 bg-[#38bdf8] rounded-full animate-eq-bar" style={{ animationDelay: '150ms' }} />
-          <span className="w-0.5 bg-[#38bdf8] rounded-full animate-eq-bar" style={{ animationDelay: '300ms' }} />
-          <span className="w-0.5 bg-[#38bdf8] rounded-full animate-eq-bar" style={{ animationDelay: '450ms' }} />
         </div>
       </div>
 
-      {/* Chip 2 (Bottom-Left): Culér // FC Barcelona 1899 */}
+      {/* Independently Bobbing Mini Collectible Card Accents at Base */}
       <div
-        style={{ transform: `translate3d(${tilt.y * -0.5}px, ${tilt.x * -0.5}px, 0)` }}
-        className="absolute bottom-6 left-4 z-20 flex items-center gap-2 rounded-full border border-white/[0.1] bg-[#070b14]/85 px-3 py-1.5 font-mono text-[11px] text-zinc-200 backdrop-blur-xl shadow-lg"
+        aria-hidden="true"
+        className="animate-float-42 pointer-events-none absolute -bottom-1 -left-3 z-20 h-14 w-10 -rotate-12 rounded-md border border-[#F59E0B]/60 bg-gradient-to-br from-[#2B184B] to-[#110B1F] shadow-[0_12px_28px_rgba(0,0,0,0.75)]"
       >
-        {/* Blaugrana Dual Accent Dot */}
-        <span className="flex h-2.5 w-2.5 overflow-hidden rounded-full ring-1 ring-white/20">
-          <span className="h-full w-1/2 bg-[#004D98]" />
-          <span className="h-full w-1/2 bg-[#A50044]" />
-        </span>
-        <span className="font-semibold text-white">Culér</span>
-        <span className="text-white/20">//</span>
-        <span className="text-zinc-400">1899</span>
+        <div className="flex h-full items-center justify-center">
+          <span className="animate-crystal-breath h-2.5 w-2.5 rotate-45 bg-[#F59E0B] shadow-[0_0_10px_#F59E0B]" />
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="animate-float-36 pointer-events-none absolute bottom-0 -right-2 z-20 h-12 w-9 rotate-12 rounded-md border border-[#EC4899]/60 bg-gradient-to-br from-[#351B5A] to-[#110B1F] shadow-[0_12px_28px_rgba(0,0,0,0.75)]"
+      >
+        <div className="flex h-full items-center justify-center">
+          <span className="animate-crystal-breath h-2.5 w-2.5 rotate-45 bg-[#EC4899] shadow-[0_0_10px_#EC4899]" />
+        </div>
       </div>
     </div>
   )
