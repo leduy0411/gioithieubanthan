@@ -2,16 +2,19 @@ import { useEffect, useState, useRef } from 'react'
 import { useMotionToggle } from '../hooks/useScrollMotion'
 
 /**
- * CustomCursor — Stylized Arcane Diamond Cursor Accent (Keeps native cursor visible)
+ * CustomCursor — Pro Max Dual-Layer Hextech Precision Reticle
+ * - Inner instant amber pinpoint + outer damped rotating diamond ring that locks onto interactive elements.
  */
 export default function CustomCursor() {
   const { motionEnabled } = useMotionToggle()
   const [isVisible, setIsVisible] = useState(false)
   const [isInteractive, setIsInteractive] = useState(false)
 
-  const reticleRef = useRef<HTMLDivElement>(null)
+  const outerRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
   const pos = useRef({ x: -100, y: -100 })
   const target = useRef({ x: -100, y: -100 })
+  const angleRef = useRef(45)
   const rafId = useRef<number | null>(null)
 
   useEffect(() => {
@@ -25,11 +28,14 @@ export default function CustomCursor() {
 
     const handleMouseMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY }
+      if (innerRef.current) {
+        innerRef.current.style.transform = `translate3d(${e.clientX - 2.5}px, ${e.clientY - 2.5}px, 0)`
+      }
     }
 
     const handleMouseOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement | null
-      const interactive = el?.closest('a, button, input, [role="button"]')
+      const interactive = el?.closest('a, button, input, [role="button"], [role="tab"]')
       setIsInteractive(Boolean(interactive))
     }
 
@@ -37,11 +43,13 @@ export default function CustomCursor() {
     document.addEventListener('mouseover', handleMouseOver, { passive: true })
 
     const render = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.16
-      pos.current.y += (target.current.y - pos.current.y) * 0.16
+      pos.current.x += (target.current.x - pos.current.x) * 0.18
+      pos.current.y += (target.current.y - pos.current.y) * 0.18
+      angleRef.current = (angleRef.current + (isInteractive ? 1.2 : 0.25)) % 360
 
-      if (reticleRef.current) {
-        reticleRef.current.style.transform = `translate3d(${pos.current.x - 10}px, ${pos.current.y - 10}px, 0) rotate(45deg)`
+      if (outerRef.current) {
+        const sizeOffset = isInteractive ? 15 : 11
+        outerRef.current.style.transform = `translate3d(${pos.current.x - sizeOffset}px, ${pos.current.y - sizeOffset}px, 0) rotate(${angleRef.current.toFixed(1)}deg)`
       }
       rafId.current = requestAnimationFrame(render)
     }
@@ -53,7 +61,7 @@ export default function CustomCursor() {
       document.removeEventListener('mouseover', handleMouseOver)
       if (rafId.current) cancelAnimationFrame(rafId.current)
     }
-  }, [motionEnabled])
+  }, [motionEnabled, isInteractive])
 
   if (!isVisible) return null
 
@@ -63,11 +71,19 @@ export default function CustomCursor() {
       aria-hidden="true"
     >
       <div
-        ref={reticleRef}
-        className={`fixed left-0 top-0 h-5 w-5 border transition-[border-color,opacity,box-shadow] duration-200 will-change-transform ${
+        ref={innerRef}
+        className={`fixed left-0 top-0 h-[5px] w-[5px] rounded-full transition-colors duration-150 will-change-transform ${
           isInteractive
-            ? 'border-[#EC4899] opacity-90 shadow-[0_0_12px_rgba(236,72,153,0.75)]'
-            : 'border-white/35 opacity-50'
+            ? 'bg-[#FDE68A] shadow-[0_0_10px_#F59E0B]'
+            : 'bg-[#EC4899] shadow-[0_0_8px_#EC4899]'
+        }`}
+      />
+      <div
+        ref={outerRef}
+        className={`fixed left-0 top-0 border transition-[width,height,border-color,opacity,box-shadow] duration-200 will-change-transform ${
+          isInteractive
+            ? 'h-[30px] w-[30px] border-[#F59E0B] opacity-95 shadow-[0_0_16px_rgba(245,158,11,0.75)]'
+            : 'h-[22px] w-[22px] border-white/40 opacity-55'
         }`}
       />
     </div>

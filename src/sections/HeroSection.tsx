@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { ArrowRight, User } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Activity, ArrowRight, Cpu, Film, RefreshCw, Server, User } from 'lucide-react'
 import { content } from '../data/content'
 import { useScrollMotion } from '../hooks/useScrollMotion'
 import { stationStore } from '../store/stationStore'
+import { playMechanicalTick, playMechanicalUnlock } from '../hooks/useAudioDrone'
 
 interface HeroSectionProps {
   onOpenCommandPalette?: () => void
@@ -14,32 +15,34 @@ const HERO_ART_FALLBACKS = [
   '/assets/hero-bg.webp',
 ]
 
-/**
- * Section 1: Layered Parallax Twilight Hero with Vivid Dual-Layer Motion
- *
- * - Idle Motion (standing still):
- *   * 16s Ken Burns zoom on hero-bg + drifting twilight mist + pulsing ambient aura
- *   * Pulsing amber radar ring on Tra Vinh beacon + gently floating location pill
- *   * Animated metallic light sheen sweeping across LE DUY.
- *   * Periodic light-glint shimmer across EXPLORE ARSENAL CTA + bouncing arrow
- *
- * - Scroll Motion (scrolling down AND scrolling back up):
- *   * Hero key art shifts down (+220px) & zooms softly
- *   * 3 mountain layers separate dramatically (+90px, -45px, -135px foreground wipe)
- *   * Location pill, LE DUY. title, subtitle, and CTA separate at staggered vertical speeds
- */
+const METRIC_ICONS = [Activity, Cpu, Server, Film] as const
+
 export default function HeroSection(_props: HeroSectionProps) {
   const sectionRef = useScrollMotion<HTMLElement>()
   const [artIndex, setArtIndex] = useState(0)
   const [artLoaded, setArtLoaded] = useState(false)
+  const [roleIndex, setRoleIndex] = useState(0)
 
   const activeArtSrc = artIndex < HERO_ART_FALLBACKS.length ? HERO_ART_FALLBACKS[artIndex] : null
+  const roles = content.identity.roles
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length)
+    }, 3400)
+    return () => window.clearInterval(timer)
+  }, [roles.length])
+
+  const cycleRoleManually = () => {
+    playMechanicalTick()
+    setRoleIndex((prev) => (prev + 1) % roles.length)
+  }
 
   return (
     <section
       ref={sectionRef}
       id="home"
-      className="relative flex flex-1 min-h-[calc(100vh-5.5rem)] w-full items-center overflow-hidden pt-20"
+      className="relative flex flex-1 min-h-[calc(100vh-5.5rem)] w-full flex-col justify-between overflow-hidden pt-24 pb-12"
       style={{
         background:
           'linear-gradient(180deg, #F4939E 0%, #C27495 24%, #8B5A8C 52%, #351E4A 82%, #110B1F 100%)',
@@ -69,9 +72,9 @@ export default function HeroSection(_props: HeroSectionProps) {
             fetchPriority="high"
             decoding="async"
           />
-          {/* Seamless Multi-Stop Atmospheric Transition into #110B1F (Zero harsh horizontal cut-off) */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#110B1F]/15 via-[#110B1F]/30 to-[#110B1F]/68" />
-          <div className="absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-[#110B1F] via-[#110B1F]/70 via-35% to-transparent" />
+          {/* Seamless Multi-Stop Atmospheric Transition into #110B1F */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#110B1F]/20 via-[#110B1F]/35 to-[#110B1F]/75" />
+          <div className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-[#110B1F] via-[#110B1F]/75 via-40% to-transparent" />
         </div>
       )}
 
@@ -81,14 +84,9 @@ export default function HeroSection(_props: HeroSectionProps) {
         className="animate-aura-breath pointer-events-none absolute left-[15%] top-[12%] z-[1] h-[440px] w-[440px] rounded-full bg-[radial-gradient(circle,rgba(255,232,214,0.34)_0%,rgba(244,147,158,0.14)_45%,transparent_72%)] blur-2xl"
       />
 
-      {/* Seamless Atmospheric Mist & Smooth Curved Horizon Transition into #110B1F (No jagged clipped polygons) */}
+      {/* Seamless Atmospheric Mist & Smooth Curved Horizon Transition into #110B1F */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-64">
-        {/* Drifting Soft Twilight Mist Veil */}
-        <div
-          className="animate-mist-drift absolute bottom-12 -left-[12%] h-40 w-[124%] bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.22)_0%,rgba(236,72,153,0.12)_40%,transparent_72%)] blur-3xl"
-        />
-
-        {/* Smooth Parallax Bottom Gradient Skirt that glides cleanly upward on scroll without hard seams */}
+        <div className="animate-mist-drift absolute bottom-12 -left-[12%] h-40 w-[124%] bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.22)_0%,rgba(236,72,153,0.12)_40%,transparent_72%)] blur-3xl" />
         <div
           className="absolute inset-x-0 -bottom-24 h-72 bg-gradient-to-t from-[#110B1F] via-[#110B1F]/95 via-45% to-transparent will-change-transform"
           style={{
@@ -99,28 +97,32 @@ export default function HeroSection(_props: HeroSectionProps) {
 
       {/* Main Hero Copy — Staggered Multi-Speed Scroll Separation + Idle Shine */}
       <div
-        className="relative z-30 mx-auto grid w-full max-w-6xl items-center px-5 pb-28 pt-12 will-change-transform sm:px-8 lg:grid-cols-12"
+        className="relative z-30 mx-auto my-auto grid w-full max-w-6xl items-center px-5 pt-6 pb-10 will-change-transform sm:px-8 lg:grid-cols-12"
         style={{
           opacity: 'var(--hero-opacity, 1)',
         }}
       >
-        <div className="hidden lg:col-span-5 lg:block" />
+        <div className="hidden lg:col-span-4 lg:block" />
 
-        <div className="text-center lg:col-span-7 lg:text-right">
-          {/* Location Pill: Idle float + Pulsing Amber Radar Ring + Fast Scroll Lift */}
+        <div className="text-center lg:col-span-8 lg:text-right">
+          {/* Location & Status Pill: Idle float + Pulsing Amber Radar Ring */}
           <div
             className="inline-block will-change-transform"
             style={{
               transform: 'translate3d(0, calc(var(--hero-progress, 0) * -145px), 0)',
             }}
           >
-            <div className="animate-tile-float inline-flex items-center gap-3 rounded-full border border-white/25 bg-[#110B1F]/55 px-4 py-1.5 backdrop-blur-md shadow-[0_8px_24px_rgba(17,11,31,0.45)]">
+            <div className="animate-tile-float inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-white/25 bg-[#110B1F]/65 px-4 py-1.5 backdrop-blur-md shadow-[0_8px_24px_rgba(17,11,31,0.5)]">
               <span className="relative flex h-2.5 w-2.5 items-center justify-center" aria-hidden="true">
                 <span className="animate-radar-ring absolute inline-flex h-full w-full rounded-full bg-[#F59E0B]" />
                 <span className="relative inline-flex h-2 w-2 rotate-45 bg-[#F59E0B] shadow-[0_0_10px_#F59E0B]" />
               </span>
               <span className="font-gaming text-[11px] font-semibold uppercase tracking-[0.24em] text-white">
                 TRA VINH, VINH LONG • VIETNAM
+              </span>
+              <span className="hidden h-3 w-px bg-white/20 sm:inline-block" aria-hidden="true" />
+              <span className="hidden font-mono text-[10px] text-[#FDE68A] sm:inline-block">
+                GMT+7 ONLINE
               </span>
             </div>
           </div>
@@ -133,23 +135,48 @@ export default function HeroSection(_props: HeroSectionProps) {
                 'translate3d(0, calc(var(--hero-progress, 0) * -110px), 0) scale(calc(1 - var(--hero-progress, 0) * 0.08))',
             }}
           >
-            <h1 className="animate-title-shine mt-6 font-display text-[clamp(3.6rem,8.5vw,6.8rem)] font-extrabold leading-[0.95] tracking-[0.06em] drop-shadow-[0_14px_40px_rgba(17,11,31,0.75)]">
+            <h1 className="animate-title-shine mt-5 font-display text-[clamp(3.5rem,8.2vw,6.6rem)] font-extrabold leading-[0.95] tracking-[0.06em] drop-shadow-[0_14px_40px_rgba(17,11,31,0.75)]">
               {content.identity.callsign}
             </h1>
           </div>
 
-          {/* Subtitle & Tagline: Slower Scroll Lag for Layered Depth */}
+          {/* Interactive Pro Max Role Cycler + Tagline */}
           <div
             className="will-change-transform"
             style={{
               transform: 'translate3d(0, calc(var(--hero-progress, 0) * -75px), 0)',
             }}
           >
-            <p className="mt-4 font-gaming text-sm font-bold uppercase tracking-[0.22em] text-white drop-shadow-[0_4px_18px_rgba(17,11,31,0.85)] sm:text-base">
+            <p className="mt-3 font-gaming text-sm font-bold uppercase tracking-[0.22em] text-white drop-shadow-[0_4px_18px_rgba(17,11,31,0.85)] sm:text-base">
               IT ENGINEER • BACKEND ARCHITECT • VISUAL DIRECTOR
             </p>
 
-            <p className="ml-auto mt-5 max-w-xl font-body text-sm leading-relaxed text-white/90 drop-shadow-[0_2px_14px_rgba(17,11,31,0.9)] sm:text-base">
+            {/* Clickable Live Role Ticker */}
+            <div className="mt-3 flex justify-center lg:justify-end">
+              <button
+                type="button"
+                onClick={cycleRoleManually}
+                title="Click to cycle active specialization"
+                className="tactile-btn group inline-flex items-center gap-2.5 rounded-lg border border-[#EC4899]/45 bg-[#110B1F]/70 px-3.5 py-1.5 backdrop-blur-md transition-all hover:border-[#F59E0B] hover:bg-[#19112B]/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/75"
+              >
+                <span className="font-mono text-[10px] font-bold text-[#F59E0B]">
+                  0{roleIndex + 1}/0{roles.length}
+                </span>
+                <span
+                  key={roleIndex}
+                  className="font-mono text-xs font-semibold tracking-wide text-[#F472B6] group-hover:text-white"
+                >
+                  {roles[roleIndex]}
+                </span>
+                <RefreshCw
+                  size={11}
+                  className="animate-slow-spin text-[#B8B0C8] group-hover:text-[#FDE68A]"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+
+            <p className="mx-auto mt-4 max-w-xl font-body text-sm leading-relaxed text-white/90 drop-shadow-[0_2px_14px_rgba(17,11,31,0.9)] sm:text-base lg:mr-0 lg:ml-auto">
               Architecting resilient distributed backend gateways, real-time 512-D computer vision AI
               pipelines, and 4K visual direction with precision and craft.
             </p>
@@ -157,7 +184,7 @@ export default function HeroSection(_props: HeroSectionProps) {
 
           {/* CTA Buttons: Navigate to Standalone Systems & Profile Pages */}
           <div
-            className="mt-9 flex flex-wrap items-center justify-center gap-4 will-change-transform lg:justify-end"
+            className="mt-7 flex flex-wrap items-center justify-center gap-4 will-change-transform lg:justify-end"
             style={{
               transform: 'translate3d(0, calc(var(--hero-progress, 0) * -45px), 0)',
             }}
@@ -166,9 +193,10 @@ export default function HeroSection(_props: HeroSectionProps) {
               href="/profile"
               onClick={(e) => {
                 e.preventDefault()
+                playMechanicalUnlock()
                 stationStore.navigate(1)
               }}
-              className="tactile-btn inline-flex items-center gap-2 rounded-full border border-white/55 bg-[#110B1F]/55 px-6 py-3.5 font-gaming text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all hover:border-[#F472B6] hover:bg-[#110B1F]/80 hover:text-[#F472B6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
+              className="tactile-btn inline-flex items-center gap-2 rounded-full border border-white/55 bg-[#110B1F]/60 px-6 py-3.5 font-gaming text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all hover:border-[#F472B6] hover:bg-[#110B1F]/85 hover:text-[#F472B6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
             >
               <User size={14} aria-hidden="true" />
               <span>VIEW PROFILE</span>
@@ -178,6 +206,7 @@ export default function HeroSection(_props: HeroSectionProps) {
               href="/systems"
               onClick={(e) => {
                 e.preventDefault()
+                playMechanicalUnlock()
                 stationStore.navigate(2)
               }}
               className="tactile-btn group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-white px-8 py-3.5 font-gaming text-xs font-bold uppercase tracking-[0.2em] text-[#110B1F] shadow-[0_14px_42px_rgba(236,72,153,0.45)] transition-all hover:scale-[1.04] hover:bg-[#FFF5F7] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
@@ -194,6 +223,58 @@ export default function HeroSection(_props: HeroSectionProps) {
               />
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* Pro Max Bottom Telemetry Dock: 4 Live Animated Dossier Metrics from content.ts */}
+      <div className="relative z-30 mx-auto w-full max-w-6xl px-5 sm:px-8">
+        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
+          {content.dossierMetrics.map((metric, idx) => {
+            const Icon = METRIC_ICONS[idx % METRIC_ICONS.length]
+            const targetStation = idx === 2 ? 3 : 2
+            const targetProject = idx === 3 ? 3 : 0
+            return (
+              <div
+                key={metric.label}
+                className="animate-tile-float"
+                style={{ animationDelay: `${idx * 0.4}s` }}
+              >
+                <button
+                  type="button"
+                  onMouseEnter={() => playMechanicalTick()}
+                  onClick={() => {
+                    playMechanicalUnlock()
+                    stationStore.navigate(
+                      targetStation,
+                      targetStation === 2 ? { projectIndex: targetProject } : undefined
+                    )
+                  }}
+                  className="fantasy-card group relative flex w-full flex-col justify-between overflow-hidden rounded-xl p-4 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-[#EC4899]/70"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="animate-corner-pulse pointer-events-none absolute right-2 top-2 h-2.5 w-2.5 border-r border-t border-[#F59E0B]/80"
+                    style={{ animationDelay: `${idx * 0.5}s` }}
+                  />
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#B8B0C8]">
+                      {metric.label}
+                    </span>
+                    <Icon
+                      size={14}
+                      className="shrink-0 text-[#F472B6] transition-transform duration-300 group-hover:scale-115 group-hover:text-[#FDE68A]"
+                    />
+                  </div>
+                  <p className="mt-1.5 font-display text-lg font-extrabold tracking-wide text-white sm:text-xl">
+                    {metric.value}
+                  </p>
+                  <p className="mt-1 truncate font-body text-[11px] text-[#B8B0C8]/85">
+                    {metric.detail}
+                  </p>
+                </button>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

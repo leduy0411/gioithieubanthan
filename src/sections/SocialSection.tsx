@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { ArrowUpRight, Check, Copy, MapPin } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { ArrowUpRight, Check, Clock, Copy, MapPin, Send, Sparkles } from 'lucide-react'
+import confetti from 'canvas-confetti'
 import { content } from '../data/content'
 import {
   FacebookLogo,
@@ -8,6 +9,7 @@ import {
   TikTokLogo,
 } from '../components/BrandIcons'
 import { useScrollMotion } from '../hooks/useScrollMotion'
+import { playMechanicalTick, playMechanicalUnlock } from '../hooks/useAudioDrone'
 
 const BRAND_LOGOS: Record<string, React.ElementType> = {
   facebook: FacebookLogo,
@@ -16,21 +18,71 @@ const BRAND_LOGOS: Record<string, React.ElementType> = {
   tiktok: TikTokLogo,
 }
 
+const SIGNAL_TOPICS = [
+  'Backend & Distributed APIs',
+  'Computer Vision & ArcFace AI',
+  '4K Motion & Visual Direction',
+  'General Collaboration',
+] as const
+
 export default function SocialSection() {
   const sectionRef = useScrollMotion<HTMLElement>()
   const [copied, setCopied] = useState(false)
+  const [selectedTopic, setSelectedTopic] = useState<string>(SIGNAL_TOPICS[0])
+  const [customNote, setCustomNote] = useState('')
+  const [vnClock, setVnClock] = useState<string>(() =>
+    new Date().toLocaleTimeString('en-GB', {
+      timeZone: content.identity.timezone,
+      hour12: false,
+    })
+  )
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setVnClock(
+        new Date().toLocaleTimeString('en-GB', {
+          timeZone: content.identity.timezone,
+          hour12: false,
+        })
+      )
+    }, 1000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  const triggerHextechConfetti = () => {
+    try {
+      confetti({
+        particleCount: 38,
+        spread: 64,
+        origin: { y: 0.72 },
+        colors: ['#EC4899', '#F59E0B', '#8B5CF6', '#FDE68A'],
+      })
+    } catch {
+      // ignore if canvas-confetti blocked
+    }
+  }
 
   const copyEmail = () => {
+    playMechanicalUnlock()
     navigator.clipboard.writeText(content.identity.email)
     setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    triggerHextechConfetti()
+    setTimeout(() => setCopied(false), 2200)
+  }
+
+  const buildMailtoHref = () => {
+    const subject = encodeURIComponent(`[LE DUY. Portfolio] ${selectedTopic}`)
+    const bodyText = customNote.trim()
+      ? `${customNote.trim()}\n\n---\nSent via LE DUY. Pro Max Signal Portal`
+      : `Hi Le Duy,\n\nI would like to connect regarding ${selectedTopic}.\n`
+    return `mailto:${content.identity.email}?subject=${subject}&body=${encodeURIComponent(bodyText)}`
   }
 
   return (
     <section
       ref={sectionRef}
       id="socials"
-      className="relative flex flex-1 min-h-[calc(100vh-5.5rem)] flex-col justify-center overflow-hidden bg-[#110B1F] px-5 pt-28 pb-20 sm:px-8"
+      className="relative flex flex-1 min-h-[calc(100vh-4.5rem)] flex-col justify-center overflow-hidden bg-[#110B1F] px-5 pt-24 pb-10 sm:px-8"
     >
       {/* Breathing Ambient Corner & Horizon Glows */}
       <div
@@ -43,18 +95,7 @@ export default function SocialSection() {
         style={{ animationDelay: '-2.5s' }}
       />
 
-      {/* Floating Micro-Particles */}
-      <span
-        aria-hidden="true"
-        className="animate-firefly pointer-events-none absolute left-[12%] top-20 h-2.5 w-2.5 rounded-full bg-[#F59E0B] shadow-[0_0_14px_#F59E0B]"
-      />
-      <span
-        aria-hidden="true"
-        className="animate-firefly pointer-events-none absolute bottom-20 right-[10%] h-2.5 w-2.5 rounded-full bg-[#EC4899] shadow-[0_0_14px_#EC4899]"
-        style={{ animationDelay: '1.6s' }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-6xl">
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
         <div className="grid items-start gap-12 lg:grid-cols-12">
           {/* Left Column (5 cols): Bi-Directional Slide from Left + Levitating Direct Uplink Card */}
           <div
@@ -74,18 +115,18 @@ export default function SocialSection() {
             <h2 className="animate-title-shine mt-3 font-display text-3xl font-extrabold uppercase leading-[1.12] tracking-[0.05em] sm:text-4xl">
               TRANSMIT YOUR SIGNAL
             </h2>
-            <p className="mt-4 font-body text-sm leading-relaxed text-[#B8B0C8] sm:text-base">
+            <p className="mt-3 font-body text-sm leading-relaxed text-[#B8B0C8] sm:text-base">
               For distributed backend microservices, edge computer vision pipelines, or 4K visual
-              direction — reach out directly via email or social channels.
+              direction — select a topic below or connect directly across verified channels.
             </p>
 
-            {/* Gently Floating Direct Uplink Email Card */}
-            <div className="animate-tile-float mt-8">
-              <div className="fantasy-card relative overflow-hidden rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1.5">
-                <span className="pointer-events-none absolute left-2.5 top-2.5 h-3 w-3 border-l border-t border-[#F59E0B]/80" />
-                <span className="pointer-events-none absolute right-2.5 top-2.5 h-3 w-3 border-r border-t border-[#F59E0B]/80" />
-                <span className="pointer-events-none absolute bottom-2.5 left-2.5 h-3 w-3 border-b border-l border-[#EC4899]/80" />
-                <span className="pointer-events-none absolute bottom-2.5 right-2.5 h-3 w-3 border-b border-r border-[#EC4899]/80" />
+            {/* Gently Floating Direct Uplink & Quick Signal Composer Card */}
+            <div className="animate-tile-float mt-6">
+              <div className="fantasy-card relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:border-[#EC4899]/65">
+                <span className="animate-corner-pulse pointer-events-none absolute left-2.5 top-2.5 h-3 w-3 border-l border-t border-[#F59E0B]/80" />
+                <span className="animate-corner-pulse pointer-events-none absolute right-2.5 top-2.5 h-3 w-3 border-r border-t border-[#F59E0B]/80" />
+                <span className="animate-corner-pulse pointer-events-none absolute bottom-2.5 left-2.5 h-3 w-3 border-b border-l border-[#EC4899]/80" />
+                <span className="animate-corner-pulse pointer-events-none absolute bottom-2.5 right-2.5 h-3 w-3 border-b border-r border-[#EC4899]/80" />
 
                 <div className="flex items-center justify-between font-gaming text-xs uppercase tracking-[0.16em] text-[#B8B0C8]">
                   <span>DIRECT UPLINK</span>
@@ -98,21 +139,64 @@ export default function SocialSection() {
                   </span>
                 </div>
 
-                <p className="mt-4 break-all font-mono text-sm font-semibold text-white sm:text-base">
+                <p className="mt-3 break-all font-mono text-sm font-semibold text-white sm:text-base">
                   {content.identity.email}
                 </p>
 
-                <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+                {/* Pro Max Quick Topic Selector */}
+                <div className="mt-4 border-t border-white/10 pt-3.5">
+                  <p className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-[#F472B6]">
+                    <Sparkles size={11} />
+                    <span>SELECT TRANSMISSION TOPIC</span>
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {SIGNAL_TOPICS.map((topic) => {
+                      const active = selectedTopic === topic
+                      return (
+                        <button
+                          key={topic}
+                          type="button"
+                          onClick={() => {
+                            playMechanicalTick()
+                            setSelectedTopic(topic)
+                          }}
+                          className={`rounded border px-2.5 py-1 font-mono text-[10px] transition-all ${
+                            active
+                              ? 'border-[#EC4899] bg-[#EC4899]/25 font-bold text-white shadow-[0_0_12px_rgba(236,72,153,0.3)]'
+                              : 'border-violet-400/25 bg-[#19112B]/70 text-[#B8B0C8] hover:border-violet-400/55 hover:text-white'
+                          }`}
+                        >
+                          {topic}
+                        </button>
+                      )
+                    })}
+                  </div>
+
+                  <input
+                    type="text"
+                    value={customNote}
+                    onChange={(e) => setCustomNote(e.target.value)}
+                    placeholder="Optional quick message note..."
+                    aria-label="Optional quick message note"
+                    className="mt-2.5 w-full rounded-lg border border-violet-400/25 bg-[#110B1F]/80 px-3 py-2 font-body text-xs text-white outline-none transition-colors placeholder:text-[#B8B0C8]/45 focus:border-[#EC4899]"
+                  />
+                </div>
+
+                <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">
                   <a
-                    href={`mailto:${content.identity.email}`}
-                    className="tactile-btn group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-white px-5 py-2.5 font-gaming text-xs font-bold uppercase tracking-[0.16em] text-[#110B1F] transition-colors hover:bg-[#F472B6] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
+                    href={buildMailtoHref()}
+                    onClick={() => {
+                      playMechanicalUnlock()
+                      triggerHextechConfetti()
+                    }}
+                    className="tactile-btn group relative inline-flex flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-full bg-white px-5 py-2.5 font-gaming text-xs font-bold uppercase tracking-[0.16em] text-[#110B1F] transition-colors hover:bg-[#F472B6] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
                   >
                     <span
                       aria-hidden="true"
                       className="animate-btn-glint pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#F472B6]/45 to-transparent"
                     />
-                    <span className="relative z-10">COMPOSE</span>
-                    <ArrowUpRight size={14} className="relative z-10" />
+                    <Send size={13} className="relative z-10" />
+                    <span className="relative z-10">TRANSMIT EMAIL</span>
                   </a>
 
                   <button
@@ -130,12 +214,16 @@ export default function SocialSection() {
                   </button>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4 font-mono text-xs text-[#B8B0C8]">
+                {/* Live Ticking GMT+7 Local Time & Coordinates */}
+                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3.5 font-mono text-xs text-[#B8B0C8]">
                   <span className="inline-flex items-center gap-1.5">
                     <MapPin size={13} className="text-[#F472B6]" />
                     <span>{content.identity.locationShort}</span>
                   </span>
-                  <span>GMT+7</span>
+                  <span className="inline-flex items-center gap-1.5 text-[#FDE68A]">
+                    <Clock size={12} className="text-[#F59E0B]" />
+                    <span>{vnClock} GMT+7</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -148,7 +236,6 @@ export default function SocialSection() {
                 const Logo = BRAND_LOGOS[social.id] || FacebookLogo
                 const colOffset = idx % 2 === 0 ? 1 : -1
                 return (
-                  /* Outer wrapper: Bi-Directional Scroll Wave (diagonal glide + 3D tilt + scale) */
                   <div
                     key={social.id}
                     className="will-change-transform"
@@ -156,7 +243,6 @@ export default function SocialSection() {
                       transform: `perspective(1000px) translate3d(calc(var(--ap, 0) * ${colOffset * 34}px), calc(var(--p, 0) * ${-28 - idx * 14}px), 0) scale(calc(1 - var(--ap, 0) * ${0.09 + idx * 0.015})) rotateX(calc(var(--p, 0) * ${8 + idx * 2}deg))`,
                     }}
                   >
-                    {/* Inner wrapper: Independent Continuous Idle Wave Floating */}
                     <div
                       className="animate-tile-float h-full"
                       style={{ animationDelay: `${idx * 0.55}s` }}
@@ -165,14 +251,16 @@ export default function SocialSection() {
                         href={social.url}
                         target="_blank"
                         rel="noreferrer"
+                        onMouseEnter={() => playMechanicalTick()}
+                        onClick={() => playMechanicalUnlock()}
                         className="fantasy-card group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.015] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/75"
                       >
                         <div className="holo-foil" aria-hidden="true" />
 
-                        <span className="pointer-events-none absolute left-2 top-2 h-2.5 w-2.5 border-l border-t border-violet-300/50 transition-colors group-hover:border-[#EC4899]" />
-                        <span className="pointer-events-none absolute right-2 top-2 h-2.5 w-2.5 border-r border-t border-violet-300/50 transition-colors group-hover:border-[#EC4899]" />
-                        <span className="pointer-events-none absolute bottom-2 left-2 h-2.5 w-2.5 border-b border-l border-violet-300/50 transition-colors group-hover:border-[#F59E0B]" />
-                        <span className="pointer-events-none absolute bottom-2 right-2 h-2.5 w-2.5 border-b border-r border-violet-300/50 transition-colors group-hover:border-[#F59E0B]" />
+                        <span className="animate-corner-pulse pointer-events-none absolute left-2 top-2 h-2.5 w-2.5 border-l border-t border-violet-300/50 transition-colors group-hover:border-[#EC4899]" />
+                        <span className="animate-corner-pulse pointer-events-none absolute right-2 top-2 h-2.5 w-2.5 border-r border-t border-violet-300/50 transition-colors group-hover:border-[#EC4899]" />
+                        <span className="animate-corner-pulse pointer-events-none absolute bottom-2 left-2 h-2.5 w-2.5 border-b border-l border-violet-300/50 transition-colors group-hover:border-[#F59E0B]" />
+                        <span className="animate-corner-pulse pointer-events-none absolute bottom-2 right-2 h-2.5 w-2.5 border-b border-r border-violet-300/50 transition-colors group-hover:border-[#F59E0B]" />
 
                         <div className="relative z-10">
                           <div className="flex items-center justify-between">

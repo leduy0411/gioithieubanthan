@@ -1,5 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { ChevronLeft, ChevronRight, ExternalLink, RotateCw } from 'lucide-react'
+import React, { useEffect, useState, useCallback } from 'react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  Cpu,
+  ExternalLink,
+  Layers,
+  RotateCw,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from 'lucide-react'
 import { content, ProjectItem } from '../data/content'
 import { GithubLogo } from '../components/BrandIcons'
 import MechanicalGearCore from '../components/MechanicalGearCore'
@@ -21,12 +31,12 @@ const SHORT_CARD_TITLES: Record<string, string> = {
 function CardVisualArt({ project }: { project: ProjectItem }) {
   if (project.previewType === 'biometric-scanner') {
     return (
-      <div className="relative flex h-36 w-full items-center justify-center overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#190F33] via-[#2B1650] to-[#110B1F] p-3">
+      <div className="relative flex h-32 w-full items-center justify-center overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#190F33] via-[#2B1650] to-[#110B1F] p-3">
         <div
           aria-hidden="true"
           className="animate-scanline pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#F472B6] to-transparent shadow-[0_0_14px_#EC4899]"
         />
-        <svg viewBox="0 0 180 96" className="h-24 w-44 text-[#F472B6]" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 180 96" className="h-22 w-40 text-[#F472B6]" fill="none" aria-hidden="true">
           <polygon
             points="90,8 128,28 118,74 90,88 62,74 52,28"
             stroke="currentColor"
@@ -75,15 +85,15 @@ function CardVisualArt({ project }: { project: ProjectItem }) {
 
   if (project.previewType === 'agentic-pipeline') {
     return (
-      <div className="relative flex h-36 w-full flex-col justify-center overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#1B1038] via-[#321959] to-[#110B1F] p-3.5 font-mono text-[10px]">
+      <div className="relative flex h-32 w-full flex-col justify-center overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#1B1038] via-[#321959] to-[#110B1F] p-3.5 font-mono text-[10px]">
         <div
           aria-hidden="true"
           className="animate-scanline pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#8B5CF6] to-transparent shadow-[0_0_12px_#8B5CF6]"
         />
         <p className="text-[#F472B6]">&gt; gemini_2.5.tool_call()</p>
-        <p className="mt-1.5 text-white">search_catalog → strict_json</p>
+        <p className="mt-1 text-white">search_catalog → strict_json</p>
         <p className="mt-1 text-[#F59E0B]">redis_cart_sync &lt; 2ms [SIM]</p>
-        <div className="mt-3 flex items-center gap-1.5">
+        <div className="mt-2.5 flex items-center gap-1.5">
           <span className="animate-node-blink h-1.5 w-1.5 rounded-full bg-[#EC4899] shadow-[0_0_8px_#EC4899]" />
           <span className="text-[9px] text-[#B8B0C8]">AUTONOMOUS AGENT ONLINE</span>
         </div>
@@ -93,7 +103,7 @@ function CardVisualArt({ project }: { project: ProjectItem }) {
 
   if (project.previewType === 'rate-limiter') {
     return (
-      <div className="relative flex h-36 w-full flex-col justify-between overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#1A0F34] via-[#2B174D] to-[#110B1F] p-3.5">
+      <div className="relative flex h-32 w-full flex-col justify-between overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#1A0F34] via-[#2B174D] to-[#110B1F] p-3">
         <div
           aria-hidden="true"
           className="animate-scanline pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#F59E0B] to-transparent shadow-[0_0_12px_#F59E0B]"
@@ -106,7 +116,7 @@ function CardVisualArt({ project }: { project: ProjectItem }) {
           </span>
         </div>
         {/* Live Dancing Throughput Bars */}
-        <div className="flex h-16 items-end gap-1.5">
+        <div className="flex h-14 items-end gap-1.5">
           {[42, 68, 52, 88, 74, 96, 68, 82, 58, 90].map((h, i) => (
             <div
               key={i}
@@ -121,7 +131,7 @@ function CardVisualArt({ project }: { project: ProjectItem }) {
   }
 
   return (
-    <div className="relative flex h-36 w-full flex-col justify-between overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#23103E] via-[#3B185B] to-[#110B1F] p-3.5">
+    <div className="relative flex h-32 w-full flex-col justify-between overflow-hidden rounded-lg border border-violet-300/25 bg-gradient-to-br from-[#23103E] via-[#3B185B] to-[#110B1F] p-3">
       <div
         aria-hidden="true"
         className="animate-scanline pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#F472B6] to-transparent shadow-[0_0_12px_#EC4899]"
@@ -134,7 +144,7 @@ function CardVisualArt({ project }: { project: ProjectItem }) {
         </span>
       </div>
       {/* Live Dancing 4K Audio/Color Waveform */}
-      <div className="flex h-16 items-end gap-1">
+      <div className="flex h-14 items-end gap-1">
         {[48, 78, 55, 92, 70, 98, 60, 84, 72, 90, 62, 76].map((h, i) => (
           <div
             key={i}
@@ -158,6 +168,7 @@ function CollectibleGameCard({
   isActive,
   isFlipped,
   onClick,
+  onInspectBlueprint,
 }: {
   project: ProjectItem
   index: number
@@ -165,6 +176,7 @@ function CollectibleGameCard({
   isActive: boolean
   isFlipped: boolean
   onClick: () => void
+  onInspectBlueprint: (project: ProjectItem) => void
 }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [unlockTick, setUnlockTick] = useState(0)
@@ -211,17 +223,15 @@ function CollectibleGameCard({
           ? `${project.title} — click to flip card`
           : `Bring ${project.title} to center`
       }
-      className={`group card-perspective relative mx-auto h-[490px] w-full max-w-[330px] cursor-pointer select-none rounded-2xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80 sm:h-[520px] sm:max-w-[350px] ${
-        isActive
+      className={`group card-perspective relative mx-auto h-[515px] w-full max-w-[335px] cursor-pointer select-none rounded-2xl transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80 sm:h-[545px] sm:max-w-[355px] ${isActive
           ? 'z-20 scale-100 opacity-100'
           : 'z-10 scale-[0.86] opacity-65 hover:opacity-92'
-      }`}
+        }`}
     >
       {/* Continuous Zero-Gravity Levitation (-10px <-> +10px, out-of-phase on side cards) */}
       <div
-        className={`h-full w-full ${
-          isActive ? 'animate-card-levitate' : 'animate-card-levitate-delayed'
-        }`}
+        className={`h-full w-full ${isActive ? 'animate-card-levitate' : 'animate-card-levitate-delayed'
+          }`}
       >
         {/* Interactive Cursor 3D Tilt Wrapper */}
         <div
@@ -236,25 +246,33 @@ function CollectibleGameCard({
             style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
           >
             {/* ═══════════════════════════════════════════════════════ */}
-            {/* CARD BACK (Spinning Arcane Crest & Breathing Ruby Gem)  */}
+            {/* CARD BACK (5-Layer Hextech Mechanical Clockwork Core)   */}
             {/* ═══════════════════════════════════════════════════════ */}
             <div
-              className={`card-backface-hidden absolute inset-0 rounded-2xl ${
-                isActive
+              className={`card-backface-hidden absolute inset-0 rounded-2xl ${isActive
                   ? 'conic-border-beam'
                   : 'border-2 border-violet-400/50 shadow-[0_24px_65px_rgba(8,3,18,0.85)]'
-              }`}
+                }`}
             >
               <div className="relative h-full w-full overflow-hidden rounded-[14px] bg-gradient-to-b from-[#331C5E] via-[#1E1138] to-[#130B24] p-4">
                 <div className="holo-foil z-20" aria-hidden="true" />
 
-                <div className="relative z-10 flex h-full w-full flex-col items-center justify-between rounded-xl border border-[#EC4899]/40 bg-[radial-gradient(circle_at_50%_45%,rgba(139,92,246,0.24)_0%,rgba(17,11,31,0.92)_72%)] p-6">
-                  <span className="absolute left-2.5 top-2.5 h-3.5 w-3.5 border-l-2 border-t-2 border-[#F59E0B]/85" />
-                  <span className="absolute right-2.5 top-2.5 h-3.5 w-3.5 border-r-2 border-t-2 border-[#F59E0B]/85" />
-                  <span className="absolute bottom-2.5 left-2.5 h-3.5 w-3.5 border-b-2 border-l-2 border-[#F59E0B]/85" />
-                  <span className="absolute bottom-2.5 right-2.5 h-3.5 w-3.5 border-b-2 border-r-2 border-[#F59E0B]/85" />
+                <div className="relative z-10 flex h-full w-full flex-col items-center justify-between rounded-xl border border-[#EC4899]/40 bg-[radial-gradient(circle_at_50%_45%,rgba(139,92,246,0.24)_0%,rgba(17,11,31,0.92)_72%)] p-5 sm:p-6">
+                  <span className="animate-corner-pulse absolute left-2.5 top-2.5 h-3.5 w-3.5 border-l-2 border-t-2 border-[#F59E0B]/85" />
+                  <span
+                    className="animate-corner-pulse absolute right-2.5 top-2.5 h-3.5 w-3.5 border-r-2 border-t-2 border-[#F59E0B]/85"
+                    style={{ animationDelay: '0.6s' }}
+                  />
+                  <span
+                    className="animate-corner-pulse absolute bottom-2.5 left-2.5 h-3.5 w-3.5 border-b-2 border-l-2 border-[#F59E0B]/85"
+                    style={{ animationDelay: '1.2s' }}
+                  />
+                  <span
+                    className="animate-corner-pulse absolute bottom-2.5 right-2.5 h-3.5 w-3.5 border-b-2 border-r-2 border-[#F59E0B]/85"
+                    style={{ animationDelay: '1.8s' }}
+                  />
 
-                  <span className="font-mono text-[11px] tracking-[0.25em] text-[#F472B6]">
+                  <span className="whitespace-nowrap font-mono text-[11px] tracking-[0.25em] text-[#F472B6]">
                     {badgeNumber}
                   </span>
 
@@ -265,16 +283,16 @@ function CollectibleGameCard({
                       tiltX={tilt.x}
                       tiltY={tilt.y}
                       unlockTrigger={unlockTick}
-                      className="h-52 w-52 sm:h-56 sm:w-56"
+                      className="h-44 w-44 sm:h-48 sm:w-48"
                     />
 
-                    <p className="mt-3 font-display text-sm font-bold tracking-[0.22em] text-white">
+                    <p className="mt-4 whitespace-nowrap font-display text-sm font-bold tracking-[0.22em] text-white">
                       {project.category}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 font-gaming text-[11px] font-semibold uppercase tracking-[0.2em] text-[#B8B0C8]">
-                    <RotateCw size={12} className="animate-slow-spin text-[#EC4899]" />
+                  <div className="flex items-center gap-2 whitespace-nowrap font-gaming text-[11px] font-semibold uppercase tracking-[0.2em] text-[#B8B0C8]">
+                    <RotateCw size={12} className="animate-slow-spin shrink-0 text-[#EC4899]" />
                     <span>{isActive ? 'CLICK TO REVEAL' : 'SELECT CARD'}</span>
                   </div>
                 </div>
@@ -282,14 +300,13 @@ function CollectibleGameCard({
             </div>
 
             {/* ═══════════════════════════════════════════════════════ */}
-            {/* CARD FRONT (Orbiting Conic Beam + Periodic Holo Foil)   */}
+            {/* CARD FRONT (Orbiting Conic Beam + Holo Foil + Metrics)  */}
             {/* ═══════════════════════════════════════════════════════ */}
             <div
-              className={`card-backface-hidden card-rotate-y-180 absolute inset-0 rounded-2xl ${
-                isActive
+              className={`card-backface-hidden card-rotate-y-180 absolute inset-0 rounded-2xl ${isActive
                   ? 'conic-border-beam'
                   : 'border-2 border-[#EC4899]/65 shadow-[0_28px_75px_rgba(236,72,153,0.28)]'
-              }`}
+                }`}
             >
               <div className="relative h-full w-full overflow-hidden rounded-[14px] bg-gradient-to-b from-[#2A184C] via-[#1C1033] to-[#130B24] p-4">
                 <div className="holo-foil z-20" aria-hidden="true" />
@@ -312,29 +329,48 @@ function CollectibleGameCard({
                   )}
 
                   <div className="relative z-10">
-                    <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em]">
-                      <span className="animate-pill-glow rounded border border-[#EC4899]/50 bg-[#EC4899]/18 px-2 py-0.5 font-bold text-[#F472B6]">
+                    <div className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.2em]">
+                      <span className="animate-pill-glow shrink-0 whitespace-nowrap rounded border border-[#EC4899]/50 bg-[#EC4899]/18 px-2 py-0.5 font-bold text-[#F472B6]">
                         {badgeNumber}
                       </span>
-                      <span className="text-[#F59E0B]">{project.category}</span>
+                      <span className="truncate whitespace-nowrap text-[#F59E0B]">
+                        {project.category}
+                      </span>
                     </div>
 
-                    <div className="mt-3">
+                    <div className="mt-2.5">
                       <CardVisualArt project={project} />
                     </div>
 
-                    <h3 className="mt-4 text-center font-gaming text-lg font-bold uppercase tracking-[0.06em] text-white">
+                    <h3 className="mt-3 text-center font-gaming text-base font-bold uppercase tracking-[0.06em] text-white sm:text-lg">
                       {displayTitle}
                     </h3>
+
+                    {/* Pro Max 3-Column Live Engineering Telemetry Strip */}
+                    <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+                      {project.metrics.map((m) => (
+                        <div
+                          key={m.label}
+                          className="rounded border border-violet-400/20 bg-[#110B1F]/80 px-1.5 py-1 text-center"
+                        >
+                          <p className="truncate font-mono text-[8px] uppercase text-[#B8B0C8]">
+                            {m.label}
+                          </p>
+                          <p className="mt-0.5 truncate font-mono text-[10px] font-bold text-[#FDE68A]">
+                            {m.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Lower Lavender Translucent Parchment Panel */}
-                  <div className="relative z-10 mt-3 flex flex-1 flex-col justify-between rounded-lg border border-violet-200/20 bg-[#F3EAFF]/[0.10] p-3.5 backdrop-blur-[2px]">
-                    <p className="line-clamp-4 font-body text-xs leading-relaxed text-[#EFEAF8]">
+                  <div className="relative z-10 mt-2.5 flex flex-1 flex-col justify-between rounded-lg border border-violet-200/20 bg-[#F3EAFF]/[0.10] p-3 backdrop-blur-[2px]">
+                    <p className="line-clamp-3 font-body text-xs leading-relaxed text-[#EFEAF8]">
                       {project.summary}
                     </p>
 
-                    <div className="mt-3 flex flex-wrap gap-1">
+                    <div className="mt-2 flex flex-wrap gap-1">
                       {project.techStack.slice(0, 4).map((tech) => (
                         <span
                           key={tech}
@@ -343,29 +379,39 @@ function CollectibleGameCard({
                           {tech}
                         </span>
                       ))}
+                      {project.techStack.length > 4 && (
+                        <span className="rounded border border-[#F59E0B]/35 bg-[#F59E0B]/15 px-1.5 py-0.5 font-mono text-[10px] text-[#FDE68A]">
+                          +{project.techStack.length - 4}
+                        </span>
+                      )}
                     </div>
 
                     <div
-                      className="mt-3 flex items-center gap-2 border-t border-white/10 pt-2.5"
+                      className="mt-2.5 flex items-center gap-2 border-t border-white/10 pt-2.5"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {project.liveUrl ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playMechanicalUnlock()
+                          onInspectBlueprint(project)
+                        }}
+                        className="tactile-btn inline-flex flex-1 items-center justify-center gap-1.5 rounded bg-white py-1.5 font-gaming text-[10px] font-bold uppercase tracking-wider text-[#110B1F] transition-colors hover:bg-[#F472B6] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/70"
+                      >
+                        <Sparkles size={11} />
+                        <span>BLUEPRINT</span>
+                      </button>
+
+                      {project.liveUrl && (
                         <a
                           href={project.liveUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex flex-1 items-center justify-center gap-1 rounded bg-white py-1.5 font-gaming text-[10px] font-bold uppercase tracking-wider text-[#110B1F] hover:bg-[#F472B6] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/70"
+                          className="tactile-btn inline-flex items-center justify-center gap-1 rounded border border-[#EC4899]/60 bg-[#EC4899]/20 px-2.5 py-1.5 font-gaming text-[10px] font-bold uppercase tracking-wider text-white hover:bg-[#EC4899] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/70"
                         >
-                          <span>LIVE DEMO</span>
-                          <ExternalLink size={11} />
+                          <span>DEMO</span>
+                          <ExternalLink size={10} />
                         </a>
-                      ) : (
-                        <span
-                          title="Live deployment URL pending"
-                          className="inline-flex flex-1 cursor-not-allowed items-center justify-center rounded border border-white/15 bg-white/[0.04] py-1.5 font-gaming text-[10px] font-semibold uppercase tracking-wider text-white/45"
-                        >
-                          DEMO PENDING
-                        </span>
                       )}
 
                       {project.githubUrl && (
@@ -373,7 +419,7 @@ function CollectibleGameCard({
                           href={project.githubUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 rounded border border-white/30 bg-[#110B1F]/75 px-3 py-1.5 font-gaming text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:border-[#EC4899] hover:text-[#F472B6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/70"
+                          className="tactile-btn inline-flex items-center justify-center gap-1.5 rounded border border-white/30 bg-[#110B1F]/75 px-3 py-1.5 font-gaming text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:border-[#EC4899] hover:text-[#F472B6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/70"
                         >
                           <GithubLogo className="h-3 w-3" />
                           <span>SOURCE</span>
@@ -401,6 +447,7 @@ export default function ProjectsSection() {
       : 0
   )
   const [centerFlipped, setCenterFlipped] = useState<boolean>(true)
+  const [blueprintProject, setBlueprintProject] = useState<ProjectItem | null>(null)
 
   useEffect(() => {
     if (selectedProjectIndex !== null && selectedProjectIndex >= 0 && selectedProjectIndex < total) {
@@ -413,19 +460,50 @@ export default function ProjectsSection() {
   const prevIndex = (activeIndex - 1 + total) % total
   const nextIndex = (activeIndex + 1) % total
 
-  const goToIndex = (targetIdx: number) => {
+  const goToIndex = useCallback((targetIdx: number) => {
+    playMechanicalUnlock()
     setActiveIndex(targetIdx)
     setCenterFlipped(true)
-  }
+  }, [])
 
-  const handlePrev = () => goToIndex(prevIndex)
-  const handleNext = () => goToIndex(nextIndex)
+  const handlePrev = useCallback(() => goToIndex(prevIndex), [goToIndex, prevIndex])
+  const handleNext = useCallback(() => goToIndex(nextIndex), [goToIndex, nextIndex])
+
+  // Pro Max Keyboard Controls: ArrowLeft / ArrowRight to rotate deck, F to flip, Esc to close modal
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return
+
+      if (blueprintProject) {
+        if (e.key === 'Escape') {
+          setBlueprintProject(null)
+        }
+        return
+      }
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        handlePrev()
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        handleNext()
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault()
+        playMechanicalUnlock()
+        setCenterFlipped((f) => !f)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [blueprintProject, handlePrev, handleNext])
 
   return (
     <section
       ref={sectionRef}
       id="projects"
-      className="diamond-pattern-bg relative flex flex-1 min-h-[calc(100vh-5.5rem)] flex-col justify-center overflow-hidden px-5 pt-28 pb-20 sm:px-8"
+      className="diamond-pattern-bg relative flex flex-1 min-h-[calc(100vh-4.5rem)] flex-col justify-center overflow-hidden px-5 pt-24 pb-10 sm:px-8"
     >
       <div
         aria-hidden="true"
@@ -436,7 +514,7 @@ export default function ProjectsSection() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0C0717]/80 to-transparent"
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl">
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
         {/* Heading glides smoothly with bi-directional scroll */}
         <div
           className="text-center will-change-transform"
@@ -452,19 +530,21 @@ export default function ProjectsSection() {
             FEATURED ARTIFACTS
           </h2>
           <p className="mx-auto mt-3 max-w-xl font-body text-sm text-[#B8B0C8] sm:text-base">
-            Click side cards or arrows to rotate the deck. Click the center card to flip between
-            crest and technical specifications.
+            Click side cards or press <kbd className="rounded border border-white/20 bg-[#110B1F]/70 px-1.5 py-0.5 font-mono text-[11px] text-[#FDE68A]">←</kbd>{' '}
+            <kbd className="rounded border border-white/20 bg-[#110B1F]/70 px-1.5 py-0.5 font-mono text-[11px] text-[#FDE68A]">→</kbd> to rotate the deck. Click the center card (or press{' '}
+            <kbd className="rounded border border-white/20 bg-[#110B1F]/70 px-1.5 py-0.5 font-mono text-[11px] text-[#F472B6]">F</kbd>) to flip, or open{' '}
+            <span className="font-semibold text-white">BLUEPRINT</span> for full architecture specs.
           </p>
         </div>
 
         {/* 3-Card Horizontal Showcase with Bi-Directional Fan-Out */}
         <div
-          className="mt-14 grid items-center gap-6 will-change-transform md:grid-cols-3 md:gap-4"
+          className="mt-12 grid items-center gap-6 will-change-transform md:grid-cols-3 md:gap-4"
           style={{
             transform: 'skewY(calc(var(--vel, 0) * 1.1deg))',
           }}
         >
-          {/* Left Preview Card: Swings cleanly from +110px & -12deg tilt into place */}
+          {/* Left Preview Card */}
           <div
             className="hidden will-change-transform md:block"
             style={{
@@ -479,10 +559,11 @@ export default function ProjectsSection() {
               isActive={false}
               isFlipped={false}
               onClick={handlePrev}
+              onInspectBlueprint={setBlueprintProject}
             />
           </div>
 
-          {/* Center Active Card: Perfectly vertically aligned with side cards, rises smoothly on scroll */}
+          {/* Center Active Card */}
           <div
             className="will-change-transform"
             style={{
@@ -497,10 +578,11 @@ export default function ProjectsSection() {
               isActive={true}
               isFlipped={centerFlipped}
               onClick={() => setCenterFlipped((f) => !f)}
+              onInspectBlueprint={setBlueprintProject}
             />
           </div>
 
-          {/* Right Preview Card: Swings cleanly from -110px & +12deg tilt into place */}
+          {/* Right Preview Card */}
           <div
             className="hidden will-change-transform md:block"
             style={{
@@ -515,13 +597,14 @@ export default function ProjectsSection() {
               isActive={false}
               isFlipped={false}
               onClick={handleNext}
+              onInspectBlueprint={setBlueprintProject}
             />
           </div>
         </div>
 
-        {/* Carousel Bottom Control Bar (Generous spacing & elevated z-30 so cards never collide) */}
+        {/* Carousel Bottom Control Bar */}
         <div
-          className="relative z-30 mt-16 flex flex-wrap items-center justify-center gap-6 will-change-transform sm:justify-between"
+          className="relative z-30 mt-14 flex flex-wrap items-center justify-center gap-6 will-change-transform sm:justify-between"
           style={{
             transform: 'translate3d(0, calc(var(--p, 0) * -12px), 0)',
           }}
@@ -546,11 +629,10 @@ export default function ProjectsSection() {
                   aria-selected={isCurrent}
                   aria-label={`View card ${idx + 1}: ${p.title}`}
                   onClick={() => goToIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80 ${
-                    isCurrent
+                  className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80 ${isCurrent
                       ? 'w-10 bg-[#EC4899] shadow-[0_0_14px_#EC4899]'
                       : 'w-3 bg-white/25 hover:bg-white/55'
-                  }`}
+                    }`}
                 />
               )
             })}
@@ -566,6 +648,166 @@ export default function ProjectsSection() {
           </button>
         </div>
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/* PRO MAX HEXTECH ARCHITECTURE BLUEPRINT INSPECTOR MODAL              */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {blueprintProject && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${blueprintProject.title} Architecture Blueprint`}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#090514]/88 p-4 backdrop-blur-2xl"
+          onClick={() => setBlueprintProject(null)}
+        >
+          <div
+            className="conic-border-beam relative max-h-[90vh] w-full max-w-3xl overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative overflow-hidden rounded-[14px] bg-gradient-to-b from-[#251640] via-[#170E2B] to-[#110B1F] p-6 sm:p-8">
+              {/* Background Mechanical Gear Watermark */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-16 -top-16 opacity-15"
+              >
+                <MechanicalGearCore variant="full" unlockTrigger={1} className="h-72 w-72" />
+              </div>
+
+              {/* Header */}
+              <div className="relative z-10 flex items-start justify-between gap-4 border-b border-white/10 pb-4">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded border border-[#EC4899]/50 bg-[#EC4899]/20 px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[#F472B6]">
+                      {blueprintProject.category}
+                    </span>
+                    <span className="font-mono text-xs text-[#F59E0B]">
+                      {blueprintProject.categoryLabel}
+                    </span>
+                  </div>
+                  <h3 className="mt-2 font-display text-xl font-extrabold uppercase tracking-wide text-white sm:text-2xl">
+                    {blueprintProject.title}
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setBlueprintProject(null)}
+                  aria-label="Close Blueprint Inspector"
+                  className="tactile-btn inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-[#19112B] text-[#B8B0C8] hover:border-[#EC4899] hover:text-white"
+                >
+                  <X size={17} />
+                </button>
+              </div>
+
+              {/* Body Grid */}
+              <div className="relative z-10 mt-5 grid gap-6 md:grid-cols-12">
+                <div className="md:col-span-5">
+                  <CardVisualArt project={blueprintProject} />
+
+                  {/* 3 Detailed Engineering Metrics */}
+                  <div className="mt-4 space-y-2">
+                    {blueprintProject.metrics.map((m) => (
+                      <div
+                        key={m.label}
+                        className="flex items-center justify-between rounded-lg border border-violet-300/20 bg-[#110B1F]/80 px-3 py-2"
+                      >
+                        <div>
+                          <p className="font-mono text-[10px] uppercase text-[#B8B0C8]">{m.label}</p>
+                          <p className="font-mono text-xs font-bold text-white">{m.value}</p>
+                        </div>
+                        <span
+                          className={`rounded px-2 py-0.5 font-mono text-[9px] font-bold uppercase ${m.isSimulatedOrArchitecture
+                              ? 'border border-[#F59E0B]/40 bg-[#F59E0B]/15 text-[#FDE68A]'
+                              : 'border border-emerald-400/40 bg-emerald-500/15 text-emerald-300'
+                            }`}
+                        >
+                          {m.isSimulatedOrArchitecture ? 'ARCH / SIM' : 'VERIFIED'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between space-y-4 md:col-span-7">
+                  <div>
+                    <div className="flex items-center gap-2 font-gaming text-xs font-bold uppercase tracking-[0.18em] text-[#F472B6]">
+                      <Cpu size={14} />
+                      <span>SYSTEM OVERVIEW</span>
+                    </div>
+                    <p className="mt-2 font-body text-sm leading-relaxed text-[#EFEAF8]">
+                      {blueprintProject.summary}
+                    </p>
+
+                    <div className="mt-4 flex items-center gap-2 font-gaming text-xs font-bold uppercase tracking-[0.18em] text-[#F59E0B]">
+                      <ShieldCheck size={14} />
+                      <span>ARCHITECTURE & PRODUCTION FOCUS</span>
+                    </div>
+                    <p className="mt-2 font-body text-sm leading-relaxed text-[#B8B0C8]">
+                      {blueprintProject.architectureFocus}
+                    </p>
+
+                    <div className="mt-4 flex items-center gap-2 font-gaming text-xs font-bold uppercase tracking-[0.18em] text-[#C084FC]">
+                      <Layers size={14} />
+                      <span>COMPLETE TECH STACK ({blueprintProject.techStack.length})</span>
+                    </div>
+                    <div className="mt-2.5 flex flex-wrap gap-1.5">
+                      {blueprintProject.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded-md border border-violet-300/30 bg-[#110B1F]/85 px-2.5 py-1 font-mono text-xs text-[#E9D5FF]"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Footer Actions */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
+                    <div className="flex items-center gap-2.5">
+                      {blueprintProject.liveUrl ? (
+                        <a
+                          href={blueprintProject.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="tactile-btn inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 font-gaming text-xs font-bold uppercase tracking-wider text-[#110B1F] hover:bg-[#F472B6] hover:text-white"
+                        >
+                          <span>OPEN LIVE DEMO</span>
+                          <ExternalLink size={13} />
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center rounded-lg border border-white/15 bg-white/[0.04] px-3.5 py-2 font-gaming text-xs font-semibold uppercase tracking-wider text-white/45">
+                          LIVE DEMO PENDING
+                        </span>
+                      )}
+
+                      {blueprintProject.githubUrl && (
+                        <a
+                          href={blueprintProject.githubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="tactile-btn inline-flex items-center gap-2 rounded-lg border border-white/30 bg-[#110B1F] px-4 py-2 font-gaming text-xs font-bold uppercase tracking-wider text-white hover:border-[#EC4899] hover:text-[#F472B6]"
+                        >
+                          <GithubLogo className="h-3.5 w-3.5" />
+                          <span>GITHUB REPO</span>
+                        </a>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setBlueprintProject(null)}
+                      className="font-mono text-xs text-[#B8B0C8] hover:text-white"
+                    >
+                      ESC TO CLOSE
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

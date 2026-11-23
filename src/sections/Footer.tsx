@@ -8,7 +8,7 @@ export default function Footer() {
   const nextStation = activeStation < STATIONS.length - 1 ? STATIONS[activeStation + 1] : null
 
   return (
-    <footer className="relative z-10 border-t border-violet-400/15 bg-[#0C0717]/95 px-5 py-6 backdrop-blur-md sm:px-8">
+    <footer className="relative z-10 border-t border-violet-400/15 bg-[#0C0717]/95 px-5 py-4 backdrop-blur-md sm:px-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 md:flex-row">
         {/* Left: Previous Page Button (or Brand Emblem on Home) */}
         <div className="flex w-full items-center justify-center md:w-auto md:justify-start">

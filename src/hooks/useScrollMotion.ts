@@ -20,7 +20,7 @@ interface RegisteredNode {
   initialized: boolean
 }
 
-const MOTION_STORAGE_KEY = 'duy_portfolio_motion_enabled'
+const MOTION_STORAGE_KEY = 'duy_ui_motion_enabled_v2'
 const registeredNodes = new Map<HTMLElement, RegisteredNode>()
 const motionListeners = new Set<() => void>()
 
@@ -37,6 +37,7 @@ let rafId: number | null = null
 let currentScrollY = 0
 let smoothedSpeed = 0
 let smoothedSignedVel = 0
+let wheelImpulseP = 0
 let lastFrameTime = 0
 
 function getScrollTop(): number {
@@ -55,6 +56,20 @@ export function getLiveScrollVelocity(): { speed: number; signed: number } {
 }
 
 /**
+ * Feeds live mouse-wheel / trackpad delta into the motion engine so even
+ * non-overflowing standalone pages physically crank the Hextech Astrolabe ring
+ * and 3D card depth in real time as the user scrolls.
+ */
+export function applyWheelImpulse(deltaY: number) {
+  if (!motionEnabled) return
+  const norm = Math.max(Math.min(deltaY / 220, 1), -1)
+  wheelImpulseP = Math.max(Math.min(wheelImpulseP + norm * 0.45, 1.1), -1.1)
+  smoothedSpeed = Math.min(Math.max(smoothedSpeed, Math.abs(norm)), 1)
+  smoothedSignedVel = norm
+  startEngine()
+}
+
+/**
  * Called whenever the user switches to another standalone page.
  * Resets cached scroll inertia immediately so the incoming page never jerks,
  * and triggers a graceful directional particle breeze in CosmicScene.
@@ -62,9 +77,11 @@ export function getLiveScrollVelocity(): { speed: number; signed: number } {
 export function resetScrollMotionOnPageChange(direction: 'forward' | 'backward') {
   currentScrollY = 0
   if (motionEnabled) {
+    wheelImpulseP = direction === 'forward' ? -0.42 : 0.42
     smoothedSpeed = 0.78
     smoothedSignedVel = direction === 'forward' ? 0.78 : -0.78
   } else {
+    wheelImpulseP = 0
     smoothedSpeed = 0
     smoothedSignedVel = 0
   }
@@ -117,6 +134,8 @@ function syncHtmlMotionAttribute() {
     document.documentElement.setAttribute('data-motion', 'reduced')
   }
 }
+
+syncHtmlMotionAttribute()
 
 function resetMotionVars() {
   if (typeof document === 'undefined') return
@@ -188,19 +207,21 @@ function tick(now: number) {
   const viewportCenter = vh * 0.5
   const pageScrollable = root.scrollHeight > vh + 48
 
+  // Smoothly decay wheel impulse back toward 0
+  wheelImpulseP *= Math.pow(0.86, dt * 60)
+  if (Math.abs(wheelImpulseP) < 0.002) wheelImpulseP = 0
+
   registeredNodes.forEach((entry) => {
-    let targetP = 0
+    let targetP = wheelImpulseP
 
     if (pageScrollable) {
       const rect = entry.el.getBoundingClientRect()
       const dampedTop = rect.top + lagOffset
       const sectionCenter = dampedTop + rect.height * 0.5
-      // Tighter normalizer so motion is unmistakable while scrolling within taller pages
       const normalizer = Math.max(vh * 0.78, Math.min(rect.height * 0.65, vh * 1.1))
 
-      // -1.25 (below viewport) -> 0 (centered) -> +1.25 (above viewport)
       targetP = Math.max(
-        Math.min((viewportCenter - sectionCenter) / normalizer, 1.25),
+        Math.min((viewportCenter - sectionCenter) / normalizer + wheelImpulseP * 0.5, 1.25),
         -1.25
       )
     }
