@@ -2,29 +2,29 @@ import { useId } from 'react'
 
 export interface MechanicalGearCoreProps {
   /**
-   * - `full`: Detailed 5-layer centerpiece for 02. SYSTEMS card backs.
-   * - `watermark`: Low-opacity ambient mechanical clockwork behind active center card content.
-   * - `halo`: Compact Hextech gear halo rotating behind the 03. EXPERTISE RPG top icon badge.
+   * - `full`: Detailed 5-layer Piltover Hextech centerpiece for 02. SYSTEMS card backs.
+   * - `watermark`: Low-opacity ambient Hextech clockwork behind active center card content.
+   * - `halo`: Compact Hextech gear & rune halo rotating behind Champion Portrait & Keystone Relic.
    */
   variant?: 'full' | 'watermark' | 'halo'
   /** Optional interactive 3D cursor tilt passed from parent card for real multi-layer Z parallax */
   tiltX?: number
   tiltY?: number
-  /** Incrementing key that triggers the sharp 300ms Mechanical Unlock Surge + golden core flash */
+  /** Incrementing key that triggers the sharp 300ms Hextech Unlock Surge + core mana flash */
   unlockTrigger?: number
   /** Extra utility classes for sizing / positioning */
   className?: string
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   DETERMINISTIC HOROLOGY GEOMETRY GENERATORS (Computed Once at Load)
+   PILTOVER HEXTECH HOROLOGY GEOMETRY (League of Legends / Arcane)
    viewBox = "0 0 260 260" | Exact Center = (130, 130)
    Module m = 7.5px:
-   - Main Spur Gear: 16 teeth (Rp = 60, Ro = 66.4, Rr = 52.8)
-   - Satellite Pinions (x2): 8 teeth (Rp = 30, Ro = 36.2, Rr = 22.8)
-     Center distance D = Rp1 + Rp2 = 90px at -45° & +135°
-     With +22.5° phase offset, teeth mathematically interlock at mesh!
-   - Inner Ratchet Ring: 12 asymmetric escapement teeth (Ro = 39, Rr = 32.5)
+   - Layer 1 (translateZ  8px): Piltover Runic Astrolabe Ring & Caliper Pointers
+   - Layer 2 (translateZ 18px): 16-Tooth Forged Hextech Gold Spur Gear (Rp = 60)
+   - Layer 3 (translateZ 26px): 12-Tooth Obsidian-Brass Escapement Ratchet Ring
+   - Layer 4 (translateZ 22px): 2 Meshing 8-Tooth Satellite Pinions (Rp = 30, D = 90)
+   - Layer 5 (translateZ 36px): Multi-Faceted Hextech Mana Gemstone & Containment Claws
    ───────────────────────────────────────────────────────────────── */
 
 const CX = 130
@@ -40,9 +40,6 @@ function fmt(n: number): string {
   return n.toFixed(2)
 }
 
-/**
- * Generates an exact chamfered spur gear profile with flat-crested trapezoidal teeth.
- */
 function buildSpurGearPath(
   cx: number,
   cy: number,
@@ -80,9 +77,6 @@ function buildSpurGearPath(
   return pts.join(' ')
 }
 
-/**
- * Generates an annular ring cutout path (for spoke windows using fillRule="evenodd").
- */
 function buildArcCutoutPath(
   cx: number,
   cy: number,
@@ -106,9 +100,6 @@ function buildArcCutoutPath(
   ].join(' ')
 }
 
-/**
- * Generates a precision 12-tooth asymmetric horological escapement ratchet ring.
- */
 function buildRatchetRingPath(
   cx: number,
   cy: number,
@@ -136,7 +127,6 @@ function buildRatchetRingPath(
   }
   outerPts.push('Z')
 
-  // Circular inner bore (drawn counter-clockwise via evenodd)
   const hole = `M ${fmt(cx + innerHoleR)} ${fmt(cy)} A ${fmt(innerHoleR)} ${fmt(innerHoleR)} 0 1 0 ${fmt(cx - innerHoleR)} ${fmt(cy)} A ${fmt(innerHoleR)} ${fmt(innerHoleR)} 0 1 0 ${fmt(cx + innerHoleR)} ${fmt(cy)} Z`
   return `${outerPts.join(' ')} ${hole}`
 }
@@ -148,33 +138,34 @@ const MAIN_SPOKE_CUTOUTS = [0, 90, 180, 270]
   .join(' ')
 const MAIN_GEAR_COMPOUND = `${MAIN_GEAR_OUTER} ${MAIN_SPOKE_CUTOUTS}`
 
-// Inner 12-tooth ratchet ring nested inside main gear cavity
 const RATCHET_PATH = buildRatchetRingPath(CX, CY, 12, 39.2, 32.6, 23.5)
 
-// Satellite pinion geometry centered at (0,0) so CSS rotation pivots around each pinion axle cleanly
 const PINION_OUTER = buildSpurGearPath(0, 0, 8, 36.2, 22.8, 22.5)
-const PINION_HOLE =
-  'M 9.5 0 A 9.5 9.5 0 1 0 -9.5 0 A 9.5 9.5 0 1 0 9.5 0 Z'
+const PINION_HOLE = 'M 9.5 0 A 9.5 9.5 0 1 0 -9.5 0 A 9.5 9.5 0 1 0 9.5 0 Z'
 const PINION_COMPOUND = `${PINION_OUTER} ${PINION_HOLE}`
 
-// Exact meshing centers: distance D = 90px along -45° (top-right) and +135° (bottom-left)
-const SAT_OFFSET = 90 * Math.SQRT1_2 // 63.6396
-const SAT_1 = { x: CX + SAT_OFFSET, y: CY - SAT_OFFSET } // (193.64, 66.36)
-const SAT_2 = { x: CX - SAT_OFFSET, y: CY + SAT_OFFSET } // (66.36, 193.64)
+const SAT_OFFSET = 90 * Math.SQRT1_2
+const SAT_1 = { x: CX + SAT_OFFSET, y: CY - SAT_OFFSET }
+const SAT_2 = { x: CX - SAT_OFFSET, y: CY + SAT_OFFSET }
 
-// Outer Astrolabe Calibration Ring degree tick marks (72 precision ticks, cardinal & 30° emphasis)
 const ASTROLABE_TICKS = Array.from({ length: 72 }, (_, idx) => {
   const deg = idx * 5
   const isCardinal = deg % 90 === 0
   const isMajor = deg % 30 === 0
-  const r1 = isCardinal ? 105 : isMajor ? 108 : 112
+  const r1 = isCardinal ? 104 : isMajor ? 108 : 112
   const r2 = 117.5
   const [x1, y1] = polar(CX, CY, r1, deg)
   const [x2, y2] = polar(CX, CY, r2, deg)
   return { deg, x1, y1, x2, y2, isCardinal, isMajor }
 })
 
-// Rivets positioned on the main gear hub & rim
+// 8 Piltover Runic Geometry Nodes around the Astrolabe Ring
+const RUNE_NODES = Array.from({ length: 8 }, (_, idx) => {
+  const deg = idx * 45
+  const [x, y] = polar(CX, CY, 97, deg)
+  return { deg, x, y, isPrimary: idx % 2 === 0 }
+})
+
 const MAIN_HUB_RIVETS = Array.from({ length: 8 }, (_, idx) => {
   const [x, y] = polar(CX, CY, 48.8, idx * 45 + 22.5)
   return { x, y }
@@ -190,15 +181,6 @@ const PINION_HOLES = [0, 90, 180, 270].map((deg) => {
   return { x, y }
 })
 
-/**
- * MechanicalGearCore — AAA Hextech / Arcane 5-Layer Clockwork Assembly
- *
- * Layer 1 (translateZ  8px): Outer Astrolabe Calibration Ring — physically cranked by `--section-progress`
- * Layer 2 (translateZ 18px): 16-Tooth Champagne Gold Spur Gear — stepped escapement tick + glowing spoke traces
- * Layer 3 (translateZ 26px): 12-Tooth Violet Steel Ratchet Ring — counter-rotating escapement beat
- * Layer 4 (translateZ 22px): 2 Meshing 8-Tooth Satellite Pinions — 2x speed opposite rotation interlocked with main gear
- * Layer 5 (translateZ 36px): Glowing Magenta/Violet Diamond Crystal Core — pulsing ambient energy + unlock flash
- */
 export default function MechanicalGearCore({
   variant = 'full',
   tiltX = 0,
@@ -225,60 +207,61 @@ export default function MechanicalGearCore({
         isWatermark ? 'gear-variant-watermark' : isHalo ? 'gear-variant-halo' : 'gear-variant-full'
       } ${className}`}
     >
-      {/* Shared SVG Gradient & Glow Definitions (Unique per instance via useId) */}
+      {/* Shared League of Legends Hextech Gold, Gunmetal & Mana Gradient Definitions */}
       <svg className="absolute h-0 w-0 overflow-hidden" aria-hidden="true" focusable="false">
         <defs>
-          {/* Champagne Gold -> Burnished Amber Metallic Finish */}
+          {/* Piltover Forged Hextech Gold (#F0E6D2 -> #C89B3C -> #785A28) */}
           <linearGradient id={`${uid}-gold`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FEF3C7" />
-            <stop offset="28%" stopColor="#FDE68A" />
-            <stop offset="65%" stopColor="#F59E0B" />
-            <stop offset="100%" stopColor="#92400E" />
+            <stop offset="0%" stopColor="#FFF8E7" />
+            <stop offset="24%" stopColor="#F0E6D2" />
+            <stop offset="56%" stopColor="#C89B3C" />
+            <stop offset="84%" stopColor="#936A25" />
+            <stop offset="100%" stopColor="#5C4114" />
           </linearGradient>
 
-          {/* Satin Gold Highlight Rim */}
+          {/* Satin Ivory-Gold Bevel Rim */}
           <linearGradient id={`${uid}-gold-rim`} x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#FFFBEB" />
-            <stop offset="50%" stopColor="#FBBF24" />
-            <stop offset="100%" stopColor="#B45309" />
+            <stop offset="0%" stopColor="#FFFDF7" />
+            <stop offset="45%" stopColor="#C8AA6E" />
+            <stop offset="100%" stopColor="#785A28" />
           </linearGradient>
 
-          {/* Iridescent Violet Steel Metallic Finish */}
+          {/* Hextech Arcane Gunmetal & Cobalt-Violet Steel */}
           <linearGradient id={`${uid}-steel`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#E9D5FF" />
-            <stop offset="30%" stopColor="#C084FC" />
-            <stop offset="68%" stopColor="#6D28D9" />
-            <stop offset="100%" stopColor="#2E1065" />
+            <stop offset="0%" stopColor="#E0F2FE" />
+            <stop offset="28%" stopColor="#38BDF8" />
+            <stop offset="65%" stopColor="#6D28D9" />
+            <stop offset="100%" stopColor="#1E1B4B" />
           </linearGradient>
 
-          {/* Dark Gunmetal Arcane Alloy for Inner Cavities */}
+          {/* Deep Piltover Obsidian Alloy */}
           <linearGradient id={`${uid}-dark-alloy`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#4C1D95" />
-            <stop offset="55%" stopColor="#251640" />
-            <stop offset="100%" stopColor="#110B1F" />
+            <stop offset="0%" stopColor="#1E293B" />
+            <stop offset="55%" stopColor="#151028" />
+            <stop offset="100%" stopColor="#090714" />
           </linearGradient>
 
-          {/* Hextech Crystal Core Magenta -> Arcane Violet */}
-          <linearGradient id={`${uid}-crystal`} x1="20%" y1="0%" x2="80%" y2="100%">
-            <stop offset="0%" stopColor="#FBCFE8" />
-            <stop offset="35%" stopColor="#EC4899" />
-            <stop offset="78%" stopColor="#8B5CF6" />
-            <stop offset="100%" stopColor="#4C1D95" />
+          {/* Hextech Gemstone Core (Piltover Mana Cyan -> Arcane Shimmer Magenta) */}
+          <linearGradient id={`${uid}-crystal`} x1="15%" y1="0%" x2="85%" y2="100%">
+            <stop offset="0%" stopColor="#E0F2FE" />
+            <stop offset="28%" stopColor="#0AC8B9" />
+            <stop offset="65%" stopColor="#EC4899" />
+            <stop offset="100%" stopColor="#581C87" />
           </linearGradient>
 
-          {/* Ambient Energy Glow Radiating onto Inner Gear Teeth */}
+          {/* Ambient Hextech Mana Glow Radiating onto Inner Gear Teeth */}
           <radialGradient id={`${uid}-core-aura`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#EC4899" stopOpacity="0.65" />
-            <stop offset="42%" stopColor="#8B5CF6" stopOpacity="0.32" />
-            <stop offset="78%" stopColor="#F59E0B" stopOpacity="0.1" />
+            <stop offset="0%" stopColor="#0AC8B9" stopOpacity="0.62" />
+            <stop offset="42%" stopColor="#EC4899" stopOpacity="0.38" />
+            <stop offset="75%" stopColor="#C89B3C" stopOpacity="0.16" />
             <stop offset="100%" stopColor="#110B1F" stopOpacity="0" />
           </radialGradient>
 
-          {/* Golden Unlock Flash Aura */}
+          {/* Hextech Golden-Cyan Unlock Surge Flash */}
           <radialGradient id={`${uid}-flash-aura`} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.98" />
-            <stop offset="35%" stopColor="#FDE68A" stopOpacity="0.82" />
-            <stop offset="70%" stopColor="#EC4899" stopOpacity="0.4" />
+            <stop offset="30%" stopColor="#0AC8B9" stopOpacity="0.85" />
+            <stop offset="65%" stopColor="#C89B3C" stopOpacity="0.45" />
             <stop offset="100%" stopColor="#EC4899" stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -289,17 +272,17 @@ export default function MechanicalGearCore({
         className="gear-stage relative h-full w-full transition-transform duration-200 ease-out"
         style={stageTransform ? { transform: stageTransform } : undefined}
       >
-        {/* Subtle Energy Illumination Wash behind Inner Teeth */}
+        {/* Subtle Hextech Mana Illumination Wash behind Inner Teeth */}
         <div
           className="gear-layer gear-z-0 absolute inset-0"
           style={{
             background:
-              'radial-gradient(circle, rgba(236,72,153,0.22) 0%, rgba(139,92,246,0.12) 38%, transparent 66%)',
+              'radial-gradient(circle, rgba(10,200,185,0.22) 0%, rgba(236,72,153,0.14) 40%, transparent 68%)',
           }}
         />
 
         {/* ═══════════════════════════════════════════════════════════════ */}
-        {/* LAYER 1: OUTER ASTROLABE CALIBRATION RING — translateZ(8px)     */}
+        {/* LAYER 1: PILTOVER RUNIC ASTROLABE RING — translateZ(8px)        */}
         {/* Physically cranked bi-directionally by `--section-progress`     */}
         {/* ═══════════════════════════════════════════════════════════════ */}
         <div className="gear-layer gear-z-1 absolute inset-0">
@@ -310,36 +293,43 @@ export default function MechanicalGearCore({
             }}
           >
             <svg viewBox="0 0 260 260" className="h-full w-full overflow-visible" fill="none">
-              {/* Outer Thin Precision Bezel */}
+              {/* Outer Forged Hextech Gold Bezel */}
               <circle
                 cx={CX}
                 cy={CY}
-                r={122}
+                r={123}
                 stroke={`url(#${uid}-gold)`}
-                strokeWidth="1.2"
-                strokeOpacity="0.72"
+                strokeWidth="1.4"
+                strokeOpacity="0.85"
               />
-              {/* Dashed Arcane Calibration Arc */}
+              {/* Piltover Octagonal Art-Deco Inscribed Frame */}
+              <polygon
+                points="130,9 215,45 251,130 215,215 130,251 45,215 9,130 45,45"
+                stroke={`url(#${uid}-gold)`}
+                strokeWidth="0.85"
+                strokeOpacity="0.42"
+              />
+              {/* Dashed Hextech Mana Calibration Arc */}
               <circle
                 cx={CX}
                 cy={CY}
                 r={118}
-                stroke="#C084FC"
-                strokeWidth="1.15"
-                strokeOpacity="0.5"
-                strokeDasharray="12 6 3 6"
+                stroke="#0AC8B9"
+                strokeWidth="1.2"
+                strokeOpacity="0.58"
+                strokeDasharray="14 5 3 5"
               />
-              {/* Inner Hairline Guide Circle */}
+              {/* Inner Runic Track */}
               <circle
                 cx={CX}
                 cy={CY}
-                r={104}
-                stroke={`url(#${uid}-steel)`}
-                strokeWidth="0.9"
-                strokeOpacity="0.45"
-                strokeDasharray="24 8"
+                r={103}
+                stroke={`url(#${uid}-gold-rim)`}
+                strokeWidth="1"
+                strokeOpacity="0.52"
+                strokeDasharray="22 7"
               />
-              {/* 72 Engraved Degree Tick Marks */}
+              {/* 72 Engraved Horological Degree Tick Marks */}
               {ASTROLABE_TICKS.map((t) => (
                 <line
                   key={t.deg}
@@ -347,50 +337,58 @@ export default function MechanicalGearCore({
                   y1={t.y1}
                   x2={t.x2}
                   y2={t.y2}
-                  stroke={t.isCardinal ? '#FDE68A' : t.isMajor ? '#F472B6' : '#C084FC'}
-                  strokeWidth={t.isCardinal ? 2 : t.isMajor ? 1.25 : 0.75}
-                  strokeOpacity={t.isCardinal ? 0.95 : t.isMajor ? 0.75 : 0.42}
+                  stroke={t.isCardinal ? '#F0E6D2' : t.isMajor ? '#0AC8B9' : '#C89B3C'}
+                  strokeWidth={t.isCardinal ? 2.1 : t.isMajor ? 1.3 : 0.75}
+                  strokeOpacity={t.isCardinal ? 0.98 : t.isMajor ? 0.82 : 0.45}
                 />
               ))}
-              {/* 4 Cardinal Diamond Notches (N / E / S / W) */}
+              {/* 8 Runic Socket Nodes around Astrolabe */}
+              {RUNE_NODES.map((rn) => (
+                <circle
+                  key={rn.deg}
+                  cx={rn.x}
+                  cy={rn.y}
+                  r={rn.isPrimary ? 2.2 : 1.4}
+                  fill={rn.isPrimary ? '#0AC8B9' : '#C89B3C'}
+                  opacity={rn.isPrimary ? 0.9 : 0.65}
+                />
+              ))}
+              {/* 4 Cardinal Piltover Caliper Chevrons (N / E / S / W) */}
               {[0, 90, 180, 270].map((deg) => {
-                const [nx, ny] = polar(CX, CY, 122, deg)
+                const [nx, ny] = polar(CX, CY, 123, deg)
                 return (
-                  <g key={deg} transform={`translate(${fmt(nx)}, ${fmt(ny)}) rotate(${deg + 45})`}>
-                    <rect
-                      x="-3.2"
-                      y="-3.2"
-                      width="6.4"
-                      height="6.4"
-                      fill="#110B1F"
-                      stroke="#FDE68A"
-                      strokeWidth="1.2"
+                  <g key={deg} transform={`translate(${fmt(nx)}, ${fmt(ny)}) rotate(${deg})`}>
+                    <polygon
+                      points="-5,0 0,-5 5,0 0,5"
+                      fill="#091428"
+                      stroke="#F0E6D2"
+                      strokeWidth="1.35"
                     />
+                    <circle cx="0" cy="0" r="1.4" fill="#0AC8B9" />
                   </g>
                 )
               })}
-              {/* Arcane Segmented Accent Arcs */}
+              {/* Twin Glowing Hextech Energy Arcs */}
               <path
                 d="M 130 16 A 114 114 0 0 1 187 31.3"
-                stroke="#EC4899"
-                strokeWidth="2.2"
+                stroke="#0AC8B9"
+                strokeWidth="2.4"
                 strokeLinecap="round"
-                strokeOpacity="0.82"
+                strokeOpacity="0.9"
               />
               <path
                 d="M 130 244 A 114 114 0 0 1 73 228.7"
-                stroke="#F59E0B"
-                strokeWidth="2.2"
+                stroke="#EC4899"
+                strokeWidth="2.4"
                 strokeLinecap="round"
-                strokeOpacity="0.82"
+                strokeOpacity="0.9"
               />
             </svg>
           </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════ */}
-        {/* LAYER 2: MAIN 16-TOOTH SPUR GEAR — translateZ(18px)             */}
-        {/* Stepped Horological Escapement Tick + Hover Overdrive + Surge   */}
+        {/* LAYER 2: MAIN 16-TOOTH HEXTECH GOLD SPUR GEAR — translateZ(18px)*/}
         {/* ═══════════════════════════════════════════════════════════════ */}
         <div className="gear-layer gear-z-2 absolute inset-0">
           <div
@@ -409,7 +407,7 @@ export default function MechanicalGearCore({
                   fill={`url(#${uid}-gold)`}
                   fillRule="evenodd"
                   stroke={`url(#${uid}-gold-rim)`}
-                  strokeWidth="1.25"
+                  strokeWidth="1.3"
                 />
 
                 {/* Engraved Inner Pitch-Circle Groove */}
@@ -417,32 +415,32 @@ export default function MechanicalGearCore({
                   cx={CX}
                   cy={CY}
                   r={51}
-                  stroke="#78350F"
-                  strokeWidth="1.1"
-                  strokeOpacity="0.85"
+                  stroke="#5C4114"
+                  strokeWidth="1.2"
+                  strokeOpacity="0.9"
                 />
                 <circle
                   cx={CX}
                   cy={CY}
                   r={46.5}
-                  stroke="#FEF3C7"
-                  strokeWidth="0.7"
-                  strokeOpacity="0.6"
+                  stroke="#F0E6D2"
+                  strokeWidth="0.75"
+                  strokeOpacity="0.65"
                   strokeDasharray="6 4"
                 />
 
-                {/* 8 Perimeter Mechanical Rivets */}
+                {/* 8 Perimeter Forged Brass Rivets */}
                 {MAIN_HUB_RIVETS.map((r, i) => (
                   <g key={i}>
                     <circle
                       cx={r.x}
                       cy={r.y}
-                      r={2.1}
-                      fill="#19112B"
-                      stroke="#FEF3C7"
-                      strokeWidth="0.85"
+                      r={2.2}
+                      fill="#091428"
+                      stroke="#F0E6D2"
+                      strokeWidth="0.9"
                     />
-                    <circle cx={r.x - 0.4} cy={r.y - 0.4} r={0.65} fill="#FDE68A" />
+                    <circle cx={r.x - 0.35} cy={r.y - 0.35} r={0.7} fill="#0AC8B9" />
                   </g>
                 ))}
 
@@ -453,7 +451,7 @@ export default function MechanicalGearCore({
                   r={25.5}
                   fill={`url(#${uid}-dark-alloy)`}
                   stroke={`url(#${uid}-gold-rim)`}
-                  strokeWidth="1.5"
+                  strokeWidth="1.6"
                 />
                 {INNER_HUB_RIVETS.map((r, i) => (
                   <circle
@@ -461,15 +459,15 @@ export default function MechanicalGearCore({
                     cx={r.x}
                     cy={r.y}
                     r={1.7}
-                    fill="#FDE68A"
-                    stroke="#78350F"
+                    fill="#F0E6D2"
+                    stroke="#5C4114"
                     strokeWidth="0.6"
                   />
                 ))}
 
-                {/* Hextech Energy Conduit Traces along the 4 Spokes (Ignite on Hover Overdrive) */}
+                {/* Hextech Mana Conduit Traces along the 4 Spokes (Ignite on Hover Overdrive) */}
                 <g className="gear-energy-traces">
-                  {[0, 90, 180, 270].map((deg) => {
+                  {[0, 90, 180, 270].map((deg, idx) => {
                     const [sx, sy] = polar(CX, CY, 26, deg)
                     const [ex, ey] = polar(CX, CY, 49, deg)
                     return (
@@ -479,8 +477,8 @@ export default function MechanicalGearCore({
                         y1={sy}
                         x2={ex}
                         y2={ey}
-                        stroke="#F472B6"
-                        strokeWidth="2.4"
+                        stroke={idx % 2 === 0 ? '#0AC8B9' : '#EC4899'}
+                        strokeWidth="2.5"
                         strokeLinecap="round"
                       />
                     )
@@ -489,8 +487,8 @@ export default function MechanicalGearCore({
                     cx={CX}
                     cy={CY}
                     r={48.8}
-                    stroke="#EC4899"
-                    strokeWidth="1.4"
+                    stroke="#0AC8B9"
+                    strokeWidth="1.5"
                     strokeDasharray="10 14"
                   />
                 </g>
@@ -501,7 +499,6 @@ export default function MechanicalGearCore({
 
         {/* ═══════════════════════════════════════════════════════════════ */}
         {/* LAYER 4: 2 MESHING 8-TOOTH SATELLITE PINIONS — translateZ(22px) */}
-        {/* Positioned tangentially at -45° & +135°, spinning 2x opposite   */}
         {/* ═══════════════════════════════════════════════════════════════ */}
         <div className="gear-layer gear-z-4 absolute inset-0">
           {[SAT_1, SAT_2].map((sat, idx) => (
@@ -526,52 +523,47 @@ export default function MechanicalGearCore({
                     className="gear-glow-violet h-full w-full overflow-visible"
                     fill="none"
                   >
-                    {/* 8-Tooth Interlocking Pinion Body */}
                     <path
                       d={PINION_COMPOUND}
                       fill={`url(#${uid}-steel)`}
                       fillRule="evenodd"
-                      stroke="#E9D5FF"
+                      stroke="#F0E6D2"
                       strokeWidth="1.15"
                     />
-                    {/* Fine Engraved Pitch Circle */}
                     <circle
                       cx={0}
                       cy={0}
                       r={20.5}
-                      stroke="#19112B"
+                      stroke="#091428"
                       strokeWidth="1"
-                      strokeOpacity="0.8"
+                      strokeOpacity="0.85"
                     />
-                    {/* 4 Weight-Relief Pinion Holes */}
                     {PINION_HOLES.map((h, hIdx) => (
                       <circle
                         key={hIdx}
                         cx={h.x}
                         cy={h.y}
                         r={3.2}
-                        fill="#110B1F"
-                        stroke="#FDE68A"
-                        strokeWidth="0.85"
+                        fill="#091428"
+                        stroke="#C89B3C"
+                        strokeWidth="0.9"
                       />
                     ))}
-                    {/* Central Brass Axle Cap */}
                     <circle
                       cx={0}
                       cy={0}
                       r={9.5}
                       fill={`url(#${uid}-dark-alloy)`}
                       stroke={`url(#${uid}-gold)`}
-                      strokeWidth="1.5"
+                      strokeWidth="1.6"
                     />
-                    <circle cx={0} cy={0} r={3.4} fill={`url(#${uid}-gold)`} />
-                    {/* Hextech Energy Trace Ring (Ignites on Hover Overdrive) */}
+                    <circle cx={0} cy={0} r={3.4} fill={idx === 0 ? '#0AC8B9' : '#EC4899'} />
                     <circle
                       cx={0}
                       cy={0}
                       r={13}
                       className="gear-energy-traces"
-                      stroke="#FDE68A"
+                      stroke="#0AC8B9"
                       strokeWidth="1.5"
                       strokeDasharray="5 5"
                     />
@@ -584,7 +576,6 @@ export default function MechanicalGearCore({
 
         {/* ═══════════════════════════════════════════════════════════════ */}
         {/* LAYER 3: INNER 12-TOOTH RATCHET RING — translateZ(26px)         */}
-        {/* Counter-rotating dark iridescent violet steel escapement wheel  */}
         {/* ═══════════════════════════════════════════════════════════════ */}
         <div className="gear-layer gear-z-3 absolute inset-0">
           <div
@@ -597,24 +588,21 @@ export default function MechanicalGearCore({
                 className="gear-glow-violet h-full w-full overflow-visible"
                 fill="none"
               >
-                {/* 12-Tooth Asymmetric Escapement Ratchet */}
                 <path
                   d={RATCHET_PATH}
                   fill={`url(#${uid}-steel)`}
                   fillRule="evenodd"
-                  stroke="#E9D5FF"
+                  stroke="#E0F2FE"
                   strokeWidth="1"
                 />
-                {/* Inner Engraved Gold Trim Ring */}
                 <circle
                   cx={CX}
                   cy={CY}
                   r={29}
                   stroke={`url(#${uid}-gold)`}
-                  strokeWidth="1.2"
+                  strokeWidth="1.25"
                   strokeDasharray="8 4"
                 />
-                {/* 6 Precision Micro-Pawl Notches */}
                 {[0, 60, 120, 180, 240, 300].map((deg) => {
                   const [x1, y1] = polar(CX, CY, 24, deg)
                   const [x2, y2] = polar(CX, CY, 31.5, deg)
@@ -625,19 +613,18 @@ export default function MechanicalGearCore({
                       y1={y1}
                       x2={x2}
                       y2={y2}
-                      stroke="#FDE68A"
+                      stroke="#F0E6D2"
                       strokeWidth="1.25"
-                      strokeOpacity="0.85"
+                      strokeOpacity="0.9"
                     />
                   )
                 })}
-                {/* Inner Energy Conduit Ring (Ignites on Hover) */}
                 <circle
                   cx={CX}
                   cy={CY}
                   r={26}
                   className="gear-energy-traces"
-                  stroke="#EC4899"
+                  stroke="#0AC8B9"
                   strokeWidth="2"
                 />
               </svg>
@@ -646,34 +633,32 @@ export default function MechanicalGearCore({
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════ */}
-        {/* LAYER 5: CENTRAL GLOWING CRYSTAL CORE — translateZ(36px)        */}
-        {/* Mounted on center axle; illuminates metallic teeth & flashes    */}
+        {/* LAYER 5: HEXTECH GEMSTONE CORE & GOLD CLAWS — translateZ(36px)  */}
         {/* ═══════════════════════════════════════════════════════════════ */}
         {showCrystal && (
           <div className="gear-layer gear-z-5 absolute inset-0">
             <svg viewBox="0 0 260 260" className="h-full w-full overflow-visible" fill="none">
-              {/* Pulsing Ambient Energy Aura illuminating inner metal teeth */}
               <circle
                 cx={CX}
                 cy={CY}
-                r={48}
+                r={50}
                 fill={`url(#${uid}-core-aura)`}
                 className="animate-crystal-breath"
                 style={{ transformOrigin: '130px 130px' }}
               />
 
-              {/* Ornate Octagonal Gold Axle Bezel */}
+              {/* Ornate Piltover Octagonal Gold Axle Housing */}
               <polygon
-                points="130,104 148,112 156,130 148,148 130,156 112,148 104,130 112,112"
-                fill="#110B1F"
+                points="130,103 149,111 157,130 149,149 130,157 111,149 103,130 111,111"
+                fill="#091428"
                 stroke={`url(#${uid}-gold)`}
-                strokeWidth="1.8"
+                strokeWidth="2"
               />
 
-              {/* 4 Mechanical Retention Clamps holding the Crystal */}
+              {/* 4 Forged Gold Retention Claws */}
               {[0, 90, 180, 270].map((deg) => {
-                const [x1, y1] = polar(CX, CY, 19, deg)
-                const [x2, y2] = polar(CX, CY, 25, deg)
+                const [x1, y1] = polar(CX, CY, 18.5, deg)
+                const [x2, y2] = polar(CX, CY, 25.5, deg)
                 return (
                   <line
                     key={deg}
@@ -681,50 +666,49 @@ export default function MechanicalGearCore({
                     y1={y1}
                     x2={x2}
                     y2={y2}
-                    stroke="#FDE68A"
-                    strokeWidth="2.4"
+                    stroke="#F0E6D2"
+                    strokeWidth="2.6"
                     strokeLinecap="round"
                   />
                 )
               })}
 
-              {/* Signature Faceted Magenta / Violet Diamond Crystal */}
+              {/* Multi-Faceted Hextech Mana Gemstone (Cyan-to-Magenta Duality) */}
               <g
                 className="animate-crystal-breath gear-crystal-glow"
                 style={{ transformOrigin: '130px 130px' }}
               >
                 <polygon
-                  points="130,106 146,130 130,154 114,130"
+                  points="130,105 147,130 130,155 113,130"
                   fill={`url(#${uid}-crystal)`}
                   stroke="#FFFFFF"
-                  strokeWidth="1.2"
+                  strokeWidth="1.25"
                 />
-                {/* Crisp Specular Top-Right & Core Facets */}
-                <polygon points="130,106 146,130 130,130" fill="rgba(255,255,255,0.38)" />
-                <polygon points="130,106 114,130 130,130" fill="rgba(251,207,232,0.22)" />
-                <polygon points="130,130 146,130 130,154" fill="rgba(76,29,149,0.45)" />
+                <polygon points="130,105 147,130 130,130" fill="rgba(224,242,254,0.45)" />
+                <polygon points="130,105 113,130 130,130" fill="rgba(10,200,185,0.28)" />
+                <polygon points="130,130 147,130 130,155" fill="rgba(88,28,135,0.48)" />
                 <polygon
-                  points="130,118 137,130 130,142 123,130"
-                  fill="rgba(255,255,255,0.52)"
+                  points="130,117 138,130 130,143 122,130"
+                  fill="rgba(255,255,255,0.65)"
                 />
               </g>
             </svg>
           </div>
         )}
 
-        {/* Golden Unlock Surge Core Flash (300ms burst on card click / flip / tab switch) */}
+        {/* Hextech Mana Unlock Surge Core Flash (300ms burst on card click / flip / tab switch) */}
         {unlockTrigger > 0 && (
           <div
             key={`core-flash-${unlockTrigger}`}
             className="gear-layer gear-z-5 gear-core-flash absolute inset-0"
           >
             <svg viewBox="0 0 260 260" className="h-full w-full overflow-visible" fill="none">
-              <circle cx={CX} cy={CY} r={74} fill={`url(#${uid}-flash-aura)`} />
+              <circle cx={CX} cy={CY} r={76} fill={`url(#${uid}-flash-aura)`} />
               <circle
                 cx={CX}
                 cy={CY}
-                r={52}
-                stroke="#FEF3C7"
+                r={54}
+                stroke="#0AC8B9"
                 strokeWidth="2.5"
                 strokeOpacity="0.95"
               />

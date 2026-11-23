@@ -6,7 +6,7 @@ interface PreloaderProps {
 }
 
 /**
- * Preloader — Pro Max Hextech Clockwork Title Curtain (≤ 850ms, skippable)
+ * Preloader — League of Legends Piltover Hextech Forge Curtain (≤ 880ms, skippable)
  */
 export default function Preloader({ onComplete }: PreloaderProps) {
   const [isFading, setIsFading] = useState(false)
@@ -69,22 +69,26 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     <div
       role="status"
       aria-live="polite"
-      aria-label="Loading Portfolio"
-      className={`fixed inset-0 z-[999999] flex items-center justify-center bg-[#110B1F] transition-opacity duration-300 ease-out ${
+      aria-label="Loading Hextech Portfolio"
+      className={`fixed inset-0 z-[999999] flex items-center justify-center bg-[#091428] transition-opacity duration-300 ease-out ${
         isFading ? 'pointer-events-none opacity-0' : 'opacity-100'
       }`}
     >
       <div className="relative flex flex-col items-center text-center">
-        <div className="relative flex h-32 w-32 items-center justify-center">
-          <MechanicalGearCore variant="halo" unlockTrigger={1} className="h-32 w-32" />
-          <div className="h-3.5 w-3.5 rotate-45 border border-white bg-[#EC4899] shadow-[0_0_20px_#EC4899]" />
+        <div className="relative flex h-36 w-36 items-center justify-center">
+          <MechanicalGearCore variant="halo" unlockTrigger={1} className="h-36 w-36" />
+          <div className="h-4 w-4 rotate-45 border border-[#F0E6D2] bg-[#0AC8B9] shadow-[0_0_24px_#0AC8B9]" />
         </div>
-        <p className="animate-title-shine mt-3 font-display text-2xl font-bold tracking-[0.22em] text-white">
+        <p className="animate-title-shine mt-3 font-display text-2xl font-extrabold tracking-[0.22em] text-[#F0E6D2]">
           LE DUY.
         </p>
-        <p className="mt-1.5 font-gaming text-[11px] uppercase tracking-[0.28em] text-[#F472B6]">
-          HEXTECH REALM // PRO MAX
-        </p>
+        <div className="mt-2 flex items-center gap-2">
+          <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#C89B3C]" />
+          <p className="font-gaming text-[11px] font-bold uppercase tracking-[0.28em] text-[#0AC8B9]">
+            PILTOVER HEXTECH // CLIENT READY
+          </p>
+          <span className="h-px w-8 bg-gradient-to-l from-transparent to-[#C89B3C]" />
+        </div>
       </div>
     </div>
   )

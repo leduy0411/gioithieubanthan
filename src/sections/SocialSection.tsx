@@ -52,10 +52,10 @@ export default function SocialSection() {
   const triggerHextechConfetti = () => {
     try {
       confetti({
-        particleCount: 38,
-        spread: 64,
+        particleCount: 42,
+        spread: 68,
         origin: { y: 0.72 },
-        colors: ['#EC4899', '#F59E0B', '#8B5CF6', '#FDE68A'],
+        colors: ['#C89B3C', '#0AC8B9', '#F0E6D2', '#EC4899'],
       })
     } catch {
       // ignore if canvas-confetti blocked
@@ -107,9 +107,9 @@ export default function SocialSection() {
             }}
           >
             <div className="inline-flex items-center gap-2.5">
-              <span className="animate-node-blink h-2 w-2 rotate-45 bg-[#EC4899] shadow-[0_0_8px_#EC4899]" />
-              <p className="font-gaming text-xs font-bold uppercase tracking-[0.22em] text-[#F472B6]">
-                SIGNAL // DIRECT CHANNEL
+              <span className="animate-node-blink h-2.5 w-2.5 rotate-45 border border-[#F0E6D2] bg-[#0AC8B9] shadow-[0_0_8px_#0AC8B9]" />
+              <p className="font-gaming text-xs font-bold uppercase tracking-[0.22em] text-[#0AC8B9]">
+                PILTOVER HEXGATE // DIRECT CHANNEL
               </p>
             </div>
             <h2 className="animate-title-shine mt-3 font-display text-3xl font-extrabold uppercase leading-[1.12] tracking-[0.05em] sm:text-4xl">
@@ -117,26 +117,50 @@ export default function SocialSection() {
             </h2>
             <p className="mt-3 font-body text-sm leading-relaxed text-[#B8B0C8] sm:text-base">
               For distributed backend microservices, edge computer vision pipelines, or 4K visual
-              direction — select a topic below or connect directly across verified channels.
+              direction — select a Hextech transmission rune below or connect across verified portals.
             </p>
 
             {/* Gently Floating Direct Uplink & Quick Signal Composer Card */}
             <div className="animate-tile-float mt-6">
-              <div className="fantasy-card relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:border-[#EC4899]/65">
-                <span className="animate-corner-pulse pointer-events-none absolute left-2.5 top-2.5 h-3 w-3 border-l border-t border-[#F59E0B]/80" />
-                <span className="animate-corner-pulse pointer-events-none absolute right-2.5 top-2.5 h-3 w-3 border-r border-t border-[#F59E0B]/80" />
-                <span className="animate-corner-pulse pointer-events-none absolute bottom-2.5 left-2.5 h-3 w-3 border-b border-l border-[#EC4899]/80" />
-                <span className="animate-corner-pulse pointer-events-none absolute bottom-2.5 right-2.5 h-3 w-3 border-b border-r border-[#EC4899]/80" />
+              <div className="fantasy-card relative overflow-hidden rounded-2xl p-6 transition-all duration-300">
+                <span className="animate-corner-pulse pointer-events-none absolute left-2.5 top-2.5 h-3.5 w-3.5 border-l-2 border-t-2 border-[#C89B3C]" />
+                <span className="animate-corner-pulse pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 border-r-2 border-t-2 border-[#C89B3C]" />
+                <span className="animate-corner-pulse pointer-events-none absolute bottom-2.5 left-2.5 h-3.5 w-3.5 border-b-2 border-l-2 border-[#0AC8B9]" />
+                <span className="animate-corner-pulse pointer-events-none absolute bottom-2.5 right-2.5 h-3.5 w-3.5 border-b-2 border-r-2 border-[#0AC8B9]" />
 
-                <div className="flex items-center justify-between font-gaming text-xs uppercase tracking-[0.16em] text-[#B8B0C8]">
-                  <span>DIRECT UPLINK</span>
-                  <span className="inline-flex items-center gap-1.5 text-[#F59E0B]">
+                <div className="flex items-center justify-between font-gaming text-xs uppercase tracking-[0.16em] text-[#C8AA6E]">
+                  <span>HEXGATE DIRECT UPLINK</span>
+                  <span className="inline-flex items-center gap-1.5 text-[#0AC8B9]">
                     <span className="relative flex h-2 w-2 items-center justify-center">
-                      <span className="animate-radar-ring absolute inline-flex h-full w-full rounded-full bg-[#F59E0B]" />
-                      <span className="relative h-1.5 w-1.5 rounded-full bg-[#F59E0B]" />
+                      <span className="animate-radar-ring absolute inline-flex h-full w-full rounded-full bg-[#0AC8B9]" />
+                      <span className="relative h-1.5 w-1.5 rounded-full bg-[#0AC8B9]" />
                     </span>
                     ONLINE
                   </span>
+                </div>
+
+                {/* Live Animated Hextech Carrier Waveform Oscilloscope */}
+                <div className="mt-3 flex items-center justify-between rounded-lg border border-[#C89B3C]/35 bg-[#091428]/85 px-3 py-1.5">
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#0AC8B9]">
+                    HEXGATE CARRIER // 128.4 MHZ
+                  </span>
+                  <svg viewBox="0 0 120 18" className="h-4 w-28" fill="none" aria-hidden="true">
+                    <path
+                      d="M 2 9 Q 12 1, 22 9 T 42 9 T 62 9 T 82 9 T 102 9 T 118 9"
+                      stroke="#0AC8B9"
+                      strokeWidth="1.5"
+                      strokeDasharray="6 4"
+                      className="animate-packet-flow"
+                    />
+                    <path
+                      d="M 2 9 Q 12 17, 22 9 T 42 9 T 62 9 T 82 9 T 102 9 T 118 9"
+                      stroke="#C89B3C"
+                      strokeWidth="1.2"
+                      strokeOpacity="0.8"
+                      strokeDasharray="4 4"
+                      className="animate-packet-flow"
+                    />
+                  </svg>
                 </div>
 
                 <p className="mt-3 break-all font-mono text-sm font-semibold text-white sm:text-base">
@@ -144,10 +168,10 @@ export default function SocialSection() {
                 </p>
 
                 {/* Pro Max Quick Topic Selector */}
-                <div className="mt-4 border-t border-white/10 pt-3.5">
-                  <p className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-[#F472B6]">
+                <div className="mt-4 border-t border-[#C89B3C]/25 pt-3.5">
+                  <p className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-[#0AC8B9]">
                     <Sparkles size={11} />
-                    <span>SELECT TRANSMISSION TOPIC</span>
+                    <span>SELECT TRANSMISSION RUNE</span>
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {SIGNAL_TOPICS.map((topic) => {
@@ -160,10 +184,10 @@ export default function SocialSection() {
                             playMechanicalTick()
                             setSelectedTopic(topic)
                           }}
-                          className={`rounded border px-2.5 py-1 font-mono text-[10px] transition-all ${
+                          className={`hextech-chamfer border px-2.5 py-1 font-mono text-[10px] transition-all ${
                             active
-                              ? 'border-[#EC4899] bg-[#EC4899]/25 font-bold text-white shadow-[0_0_12px_rgba(236,72,153,0.3)]'
-                              : 'border-violet-400/25 bg-[#19112B]/70 text-[#B8B0C8] hover:border-violet-400/55 hover:text-white'
+                              ? 'border-[#0AC8B9] bg-[#0AC8B9]/22 font-bold text-[#F0E6D2] shadow-[0_0_12px_rgba(10,200,185,0.3)]'
+                              : 'border-[#C89B3C]/35 bg-[#091428]/80 text-[#C8AA6E] hover:border-[#C89B3C] hover:text-[#F0E6D2]'
                           }`}
                         >
                           {topic}
@@ -176,24 +200,24 @@ export default function SocialSection() {
                     type="text"
                     value={customNote}
                     onChange={(e) => setCustomNote(e.target.value)}
-                    placeholder="Optional quick message note..."
+                    placeholder="Optional Hextech transmission note..."
                     aria-label="Optional quick message note"
-                    className="mt-2.5 w-full rounded-lg border border-violet-400/25 bg-[#110B1F]/80 px-3 py-2 font-body text-xs text-white outline-none transition-colors placeholder:text-[#B8B0C8]/45 focus:border-[#EC4899]"
+                    className="mt-2.5 w-full rounded border border-[#C89B3C]/35 bg-[#091428]/85 px-3 py-2 font-body text-xs text-[#F0E6D2] outline-none transition-colors placeholder:text-[#C8AA6E]/45 focus:border-[#0AC8B9]"
                   />
                 </div>
 
-                <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">
+                <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-[#C89B3C]/25 pt-4">
                   <a
                     href={buildMailtoHref()}
                     onClick={() => {
                       playMechanicalUnlock()
                       triggerHextechConfetti()
                     }}
-                    className="tactile-btn group relative inline-flex flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-full bg-white px-5 py-2.5 font-gaming text-xs font-bold uppercase tracking-[0.16em] text-[#110B1F] transition-colors hover:bg-[#F472B6] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
+                    className="hextech-play-btn tactile-btn group relative inline-flex flex-1 items-center justify-center gap-1.5 overflow-hidden px-5 py-2.5 font-gaming text-xs font-extrabold uppercase tracking-[0.16em] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0AC8B9]"
                   >
                     <span
                       aria-hidden="true"
-                      className="animate-btn-glint pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#F472B6]/45 to-transparent"
+                      className="animate-btn-glint pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/80 to-transparent"
                     />
                     <Send size={13} className="relative z-10" />
                     <span className="relative z-10">TRANSMIT EMAIL</span>
@@ -203,25 +227,25 @@ export default function SocialSection() {
                     type="button"
                     onClick={copyEmail}
                     aria-live="polite"
-                    className="tactile-btn inline-flex items-center gap-1.5 rounded border border-violet-400/40 bg-[#19112B] px-4 py-2.5 font-gaming text-xs font-semibold uppercase tracking-[0.16em] text-white transition-colors hover:border-[#EC4899] hover:text-[#F472B6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/70"
+                    className="hextech-btn tactile-btn inline-flex items-center gap-1.5 px-4 py-2.5 font-gaming text-xs font-bold uppercase tracking-[0.16em] text-[#F0E6D2] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0AC8B9]"
                   >
                     {copied ? (
-                      <Check size={14} className="text-[#F59E0B]" />
+                      <Check size={14} className="text-[#0AC8B9]" />
                     ) : (
-                      <Copy size={14} />
+                      <Copy size={14} className="text-[#C89B3C]" />
                     )}
                     <span>{copied ? 'COPIED ✓' : 'COPY'}</span>
                   </button>
                 </div>
 
                 {/* Live Ticking GMT+7 Local Time & Coordinates */}
-                <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3.5 font-mono text-xs text-[#B8B0C8]">
+                <div className="mt-4 flex items-center justify-between border-t border-[#C89B3C]/25 pt-3.5 font-mono text-xs text-[#C8AA6E]">
                   <span className="inline-flex items-center gap-1.5">
-                    <MapPin size={13} className="text-[#F472B6]" />
+                    <MapPin size={13} className="text-[#0AC8B9]" />
                     <span>{content.identity.locationShort}</span>
                   </span>
-                  <span className="inline-flex items-center gap-1.5 text-[#FDE68A]">
-                    <Clock size={12} className="text-[#F59E0B]" />
+                  <span className="inline-flex items-center gap-1.5 text-[#F0E6D2]">
+                    <Clock size={12} className="text-[#C89B3C]" />
                     <span>{vnClock} GMT+7</span>
                   </span>
                 </div>

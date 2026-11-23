@@ -96,8 +96,8 @@ body {
   z-index: 60;
   pointer-events: none;
   transform-origin: left center;
-  background: linear-gradient(90deg, #f59e0b 0%, #ec4899 45%, #f472b6 70%, #8b5cf6 100%);
-  box-shadow: 0 0 14px rgba(236, 72, 153, 0.95), 0 0 6px rgba(139, 92, 246, 0.9);
+  background: linear-gradient(90deg, #c89b3c 0%, #f0e6d2 38%, #0ac8b9 72%, #c89b3c 100%);
+  box-shadow: 0 0 14px rgba(10, 200, 185, 0.9), 0 0 6px rgba(200, 155, 60, 0.85);
   transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
@@ -107,6 +107,7 @@ body {
     opacity: 0;
     transform: translate3d(0, 42px, 0) scale(0.985);
   }
+
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
@@ -118,6 +119,7 @@ body {
     opacity: 0;
     transform: translate3d(0, -42px, 0) scale(0.985);
   }
+
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
@@ -135,24 +137,58 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   SCROLL-DRIFTING DIAMOND TEXTURE IN 02. SYSTEMS
+   SCROLL-DRIFTING PILTOVER HEXTECH GEOMETRIC LATTICE IN 02. SYSTEMS
    ───────────────────────────────────────────────────────────────── */
 .diamond-pattern-bg {
-  background-color: #251640;
-  background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M32 2L62 32L32 62L2 32Z' fill='none' stroke='%238B5CF6' stroke-opacity='0.18' stroke-width='1'/%3E%3Cpath d='M32 16L48 32L32 48L16 32Z' fill='none' stroke='%23EC4899' stroke-opacity='0.11' stroke-width='0.75'/%3E%3C/svg%3E");
-  background-size: 64px 64px;
-  background-position: 0px calc(var(--p, 0) * -190px);
+  background-color: #140f26;
+  background-image:
+    radial-gradient(circle at 50% 35%, rgba(10, 200, 185, 0.1) 0%, rgba(236, 72, 153, 0.08) 42%, transparent 75%),
+    url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M36 2L70 36L36 70L2 36Z' fill='none' stroke='%23C89B3C' stroke-opacity='0.24' stroke-width='1'/%3E%3Cpath d='M36 14L58 36L36 58L14 36Z' fill='none' stroke='%230AC8B9' stroke-opacity='0.15' stroke-width='0.8'/%3E%3Ccircle cx='36' cy='2' r='1.5' fill='%23C89B3C' fill-opacity='0.38'/%3E%3Ccircle cx='36' cy='70' r='1.5' fill='%23C89B3C' fill-opacity='0.38'/%3E%3C/svg%3E");
+  background-size: 100% 100%, 72px 72px;
+  background-position: center, 0px calc(var(--p, 0) * -190px);
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   ORNATE FANTASY GAMING CARD & CONTINUOUS IDLE TOP SHEEN
+   LEAGUE OF LEGENDS HEXTECH CARD, CURSOR SPOTLIGHT & GOLD FILIGREE
    ───────────────────────────────────────────────────────────────── */
 .fantasy-card {
   position: relative;
-  background: linear-gradient(160deg, rgba(35, 22, 62, 0.88) 0%, rgba(17, 11, 31, 0.95) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  box-shadow: 0 24px 55px -18px rgba(6, 3, 14, 0.85);
+  background:
+    radial-gradient(340px circle at var(--card-mx, 50%) var(--card-my, 0%),
+      rgba(10, 200, 185, 0.15),
+      rgba(200, 155, 60, 0.12) 42%,
+      transparent 76%),
+    linear-gradient(160deg, rgba(22, 20, 46, 0.93) 0%, rgba(11, 10, 24, 0.97) 100%);
+  border: 1px solid rgba(200, 155, 60, 0.42);
+  box-shadow:
+    0 24px 55px -18px rgba(4, 3, 12, 0.92),
+    inset 0 0 0 1px rgba(240, 230, 210, 0.06);
   transition: border-color 280ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms ease;
+}
+
+.fantasy-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.25px;
+  background: radial-gradient(250px circle at var(--card-mx, 50%) var(--card-my, 0%),
+      rgba(240, 230, 210, 0.95),
+      rgba(10, 200, 185, 0.7) 45%,
+      rgba(236, 72, 153, 0.45) 70%,
+      transparent 85%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+
+.fantasy-card:hover::after {
+  opacity: 1;
 }
 
 .fantasy-card::before {
@@ -161,28 +197,145 @@ body {
   inset-x: 0;
   top: 0;
   height: 1.5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(244, 114, 182, 0.15) 20%,
-    rgba(255, 255, 255, 0.85) 50%,
-    rgba(245, 158, 11, 0.7) 65%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(200, 155, 60, 0.2) 20%,
+      rgba(240, 230, 210, 0.95) 47%,
+      rgba(10, 200, 185, 0.9) 53%,
+      rgba(200, 155, 60, 0.2) 80%,
+      transparent 100%);
   background-size: 220% 100%;
   animation: topBorderSweep 5.5s linear infinite;
   pointer-events: none;
 }
 
 .fantasy-card:hover {
-  border-color: rgba(236, 72, 153, 0.65);
-  box-shadow: 0 26px 64px -15px rgba(236, 72, 153, 0.32);
+  border-color: rgba(200, 155, 60, 0.85);
+  box-shadow:
+    0 26px 64px -15px rgba(10, 200, 185, 0.25),
+    0 0 22px rgba(200, 155, 60, 0.25);
+}
+
+/* League of Legends Hextech 45-Degree Chamfered Action Button */
+.hextech-btn {
+  position: relative;
+  background: linear-gradient(180deg, #1b2738 0%, #091428 100%);
+  border: 1.5px solid #c89b3c;
+  clip-path: polygon(9px 0,
+      calc(100% - 9px) 0,
+      100% 9px,
+      100% calc(100% - 9px),
+      calc(100% - 9px) 100%,
+      9px 100%,
+      0 calc(100% - 9px),
+      0 9px);
+  box-shadow:
+    0 0 18px rgba(200, 155, 60, 0.28),
+    inset 0 0 12px rgba(10, 200, 185, 0.2);
+  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hextech-btn:hover {
+  border-color: #f0e6d2;
+  background: linear-gradient(180deg, #163844 0%, #091428 100%);
+  box-shadow:
+    0 0 26px rgba(10, 200, 185, 0.55),
+    0 0 14px rgba(200, 155, 60, 0.55),
+    inset 0 0 18px rgba(10, 200, 185, 0.35);
+}
+
+/* Iconic LoL Client Gold & Cyan Primary Play / Action CTA */
+.hextech-play-btn {
+  position: relative;
+  background: linear-gradient(135deg, #c89b3c 0%, #f0e6d2 50%, #c89b3c 100%);
+  color: #091428;
+  border: 1.5px solid #fff8e7;
+  clip-path: polygon(11px 0,
+      calc(100% - 11px) 0,
+      100% 11px,
+      100% calc(100% - 11px),
+      calc(100% - 11px) 100%,
+      11px 100%,
+      0 calc(100% - 11px),
+      0 11px);
+  box-shadow:
+    0 0 28px rgba(200, 155, 60, 0.55),
+    inset 0 0 10px rgba(255, 255, 255, 0.65);
+  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hextech-play-btn:hover {
+  background: linear-gradient(135deg, #0ac8b9 0%, #e0f2fe 50%, #c89b3c 100%);
+  color: #091428;
+  box-shadow:
+    0 0 36px rgba(10, 200, 185, 0.75),
+    0 0 18px rgba(200, 155, 60, 0.65);
+}
+
+/* Hextech Chamfered Pill / Tag */
+.hextech-chamfer {
+  clip-path: polygon(7px 0,
+      calc(100% - 7px) 0,
+      100% 7px,
+      100% calc(100% - 7px),
+      calc(100% - 7px) 100%,
+      7px 100%,
+      0 calc(100% - 7px),
+      0 7px);
+}
+
+/* Hextech Crafting / LoR Level-Up Shockwave Burst */
+@keyframes hextechShockwave {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+
+  70% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.65);
+  }
+}
+
+.animate-hextech-shockwave {
+  animation: hextechShockwave 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* League of Legends Mastery VII Flair Emote Pop (Ctrl + 6) */
+@keyframes masteryFlairPop {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.45);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.08);
+  }
+
+  80% {
+    transform: translateY(1px) scale(0.97);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-mastery-flair {
+  animation: masteryFlairPop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes topBorderSweep {
   0% {
     background-position: 180% 0%;
   }
+
   100% {
     background-position: -120% 0%;
   }
@@ -212,23 +365,24 @@ body {
 .conic-border-beam {
   padding: 2.5px;
   border-radius: 1rem;
-  background: conic-gradient(
-    from var(--beam-angle),
-    rgba(139, 92, 246, 0.3) 0deg,
-    rgba(236, 72, 153, 1) 60deg,
-    rgba(255, 255, 255, 0.98) 88deg,
-    rgba(245, 158, 11, 0.95) 115deg,
-    rgba(139, 92, 246, 0.3) 185deg,
-    rgba(139, 92, 246, 0.2) 360deg
-  );
-  animation: borderBeamOrbit 4s linear infinite;
-  box-shadow: 0 24px 72px -10px rgba(236, 72, 153, 0.45);
+  background: conic-gradient(from var(--beam-angle),
+      rgba(200, 155, 60, 0.45) 0deg,
+      rgba(240, 230, 210, 1) 55deg,
+      rgba(10, 200, 185, 1) 92deg,
+      rgba(236, 72, 153, 0.95) 140deg,
+      rgba(200, 155, 60, 0.45) 210deg,
+      rgba(200, 155, 60, 0.35) 360deg);
+  animation: borderBeamOrbit 4.2s linear infinite;
+  box-shadow:
+    0 24px 72px -10px rgba(10, 200, 185, 0.32),
+    0 0 32px rgba(200, 155, 60, 0.35);
 }
 
 @keyframes borderBeamOrbit {
   from {
     --beam-angle: 0deg;
   }
+
   to {
     --beam-angle: 360deg;
   }
@@ -239,31 +393,34 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent 26%,
-    rgba(255, 255, 255, 0.14) 41%,
-    rgba(244, 114, 182, 0.28) 48%,
-    rgba(245, 158, 11, 0.2) 54%,
-    transparent 68%
-  );
+  background: linear-gradient(115deg,
+      transparent 26%,
+      rgba(255, 255, 255, 0.14) 41%,
+      rgba(244, 114, 182, 0.28) 48%,
+      rgba(245, 158, 11, 0.2) 54%,
+      transparent 68%);
   background-size: 250% 250%;
   animation: holoIdleSweep 5.5s ease-in-out infinite;
   mix-blend-mode: screen;
 }
 
 @keyframes holoIdleSweep {
-  0%, 60% {
+
+  0%,
+  60% {
     background-position: 130% 130%;
     opacity: 0;
   }
+
   72% {
     opacity: 0.75;
   }
+
   92% {
     background-position: -30% -30%;
     opacity: 0.75;
   }
+
   100% {
     background-position: -30% -30%;
     opacity: 0;
@@ -286,6 +443,7 @@ body {
   0% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(1.09);
   }
@@ -301,21 +459,20 @@ body {
   0% {
     background-position: -150% center;
   }
+
   100% {
     background-position: 250% center;
   }
 }
 
 .animate-title-shine {
-  background-image: linear-gradient(
-    110deg,
-    #ffffff 0%,
-    #ffffff 38%,
-    #fde68a 47%,
-    #f9a8d4 53%,
-    #ffffff 62%,
-    #ffffff 100%
-  );
+  background-image: linear-gradient(110deg,
+      #ffffff 0%,
+      #ffffff 38%,
+      #fde68a 47%,
+      #f9a8d4 53%,
+      #ffffff 62%,
+      #ffffff 100%);
   background-size: 250% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -325,10 +482,13 @@ body {
 
 /* 3. Drifting Twilight Mist between Hero Mountain Layers */
 @keyframes mistDrift {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-4%);
     opacity: 0.45;
   }
+
   50% {
     transform: translateX(4%);
     opacity: 0.8;
@@ -346,7 +506,9 @@ body {
     transform: scale(0.95);
     opacity: 0.95;
   }
-  75%, 100% {
+
+  75%,
+  100% {
     transform: scale(2.9);
     opacity: 0;
   }
@@ -358,17 +520,22 @@ body {
 
 /* 5. Periodic 4.2s Light-Glint Shimmer across White CTA Buttons */
 @keyframes buttonGlint {
-  0%, 66% {
+
+  0%,
+  66% {
     transform: translateX(-160%) skewX(-24deg);
     opacity: 0;
   }
+
   74% {
     opacity: 1;
   }
+
   94% {
     transform: translateX(280%) skewX(-24deg);
     opacity: 1;
   }
+
   100% {
     transform: translateX(280%) skewX(-24deg);
     opacity: 0;
@@ -381,9 +548,12 @@ body {
 
 /* 6. Gentle Vertical Bounce on Down Arrow */
 @keyframes arrowBob {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-2px);
   }
+
   50% {
     transform: translateY(4px);
   }
@@ -395,9 +565,12 @@ body {
 
 /* 7. Collectible Card Levitation (-10px <-> +10px) */
 @keyframes cardLevitate {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-10px);
   }
+
   50% {
     transform: translateY(10px);
   }
@@ -415,9 +588,12 @@ body {
 
 /* 8. Staggered Wave Floating for Profile Tech Tiles, Social Cards & Portrait */
 @keyframes tileWaveFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-5px);
   }
+
   50% {
     transform: translateY(5px);
   }
@@ -430,10 +606,13 @@ body {
 
 /* 9. Crystal Emblem Breathing on Card Backs (1.0 -> 1.13) */
 @keyframes crystalBreath {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.84;
   }
+
   50% {
     transform: scale(1.13);
     opacity: 1;
@@ -452,6 +631,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -473,10 +653,13 @@ body {
 
 /* 10b. Subtle Ornate Corner Bracket Glow Breathing */
 @keyframes cornerBracketPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.55;
     filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3));
   }
+
   50% {
     opacity: 1;
     filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.85));
@@ -493,9 +676,12 @@ body {
     transform: translateY(-8px);
     opacity: 0;
   }
-  15%, 85% {
+
+  15%,
+  85% {
     opacity: 1;
   }
+
   100% {
     transform: translateY(144px);
     opacity: 0;
@@ -509,10 +695,13 @@ body {
 
 /* 12. Blinking HUD Landmark / Status Nodes */
 @keyframes nodeBlink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.35;
     transform: scale(0.85);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.3);
@@ -525,9 +714,12 @@ body {
 
 /* 13. Live Dancing Equalizer / Throughput Bars inside Card HUDs & DJ Badge */
 @keyframes eqDance {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scaleY(0.45);
   }
+
   50% {
     transform: scaleY(1);
   }
@@ -541,9 +733,12 @@ body {
 
 /* 14. Independent Floating for Expertise Relic, Gold Diamond & Bottom 3 Badges */
 @keyframes floatRelic {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-8px);
   }
+
   50% {
     transform: translateY(7px);
   }
@@ -566,10 +761,13 @@ body {
 
 /* 15. Soft Pulsing Ambient Aura */
 @keyframes auraBreath {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(0.96);
     opacity: 0.65;
   }
+
   50% {
     transform: scale(1.12);
     opacity: 1;
@@ -583,10 +781,13 @@ body {
 
 /* 16. Ambient Pink Badge Pill Glow Pulse */
 @keyframes pillGlowPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0px rgba(236, 72, 153, 0);
     opacity: 0.85;
   }
+
   50% {
     box-shadow: 0 0 14px rgba(236, 72, 153, 0.55);
     opacity: 1;
@@ -599,10 +800,13 @@ body {
 
 /* 17. Floating Firefly / Ember Drift */
 @keyframes floatFirefly {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate3d(-4px, 4px, 0) scale(0.95);
     opacity: 0.4;
   }
+
   50% {
     transform: translate3d(8px, -18px, 0) scale(1.45);
     opacity: 1;
@@ -620,9 +824,12 @@ body {
     transform: translateX(-100%);
     opacity: 0;
   }
-  30%, 70% {
+
+  30%,
+  70% {
     opacity: 1;
   }
+
   100% {
     transform: translateX(400%);
     opacity: 0;
@@ -631,6 +838,82 @@ body {
 
 .animate-divider-pulse {
   animation: dividerLight 4.5s ease-in-out infinite;
+}
+
+/* 19. Flowing Data Packet Dash Animation for Architecture Topology */
+@keyframes packetFlow {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+.animate-packet-flow {
+  animation: packetFlow 1.8s linear infinite;
+}
+
+/* 20. Hextech Warp Sweep Flash on Page Switch */
+@keyframes warpSweep {
+  0% {
+    opacity: 0.9;
+    transform: scaleX(0.15);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(1.05);
+  }
+}
+
+.animate-warp-sweep {
+  animation: warpSweep 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 21. Piltover Hexgate Portal Iris Ring & Realm Announcer Banner */
+@keyframes hexgateIrisPulse {
+  0% {
+    opacity: 0.78;
+    transform: translate(-50%, -50%) scale(0.35) rotate(0deg);
+  }
+
+  65% {
+    opacity: 0.45;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.45) rotate(45deg);
+  }
+}
+
+.animate-hexgate-iris {
+  animation: hexgateIrisPulse 460ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes realmBannerAnnounce {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -10px) scale(0.92);
+  }
+
+  18%,
+  74% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.96);
+  }
+}
+
+.animate-realm-banner {
+  animation: realmBannerAnnounce 1350ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .tactile-btn {
@@ -645,13 +928,16 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #110b1f;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(139, 92, 246, 0.38);
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #ec4899;
 }
@@ -677,18 +963,23 @@ body {
 .gear-z-0 {
   transform: translateZ(2px);
 }
+
 .gear-z-1 {
   transform: translateZ(8px);
 }
+
 .gear-z-2 {
   transform: translateZ(18px);
 }
+
 .gear-z-4 {
   transform: translateZ(22px);
 }
+
 .gear-z-3 {
   transform: translateZ(26px);
 }
+
 .gear-z-5 {
   transform: translateZ(36px);
 }
@@ -697,15 +988,19 @@ body {
 .group:hover .gear-z-1 {
   transform: translateZ(12px);
 }
+
 .group:hover .gear-z-2 {
   transform: translateZ(26px);
 }
+
 .group:hover .gear-z-4 {
   transform: translateZ(32px);
 }
+
 .group:hover .gear-z-3 {
   transform: translateZ(38px);
 }
+
 .group:hover .gear-z-5 {
   transform: translateZ(50px);
 }
@@ -727,18 +1022,15 @@ body {
 }
 
 .group:hover .gear-glow-gold {
-  filter: drop-shadow(0 0 14px rgba(253, 230, 138, 0.78))
-    drop-shadow(0 0 24px rgba(245, 158, 11, 0.52));
+  filter: drop-shadow(0 0 14px rgba(253, 230, 138, 0.78)) drop-shadow(0 0 24px rgba(245, 158, 11, 0.52));
 }
 
 .group:hover .gear-glow-violet {
-  filter: drop-shadow(0 0 14px rgba(236, 72, 153, 0.7))
-    drop-shadow(0 0 22px rgba(139, 92, 246, 0.6));
+  filter: drop-shadow(0 0 14px rgba(236, 72, 153, 0.7)) drop-shadow(0 0 22px rgba(139, 92, 246, 0.6));
 }
 
 .group:hover .gear-crystal-glow {
-  filter: drop-shadow(0 0 22px rgba(244, 114, 182, 1))
-    drop-shadow(0 0 34px rgba(245, 158, 11, 0.65));
+  filter: drop-shadow(0 0 22px rgba(244, 114, 182, 1)) drop-shadow(0 0 34px rgba(245, 158, 11, 0.65));
 }
 
 /* Hextech Energy Spoke Traces: Dormant at idle, ignited in Hover Overdrive */
@@ -754,10 +1046,12 @@ body {
 }
 
 @keyframes gearEnergyPulse {
+
   0%,
   100% {
     opacity: 0.68;
   }
+
   50% {
     opacity: 1;
   }
@@ -773,21 +1067,25 @@ body {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   10%,
   25% {
     transform: rotate(22.5deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   35%,
   50% {
     transform: rotate(45deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   60%,
   75% {
     transform: rotate(67.5deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   85%,
   100% {
     transform: rotate(90deg);
@@ -799,21 +1097,25 @@ body {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   10%,
   25% {
     transform: rotate(-45deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   35%,
   50% {
     transform: rotate(-90deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   60%,
   75% {
     transform: rotate(-135deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   85%,
   100% {
     transform: rotate(-180deg);
@@ -825,21 +1127,25 @@ body {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   10%,
   25% {
     transform: rotate(-30deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   35%,
   50% {
     transform: rotate(-60deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   60%,
   75% {
     transform: rotate(-90deg);
     animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
   85%,
   100% {
     transform: rotate(-120deg);
@@ -866,6 +1172,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -875,6 +1182,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-360deg);
   }
@@ -898,6 +1206,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(90deg);
   }
@@ -907,6 +1216,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(-90deg);
   }
@@ -916,6 +1226,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(-180deg);
   }
@@ -926,10 +1237,12 @@ body {
     opacity: 0;
     transform: translateZ(44px) scale(0.45);
   }
+
   30% {
     opacity: 1;
     transform: translateZ(52px) scale(1.12);
   }
+
   100% {
     opacity: 0;
     transform: translateZ(46px) scale(1.42);
@@ -955,6 +1268,7 @@ body {
 
 /* Native prefers-reduced-motion compliance (respects explicit FX ON override when active) */
 @media (prefers-reduced-motion: reduce) {
+
   html:not([data-motion="active"]) .gear-tick-main,
   html:not([data-motion="active"]) .gear-tick-pinion,
   html:not([data-motion="active"]) .gear-tick-ratchet,
@@ -972,6 +1286,7 @@ body {
 html[data-motion="reduced"] {
   scroll-behavior: auto;
 }
+
 html[data-motion="reduced"] *,
 html[data-motion="reduced"] *::before,
 html[data-motion="reduced"] *::after {

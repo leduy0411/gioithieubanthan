@@ -10,6 +10,7 @@ import Footer from './sections/Footer'
 import CustomCursor from './components/CustomCursor'
 import Preloader from './components/Preloader'
 import CommandPalette from './components/CommandPalette'
+import SummonerIdModal from './components/SummonerIdModal'
 import { useActiveSection } from './hooks/useActiveSection'
 import { STATIONS, stationStore } from './store/stationStore'
 import { applyWheelImpulse } from './hooks/useScrollMotion'
@@ -18,15 +19,33 @@ import { playMechanicalTick, playMechanicalUnlock } from './hooks/useAudioDrone'
 export default function App() {
   const [, setIntroReady] = useState(false)
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
-  const { activeStation, direction, isNotFound, transitionCount } = useActiveSection()
+  const [idCardOpen, setIdCardOpen] = useState(false)
+  const [wheelCharge, setWheelCharge] = useState(0)
+  const { activeStation, currentConfig, direction, isNotFound, transitionCount } =
+    useActiveSection()
 
-  // Full-Page Scroll / Wheel / Touch / Keyboard Navigation Refs
   const wheelAccumRef = useRef(0)
   const lastSwitchTimeRef = useRef(0)
   const lastWheelEventTimeRef = useRef(0)
   const touchStartYRef = useRef<number | null>(null)
   const edgeDwellTimeRef = useRef(0)
   const wasAtEdgeRef = useRef(true)
+  const chargeDecayTimerRef = useRef<number | null>(null)
+
+  // Global Zero-Re-Render Cursor Spotlight Tracker for all `.fantasy-card` elements
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null
+      const card = target?.closest<HTMLElement>('.fantasy-card')
+      if (!card) return
+      const rect = card.getBoundingClientRect()
+      card.style.setProperty('--card-mx', `${(e.clientX - rect.left).toFixed(1)}px`)
+      card.style.setProperty('--card-my', `${(e.clientY - rect.top).toFixed(1)}px`)
+    }
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    return () => window.removeEventListener('pointermove', handlePointerMove)
+  }, [])
 
   useEffect(() => {
     if (isNotFound) return undefined
@@ -44,22 +63,31 @@ export default function App() {
       return false
     }
 
+    const scheduleChargeReset = () => {
+      if (chargeDecayTimerRef.current) {
+        window.clearTimeout(chargeDecayTimerRef.current)
+      }
+      chargeDecayTimerRef.current = window.setTimeout(() => {
+        wheelAccumRef.current = 0
+        setWheelCharge(0)
+      }, 220)
+    }
+
     const handleWheel = (e: WheelEvent) => {
-      if (commandPaletteOpen || isInsideModalOrScrollable(e.target)) return
+      if (commandPaletteOpen || idCardOpen || isInsideModalOrScrollable(e.target)) return
       if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return
 
       const now = performance.now()
-      // Reset accumulator if user paused scrolling for > 180ms
       if (now - lastWheelEventTimeRef.current > 180) {
         wheelAccumRef.current = 0
       }
       lastWheelEventTimeRef.current = now
 
-      // Feed live wheel impulse into Hextech Astrolabe & 3D parallax
       applyWheelImpulse(e.deltaY)
 
       if (now - lastSwitchTimeRef.current < COOLDOWN_MS) {
         wheelAccumRef.current = 0
+        setWheelCharge(0)
         return
       }
 
@@ -73,18 +101,18 @@ export default function App() {
       const atBottom = scrollTop >= maxScroll - 14
       const atTop = scrollTop <= 14
 
-      // If page has internal scroll room and user isn't at the boundary yet, let native scroll happen
       if ((goingDown && !atBottom) || (goingUp && !atTop)) {
         wasAtEdgeRef.current = false
         wheelAccumRef.current = 0
+        setWheelCharge(0)
         return
       }
 
-      // Brief 140ms pause when first hitting the boundary of a tall scrollable page
       if (!wasAtEdgeRef.current) {
         wasAtEdgeRef.current = true
         edgeDwellTimeRef.current = now
         wheelAccumRef.current = 0
+        setWheelCharge(0)
         return
       }
       if (maxScroll > 32 && now - edgeDwellTimeRef.current < 140) {
@@ -92,15 +120,23 @@ export default function App() {
       }
 
       wheelAccumRef.current += e.deltaY
+      const normalizedCharge = Math.max(
+        Math.min(wheelAccumRef.current / WHEEL_THRESHOLD, 1),
+        -1
+      )
+      setWheelCharge(normalizedCharge)
+      scheduleChargeReset()
 
       const current = stationStore.getState().activeStation
       if (wheelAccumRef.current >= WHEEL_THRESHOLD && current < STATIONS.length - 1) {
         wheelAccumRef.current = 0
+        setWheelCharge(0)
         lastSwitchTimeRef.current = now
         playMechanicalUnlock()
         stationStore.navigate(current + 1)
       } else if (wheelAccumRef.current <= -WHEEL_THRESHOLD && current > 0) {
         wheelAccumRef.current = 0
+        setWheelCharge(0)
         lastSwitchTimeRef.current = now
         playMechanicalUnlock()
         stationStore.navigate(current - 1)
@@ -108,14 +144,14 @@ export default function App() {
     }
 
     const handleTouchStart = (e: TouchEvent) => {
-      if (commandPaletteOpen || isInsideModalOrScrollable(e.target)) return
+      if (commandPaletteOpen || idCardOpen || isInsideModalOrScrollable(e.target)) return
       if (e.touches.length === 1) {
         touchStartYRef.current = e.touches[0].clientY
       }
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
-      if (touchStartYRef.current === null || commandPaletteOpen) return
+      if (touchStartYRef.current === null || commandPaletteOpen || idCardOpen) return
       const endY = e.changedTouches[0]?.clientY ?? touchStartYRef.current
       const deltaY = touchStartYRef.current - endY
       touchStartYRef.current = null
@@ -141,7 +177,9 @@ export default function App() {
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (commandPaletteOpen || isInsideModalOrScrollable(e.target)) return
+      if (commandPaletteOpen || idCardOpen || isInsideModalOrScrollable(e.target)) return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+
       const now = performance.now()
       if (now - lastSwitchTimeRef.current < COOLDOWN_MS) return
 
@@ -156,6 +194,14 @@ export default function App() {
         lastSwitchTimeRef.current = now
         playMechanicalUnlock()
         stationStore.navigate(current - 1)
+      } else if (/^[1-5]$/.test(e.key)) {
+        const targetIdx = Number(e.key) - 1
+        if (targetIdx !== current) {
+          e.preventDefault()
+          lastSwitchTimeRef.current = now
+          playMechanicalUnlock()
+          stationStore.navigate(targetIdx)
+        }
       }
     }
 
@@ -165,12 +211,13 @@ export default function App() {
     window.addEventListener('keydown', handleKeyDown)
 
     return () => {
+      if (chargeDecayTimerRef.current) window.clearTimeout(chargeDecayTimerRef.current)
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [commandPaletteOpen, isNotFound])
+  }, [commandPaletteOpen, idCardOpen, isNotFound])
 
   const renderActivePage = () => {
     switch (activeStation) {
@@ -191,19 +238,22 @@ export default function App() {
 
   if (isNotFound) {
     return (
-      <div className="relative min-h-screen overflow-x-clip bg-[#110B1F] text-white selection:bg-[#EC4899]/35 selection:text-white">
+      <div className="relative min-h-screen overflow-x-clip bg-[#091428] text-[#F0E6D2] selection:bg-[#0AC8B9]/35 selection:text-[#F0E6D2]">
         <CustomCursor />
-        <Navbar onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
+        <Navbar
+          onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+          onOpenIdCard={() => setIdCardOpen(true)}
+        />
         <main className="flex min-h-screen items-center justify-center px-5 pt-20 text-center">
           <div className="max-w-md">
-            <p className="font-gaming text-xs font-bold uppercase tracking-[0.22em] text-[#F472B6]">
+            <p className="font-gaming text-xs font-bold uppercase tracking-[0.22em] text-[#0AC8B9]">
               404 // LOST REALM
             </p>
             <h1 className="animate-title-shine mt-3 font-display text-4xl font-bold uppercase tracking-[0.06em]">
               PAGE NOT FOUND
             </h1>
             <p className="mt-3 font-body text-sm leading-relaxed text-[#B8B0C8]">
-              The requested path does not exist in this portfolio realm.
+              The requested path does not exist in this Piltover Hextech realm.
             </p>
             <a
               href="/"
@@ -211,7 +261,7 @@ export default function App() {
                 e.preventDefault()
                 stationStore.navigate(0)
               }}
-              className="tactile-btn mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-gaming text-xs font-bold uppercase tracking-[0.18em] text-[#110B1F] hover:bg-[#F472B6] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC4899]/80"
+              className="hextech-play-btn tactile-btn mt-6 inline-flex items-center gap-2 px-6 py-3 font-gaming text-xs font-extrabold uppercase tracking-[0.18em]"
             >
               <span>RETURN HOME</span>
               <ArrowUpRight size={14} aria-hidden="true" />
@@ -223,60 +273,123 @@ export default function App() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-[#110B1F] text-white selection:bg-[#EC4899]/35 selection:text-white">
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-[#091428] text-[#F0E6D2] selection:bg-[#0AC8B9]/35 selection:text-[#F0E6D2]">
       <Preloader onComplete={() => setIntroReady(true)} />
       <CustomCursor />
-      <CommandPalette isOpen={commandPaletteOpen} setIsOpen={setCommandPaletteOpen} />
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        setIsOpen={setCommandPaletteOpen}
+        onOpenIdCard={() => setIdCardOpen(true)}
+      />
+      <SummonerIdModal isOpen={idCardOpen} onClose={() => setIdCardOpen(false)} />
 
-      {/* Ultra-Clean Multi-Page Gaming Navbar */}
-      <Navbar onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
+      {/* Ultra-Clean Multi-Page League of Legends Client Navbar */}
+      <Navbar
+        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+        onOpenIdCard={() => setIdCardOpen(true)}
+      />
 
-      {/* Right-Edge Vertical 5-Page Scroll HUD Dock (Visual & Clickable Wheel Navigation Rail) */}
-      <aside
-        aria-label="Vertical Page Scroll Navigation"
-        className="fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex"
-      >
-        {STATIONS.map((page) => {
-          const isCurrent = page.id === activeStation
-          return (
-            <button
-              key={page.id}
-              type="button"
-              onMouseEnter={() => playMechanicalTick()}
-              onClick={() => {
-                playMechanicalUnlock()
-                stationStore.navigate(page.id)
-              }}
-              aria-label={`Switch to ${page.callsign} page`}
-              aria-current={isCurrent ? 'page' : undefined}
-              className="group flex items-center gap-2.5 focus:outline-none"
-            >
-              <span
-                className={`rounded border px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest backdrop-blur-md transition-all duration-200 ${
-                  isCurrent
-                    ? 'translate-x-0 border-[#EC4899]/60 bg-[#19112B]/90 text-[#F472B6] opacity-100 shadow-[0_0_12px_rgba(236,72,153,0.3)]'
-                    : 'translate-x-2 border-white/10 bg-[#110B1F]/75 text-[#B8B0C8] opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
-                }`}
-              >
-                0{page.id + 1} · {page.callsign}
+      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* PILTOVER HEXGATE PORTAL TRANSITION FLASH & REALM ANNOUNCER BANNER */}
+      {/* ═════════════════════════════════════════════════════════════════ */}
+      {transitionCount > 0 && (
+        <div key={`hexgate-${transitionCount}`} aria-hidden="true" className="pointer-events-none">
+          {/* Top & Bottom Golden-Cyan Caliper Sweep Lines */}
+          <div className="animate-warp-sweep fixed inset-x-0 top-18 z-40 h-0.5 bg-gradient-to-r from-transparent via-[#0AC8B9] to-transparent shadow-[0_0_24px_#0AC8B9]" />
+          {/* Center Expanding Hexgate Geometric Iris Ring */}
+          <div className="animate-hexgate-iris fixed left-1/2 top-1/2 z-30 h-72 w-72 rounded-full border border-[#0AC8B9]/45 shadow-[0_0_40px_rgba(10,200,185,0.25),inset_0_0_25px_rgba(200,155,60,0.2)]" />
+          {/* LoL Client Floating Realm Announcer Banner */}
+          <div className="animate-realm-banner fixed left-1/2 top-21 z-40 flex items-center gap-2.5">
+            <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#C89B3C]" />
+            <div className="hextech-chamfer flex items-center gap-2 border border-[#C89B3C]/75 bg-[#091428]/95 px-3.5 py-1 shadow-[0_8px_24px_rgba(0,0,0,0.85)] backdrop-blur-md">
+              <span className="h-2 w-2 rotate-45 border border-[#F0E6D2] bg-[#0AC8B9] shadow-[0_0_8px_#0AC8B9]" />
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0E6D2]">
+                REALM 0{activeStation + 1} // {currentConfig.planetName}
               </span>
-              <span
-                className={`block rotate-45 border transition-all duration-300 ${
-                  isCurrent
-                    ? 'h-3 w-3 border-white bg-[#EC4899] shadow-[0_0_14px_#EC4899]'
-                    : 'h-2 w-2 border-violet-300/45 bg-[#19112B] group-hover:border-[#F59E0B] group-hover:bg-[#F59E0B]'
-                }`}
-              />
-            </button>
-          )
-        })}
+            </div>
+            <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#C89B3C]" />
+          </div>
+        </div>
+      )}
 
-        <div
-          title="Scroll mouse wheel up/down to switch pages"
-          className="mt-2 flex items-center gap-1 rounded-full border border-white/10 bg-[#110B1F]/70 px-2 py-1 font-mono text-[8px] uppercase tracking-wider text-[#B8B0C8]/80 backdrop-blur-md"
-        >
-          <ChevronsUpDown size={10} className="animate-arrow-bob text-[#F59E0B]" />
-          <span>SCROLL</span>
+      {/* ═════════════════════════════════════════════════════════════════ */}
+      {/* RIGHT-EDGE PILTOVER HEXTECH REALM PILLAR (Unified Gold & Cyan)    */}
+      {/* ═════════════════════════════════════════════════════════════════ */}
+      <aside
+        aria-label="Piltover Hextech Realm Compass"
+        className="fixed right-3.5 top-1/2 z-40 hidden -translate-y-1/2 xl:block"
+      >
+        <div className="relative flex flex-col items-center rounded-xl border border-[#C89B3C]/55 bg-[#091428]/90 px-2.5 py-3.5 shadow-[0_16px_40px_rgba(4,4,14,0.9),inset_0_0_16px_rgba(10,200,185,0.12)] backdrop-blur-xl">
+          {/* Top Corner Gold Ticks */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1 top-1 h-2 w-2 border-l border-t border-[#F0E6D2]/75"
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute right-1 top-1 h-2 w-2 border-r border-t border-[#F0E6D2]/75"
+          />
+
+          {/* Step Counter */}
+          <span className="mb-2.5 font-mono text-[9px] font-bold tracking-wider text-[#C89B3C]">
+            0{activeStation + 1}/0{STATIONS.length}
+          </span>
+
+          {/* Vertical Spine & 5 Hextech Diamond Sockets */}
+          <div className="relative flex flex-col items-center gap-3.5 py-1">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-1 left-1/2 w-px -translate-x-1/2 bg-gradient-to-b from-[#C89B3C]/40 via-[#0AC8B9]/65 to-[#C89B3C]/40"
+            />
+
+            {STATIONS.map((page) => {
+              const isCurrent = page.id === activeStation
+              return (
+                <button
+                  key={page.id}
+                  type="button"
+                  onMouseEnter={() => playMechanicalTick()}
+                  onClick={() => {
+                    playMechanicalUnlock()
+                    stationStore.navigate(page.id)
+                  }}
+                  aria-label={`Switch to ${page.callsign} page (Key ${page.id + 1})`}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  className="group relative z-10 flex items-center justify-center focus:outline-none"
+                >
+                  {/* Slide-Out LoL Client Tooltip Pill on Hover */}
+                  <span className="hextech-chamfer pointer-events-none absolute right-7 translate-x-2 whitespace-nowrap border border-[#C89B3C]/70 bg-[#091428]/95 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-[#F0E6D2] opacity-0 shadow-[0_8px_24px_rgba(0,0,0,0.9)] transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+                    <span className="text-[#0AC8B9]">0{page.id + 1}</span> · {page.callsign}
+                  </span>
+
+                  {/* Diamond Socket Node */}
+                  <span
+                    className={`block rotate-45 border transition-all duration-300 ${
+                      isCurrent
+                        ? 'h-3.5 w-3.5 border-[#F0E6D2] bg-[#0AC8B9] shadow-[0_0_14px_#0AC8B9]'
+                        : 'h-2.5 w-2.5 border-[#C89B3C]/65 bg-[#091428] group-hover:scale-125 group-hover:border-[#F0E6D2] group-hover:bg-[#C89B3C]'
+                    }`}
+                  />
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Live Wheel Momentum Charge Bar inside Pillar */}
+          <div
+            title="Scroll mouse wheel or press keys 1–5 to switch realms"
+            className="mt-3 flex flex-col items-center gap-1.5 border-t border-[#C89B3C]/25 pt-2.5"
+          >
+            <div className="h-1 w-7 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full bg-gradient-to-r from-[#C89B3C] to-[#0AC8B9] transition-all duration-75"
+                style={{
+                  width: `${Math.min(Math.abs(wheelCharge) * 100, 100)}%`,
+                }}
+              />
+            </div>
+            <ChevronsUpDown size={11} className="animate-arrow-bob text-[#0AC8B9]" />
+          </div>
         </div>
       </aside>
 

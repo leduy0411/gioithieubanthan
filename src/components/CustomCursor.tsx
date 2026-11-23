@@ -2,8 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useMotionToggle } from '../hooks/useScrollMotion'
 
 /**
- * CustomCursor — Pro Max Dual-Layer Hextech Precision Reticle
- * - Inner instant amber pinpoint + outer damped rotating diamond ring that locks onto interactive elements.
+ * CustomCursor — League of Legends Piltover Hextech Precision Target Reticle
+ * - Inner instant Mana Cyan (#0AC8B9) crystal pinpoint + outer damped rotating Piltover Gold (#C89B3C) diamond reticle.
  */
 export default function CustomCursor() {
   const { motionEnabled } = useMotionToggle()
@@ -29,7 +29,7 @@ export default function CustomCursor() {
     const handleMouseMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY }
       if (innerRef.current) {
-        innerRef.current.style.transform = `translate3d(${e.clientX - 2.5}px, ${e.clientY - 2.5}px, 0)`
+        innerRef.current.style.transform = `translate3d(${e.clientX - 3}px, ${e.clientY - 3}px, 0) rotate(45deg)`
       }
     }
 
@@ -45,10 +45,10 @@ export default function CustomCursor() {
     const render = () => {
       pos.current.x += (target.current.x - pos.current.x) * 0.18
       pos.current.y += (target.current.y - pos.current.y) * 0.18
-      angleRef.current = (angleRef.current + (isInteractive ? 1.2 : 0.25)) % 360
+      angleRef.current = (angleRef.current + (isInteractive ? 1.35 : 0.25)) % 360
 
       if (outerRef.current) {
-        const sizeOffset = isInteractive ? 15 : 11
+        const sizeOffset = isInteractive ? 16 : 11
         outerRef.current.style.transform = `translate3d(${pos.current.x - sizeOffset}px, ${pos.current.y - sizeOffset}px, 0) rotate(${angleRef.current.toFixed(1)}deg)`
       }
       rafId.current = requestAnimationFrame(render)
@@ -70,22 +70,29 @@ export default function CustomCursor() {
       className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden"
       aria-hidden="true"
     >
+      {/* Inner Hextech Mana Crystal Pinpoint */}
       <div
         ref={innerRef}
-        className={`fixed left-0 top-0 h-[5px] w-[5px] rounded-full transition-colors duration-150 will-change-transform ${
+        className={`fixed left-0 top-0 h-[6px] w-[6px] border transition-colors duration-150 will-change-transform ${
           isInteractive
-            ? 'bg-[#FDE68A] shadow-[0_0_10px_#F59E0B]'
-            : 'bg-[#EC4899] shadow-[0_0_8px_#EC4899]'
+            ? 'border-white bg-[#F0E6D2] shadow-[0_0_12px_#C89B3C]'
+            : 'border-[#E0F2FE] bg-[#0AC8B9] shadow-[0_0_10px_#0AC8B9]'
         }`}
       />
+      {/* Outer Piltover Gold Rotating Diamond Reticle with Corner Notches */}
       <div
         ref={outerRef}
         className={`fixed left-0 top-0 border transition-[width,height,border-color,opacity,box-shadow] duration-200 will-change-transform ${
           isInteractive
-            ? 'h-[30px] w-[30px] border-[#F59E0B] opacity-95 shadow-[0_0_16px_rgba(245,158,11,0.75)]'
-            : 'h-[22px] w-[22px] border-white/40 opacity-55'
+            ? 'h-[32px] w-[32px] border-[#0AC8B9] opacity-95 shadow-[0_0_18px_rgba(10,200,185,0.7),inset_0_0_8px_rgba(200,155,60,0.6)]'
+            : 'h-[22px] w-[22px] border-[#C89B3C]/65 opacity-65'
         }`}
-      />
+      >
+        <span className="absolute -left-0.5 -top-0.5 h-1.5 w-1.5 border-l border-t border-[#F0E6D2]" />
+        <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 border-r border-t border-[#F0E6D2]" />
+        <span className="absolute -bottom-0.5 -left-0.5 h-1.5 w-1.5 border-b border-l border-[#F0E6D2]" />
+        <span className="absolute -bottom-0.5 -right-0.5 h-1.5 w-1.5 border-b border-r border-[#F0E6D2]" />
+      </div>
     </div>
   )
 }

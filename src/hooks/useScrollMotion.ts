@@ -20,7 +20,7 @@ interface RegisteredNode {
   initialized: boolean
 }
 
-const MOTION_STORAGE_KEY = 'duy_ui_motion_enabled_v2'
+const MOTION_STORAGE_KEY = 'duy_hextech_motion_v3'
 const registeredNodes = new Map<HTMLElement, RegisteredNode>()
 const motionListeners = new Set<() => void>()
 
